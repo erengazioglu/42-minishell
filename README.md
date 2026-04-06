@@ -4,11 +4,11 @@ _This project has been created as part of the 42 curriculum by egaziogl, jalfaia
 
 ## Description
 
-_(no content yet.)_
+_(no content yet. To be announced)_
 
 ### Requirements
 
-Program execution:  
+Program execution:
 `./pipex file1 cmd1 cmd2 file2`
 
 External functions allowed: _(sort these later)_
@@ -37,4 +37,4 @@ _(no content yet.)_
 ## Resources
 
 - **man pages:**
-    - man 
+    - man
