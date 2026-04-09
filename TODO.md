@@ -52,16 +52,26 @@ We should returns some sort of list: (example for `< infile cat -e | wc --max-li
 Ideas (pseudocode)
 
 ```c
-    while (ft_strchr(" \t\n\d", *line))
-        line++;
-    if (ft_strchr("\"\'", *line))
-        line += tokenize_quote(line) 
-        // makes a single token for "" or '', and returns the length tokenized, 
-        // so the line should advance as much.
-        // The dollar signs inside will be parsed by the parser 
-        // based on whether it's a "" or a ''.
-    else if (ft_strchr("))
-    else if (*line == "$")
-        line += tokenize_dollar(line);
-        // makes a single token for "$word", and returns its length.
+    while (*line != '\n')
+{
+        while (ft_strchr(" \t\n\d", *line))
+            line++;
+        if (ft_strchr("\"\'", *line))
+            line += tokenize_quote(line);
+            // makes a single token for "" or '', and returns the length tokenized, 
+            // so the line should advance as much.
+            // The dollar signs inside will be parsed by the parser 
+            // based on whether it's a "" or a ''.
+        else if (*line == '$')
+            line += tokenize_dollar(line);
+            // makes a single token for "$word", and returns its length.
+        else if (*line == '-')
+            line += tokenize_option(line);
+            // handles "-o" or "--long-option"
+            // handle multiple options? ("ls -la")
+        else if (*line == '\\') 
+            line += tokenize_escape(line);
+        else
+            line += tokenize_arg(line);
+    }
 ```
