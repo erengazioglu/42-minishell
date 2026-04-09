@@ -22,11 +22,11 @@ SRCS_BASE = \
 	ft_memmove.c \
 	ft_memset.c \
 	ft_minmax.c \
-	ft_pathjoin.c \
 	ft_putchar.c \
 	ft_putnbr.c \
 	ft_putstr.c \
 	ft_satoi.c \
+	ft_strunsplit.c \
 	ft_split.c \
 	ft_str_endswith.c \
 	ft_str_equals.c \
@@ -45,6 +45,7 @@ SRCS_BASE = \
 	ft_strmapi.c \
 	ft_strncmp.c \
 	ft_strnstr.c \
+	ft_strsjoin.c \
 	ft_strtrim.c \
 	ft_substr.c \
 	ft_tolower.c \

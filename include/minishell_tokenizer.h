@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 18:32:32 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:44:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_TOKENIZER_H
 
 # include "../libft/include/libft.h"
-
 
 typedef enum	e_ttype
 {
@@ -27,11 +26,11 @@ typedef enum	e_ttype
 	TK_DOLLAR
 }	t_ttype;
 
-typedef struct	s_tok
+typedef struct	s_token
 {
-	t_ttype	type;
-	char	*content;
-	t_token	*next;
+	t_ttype			type;
+	char			*content;
+	struct s_token	*next;
 }	t_token;
 
 // util

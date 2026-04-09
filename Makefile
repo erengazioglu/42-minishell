@@ -1,11 +1,14 @@
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra -g
 
-NAME_TESTS	= \
+TEST_NAMES	= \
 	tokenize
+TEST_OUTFILES = $(TEST_NAMES:%=tests/out/%.out)
 
-$(NAME_TESTS:%=tests/out/%.out):
+tests: $(TEST_OUTFILES)
+
+tests/out/%.out: tests/test_%.c libft/libft.a
 	@mkdir -p tests/out
-	$(CC) $(CFLAGS) $(@:tests/out/%.out=tests/test_%.c) libft/libft.a -o $@
+	$(CC) $(CFLAGS) $< libft/libft.a -o $@
 
 .PHONY: tests
