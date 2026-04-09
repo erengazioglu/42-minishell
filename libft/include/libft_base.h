@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:41:41 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/07 16:10:26 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:08:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	ft_isalpha(int c);
 bool	ft_isdigit(int c);
 bool	ft_isascii(int c);
 bool	ft_isprint(int c);
+bool	ft_isspace(int c);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 

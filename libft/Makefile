@@ -12,6 +12,7 @@ SRCS_BASE = \
 	ft_isascii.c \
 	ft_isdigit.c \
 	ft_isprint.c \
+	ft_isspace.c \
 	ft_itoa.c \
 	ft_itoa_base.c \
 	ft_itoa_uint.c \

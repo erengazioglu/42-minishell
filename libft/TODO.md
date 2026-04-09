@@ -8,3 +8,8 @@
 - Add stack functions.
 - Generate documentation with _doxygen_.
 - Add @see, @warning to doc strings.
+
+## Changelog
+
+- Added `ft_isspace`.
+- Added `i = 0` to `ft_split`.

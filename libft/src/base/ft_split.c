@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:42:11 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/07 12:25:27 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:41:25 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_strarr(char **arr)
 {
 	int	i;
 
+	i = 0;
 	if (!arr)
 		return ;
 	while (arr[i])

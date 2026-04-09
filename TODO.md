@@ -34,25 +34,26 @@ Deferred principles from the examples above:
 - Unmatched `"` and `'` will be caught by the parser or interpreter later.
 - Dollar expressions should be tokenized as a block (e.g. `$USER`).
 
-We should returns some sort of list: (example for `< infile cat -e | wc --max-line-length > outfile`):
+We should return some sort of list: (example for `echo "hello world $USER" | wc --max-line-length | cat -e > outfile`):
 ```c
 [
-    Token(type=TK_REDIR, content="<"),
-    Token(type=TK_ARG, content="infile")
-    Token(type=TK_ARG, content="cat"),
-    Token(type=TK_OPT, content="e"),
+    Token(type=TK_WORD, content="echo"),
+    Token(type=TK_DQUOTE, content="hello world $USER"),
     Token(type=TK_PIPE, content=""),
-    Token(type=TK_ARG, content="wc"),
-    Token(type=TK_OPT, content="max-line-length"),
+    Token(type=TK_WORD, content="wc"),
+    Token(type=TK_WORD, content="--max-line-length"),
+    Token(type=TK_PIPE, content=""),
+    Token(type=TK_WORD, content="cat"),
+    Token(type=TK_WORD, content="-e"),
     Token(type=TK_REDIR, content=">"),
-    Token(type=TK_ARG, content="outfile")
+    Token(type=TK_WORD, content="outfile")
 ]
 ```
 
 Ideas (pseudocode)
 
 ```c
-    while (*line != '\n')
+while (*line != '\n')
 {
     while (ft_strchr(" \t\n", *line))
         line++;
@@ -65,10 +66,6 @@ Ideas (pseudocode)
     else if (*line == '$')
         line += tokenize_dollar(line);
         // makes a single token for "$word", and returns its length.
-    else if (*line == '-')
-        line += tokenize_option(line);
-        // handles "-o" or "--long-option"
-        // handle multiple options? ("ls -la")
     else if (*line == '\\') 
         line += tokenize_escape(line);
     else
