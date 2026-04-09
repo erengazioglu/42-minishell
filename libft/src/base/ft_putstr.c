@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:42:03 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/07 15:40:59 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:26:30 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	ft_putstr(char *s, int fd, int n, bool newline)
 
 	i = 0;
 	while (*s && n--)
-		ft_putchar(s++[i++], fd, false);
+	{
+		ft_putchar(*(s++), fd, false);
+		i++;
+	}
 	if (newline)
 	{
 		write(fd, "\n", 1);

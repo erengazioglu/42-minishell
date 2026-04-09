@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 18:44:33 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:20:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ typedef struct	s_token
 // util
 
 t_token	*new_token(t_ttype type, char *content);
-void	*append_token(t_token *root, t_token *new);
+void	append_token(t_token *root, t_token *new);
+
+// tokenize.c
+t_token	*tokenize(char *line);
+void	free_tokens(t_token *root);
+void	print_tokens(t_token *root);
 
 // tokenize_helpers.c
 

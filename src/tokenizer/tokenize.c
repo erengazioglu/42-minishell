@@ -6,11 +6,24 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 18:32:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:15:46 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell_tokenizer.h"
+
+void	free_tokens(t_token *root)
+{
+	t_token	*next;
+
+	while (root)
+	{
+		next = root->next;
+		free(root->content);
+		free(root);
+		root = next;
+	}
+}
 
 void	print_tokens(t_token *root)
 {
@@ -21,7 +34,7 @@ void	print_tokens(t_token *root)
 	}
 }
 
-void	tokenize(char *line)
+t_token	*tokenize(char *line)
 {
 	t_token	*root;
 

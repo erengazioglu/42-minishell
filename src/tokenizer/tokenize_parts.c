@@ -6,11 +6,11 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:07:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 18:33:58 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/09 19:19:59 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell_tokenizer.h"
+#include "../../include/minishell.h"
 
 int		tokenize_quote(t_token *root, char *line)
 {
