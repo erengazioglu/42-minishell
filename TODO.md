@@ -1,0 +1,67 @@
+# minishell | TODO
+
+## REPL loop
+
+- Prompt (waits for user input, reads and returns line).
+- Tokenizer (breaks down the input into tokens).
+    - Does not validate syntax.
+- Parser (uses the tokens to generate an AST).
+    - Does validate syntax and return error.
+    - Frees the tokens and mallocs an AST.
+- Interpreter (uses the AST to run the necessary commands.)
+    - Frees the AST.
+    - Does it return program info? (e.g. execve this, or run builtin, argc argv...)
+- Launcher (handles child processes)
+    - Frees program info, creates forks, pipes, redirections...
+
+Implement each part one by one, and test them individually.
+
+## Tokenizer
+
+Examples to try and tokenize:
+
+`pwd` (just a command name)
+` pwd   | ls\t` (two piped commands, extra whitespace)
+`< infile cat -e | wc -l > outfile` (pipe, command names, options, redirections...)
+`echo -n hello | cat -e | wc >> outfile` (redirection, commands, options, args)
+`echo $?` (dollar expressions)
+`echo -n "hello 42 $USER"    'hello 42 $USER'` (command, option, args, quotations, dollar, whitespace, )
+
+Deferred principles from the examples above:
+
+- A command could be anything, a file name too, and arguments too. So tokenizer shouldn't be able to differentiate between them, and return them as a generic "argument"?
+- Whitespace will be ignored (catch also \t etc).
+- Unmatched `"` and `'` will be caught by the parser or interpreter later.
+- Dollar expressions should be tokenized as a block (e.g. `$USER`).
+
+We should returns some sort of list: (example for `< infile cat -e | wc --max-line-length > outfile`):
+```c
+[
+    Token(type=TK_REDIR, content="<"),
+    Token(type=TK_ARG, content="infile")
+    Token(type=TK_ARG, content="cat"),
+    Token(type=TK_OPT, content="e"),
+    Token(type=TK_PIPE, content=""),
+    Token(type=TK_ARG, content="wc"),
+    Token(type=TK_OPT, content="max-line-length"),
+    Token(type=TK_REDIR, content=">"),
+    Token(type=TK_ARG, content="outfile")
+]
+```
+
+Ideas (pseudocode)
+
+```c
+    while (ft_strchr(" \t\n\d", *line))
+        line++;
+    if (ft_strchr("\"\'", *line))
+        line += tokenize_quote(line) 
+        // makes a single token for "" or '', and returns the length tokenized, 
+        // so the line should advance as much.
+        // The dollar signs inside will be parsed by the parser 
+        // based on whether it's a "" or a ''.
+    else if (ft_strchr("))
+    else if (*line == "$")
+        line += tokenize_dollar(line);
+        // makes a single token for "$word", and returns its length.
+```

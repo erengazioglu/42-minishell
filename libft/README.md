@@ -36,7 +36,7 @@ The initial assignment prescribes the implementation of many fundamental functio
     - ft_lstiter,
     - ft_lstmap.
 
-The library has evolved significantly since:
+The library has evolved significantly since. The biggest changes:
 - new helper functions that were creating during other projects were added,
 - certain functions have been reworked for additional functionality,
 - functions have been regrouped into meaningful categories (base, gnl, list...) and their headers clearly separated, so that they can be picked individually,

@@ -30,11 +30,23 @@ Mandatory requirements:
 - Use at most 1 _global variable_ (to indicate a received signal).
 - **Handle single quotes** (`'`) to prevent the shell from interpreting meta-characters.
 - **Handle double quotes** (`"`) to prevent the shell from interpreting meta-characters except for `$`.
+- **Handle environment variables** ($ followed by a sequence of characters).
+- **Handle `$?`** (exit status of last command).
+- Implement interruption signals (`ctrl+C, ctrl+D, ctrl+\`).
 - Implement _redirections_ (`<<, >>, <, >`).
 - Implement _pipes_ (`|`).
-
+- Implement _built-in commands:_
+    - `echo -n`,
+    - `cd` (relative or absolute path only),
+    - `pwd` (no options),
+    - `export` (no options),
+    - `unset` (no options),
+    - `env` (no options/arguments),
+    - `exit` (no options).
 - **Do not** implement unclosed quotes (where `<newline>` keeps reading input).
 - **Do not** implement special characters not explicitly required by the points above.
+- **Do not** attempt to fix the `readline` leaks.
+- **Limit yourself to the subject description** (anything that isn't asked, isn't required. example: _symlinks, login shell..._).
 
 Bonus requirements:  
 - implement `&&` and `||`, with parenthesis for priorities.
@@ -47,3 +59,6 @@ _(no content yet.)_
 ## Resources
 
 - **man pages** for all the external functions listed above, in the [requirements](#requirements) section.
+- other **man pages:**
+    - `man dash`
+    - `man
