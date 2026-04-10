@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:34:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 19:16:35 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/10 13:36:53 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	main(int argc, char **argv)
 		input = ft_strunsplit(argv, ' ', false);
 		free_line = true;
 	}
+	ft_printf("%s\n", input[0]);
 	test_tokenize(input, free_line);
 	return (0);
 }
