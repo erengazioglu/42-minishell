@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_strfind.c                                     :+:      :+:    :+:   */
+/*   test_strunsplit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 23:56:01 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/10 13:37:35 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/10 13:51:26 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-void	test_strfind(char *s, char c, int n, bool reverse)
+void	test_strunsplit(char **arr, char sep, int count, bool free_arr)
 {
-	ft_printf("look for %c in %s\n", c, s);
-	ft_printf("n=%d, reverse=%d\n", n, reverse);
-	ft_printf("%d\n---\n\n", ft_strfind(s, c, n, reverse));
+	char	*result;
+
+	result = ft_strunsplit(arr, sep, count, free_arr);
+	ft_printf("New string: %s\n", result);
+	free(result);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	test_strfind("hello", 'h', 0, false);
-	test_strfind("hello", 'h', 1, false);
-	test_strfind("hello", 'h', 5, false);
-	test_strfind("hello", 'h', 7, false);
-	test_strfind("hello", 'l', 0, true);
-	test_strfind("hello", 'l', 1, true);
-	test_strfind("hello", 'l', 5, true);
-	test_strfind("hello", 'l', 7, true);
+	test_strunsplit(argv, ' ', argc, false);
 }

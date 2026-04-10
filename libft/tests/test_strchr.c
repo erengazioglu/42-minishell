@@ -6,21 +6,20 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:52:26 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/06 18:22:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/10 13:37:30 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
-#include <stdio.h>
 
 void	test_strchr(const char *s, char c, int n, bool reverse)
 {
 	char	*result;
 
 	result = ft_strchr(s, c, n, reverse);
-	printf("look for %c in %s\n", c, s);
-	printf("n=%d, reverse=%d\n", n, reverse);
-	printf("%s\n---\n\n", result);
+	ft_printf("look for %c in %s\n", c, s);
+	ft_printf("n=%d, reverse=%d\n", n, reverse);
+	ft_printf("%s\n---\n\n", result);
 }
 
 int	main(void)

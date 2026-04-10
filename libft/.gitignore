@@ -6,3 +6,4 @@ tests/run
 obj/
 tests/obj/
 libft.a
+*.dSYM

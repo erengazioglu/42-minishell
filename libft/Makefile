@@ -91,8 +91,9 @@ OBJS_PRINTF	:= $(SRCS_PRINTF:%.c=obj/printf/%.o)
 all: $(NAME) printf list gnl
 
 tests:
-	$(CC) $(CFLAGS) tests/test_strfind.c src/base/ft_strlen.c src/extra/ft_strfind.c -o test_strfind.out
-	$(CC) $(CFLAGS) tests/test_strchr.c src/base/ft_strlen.c src/base/ft_strchr.c -o test_strchr.out
+	$(CC) $(CFLAGS) libft.a tests/test_strfind.c -o test_strfind.out
+	$(CC) $(CFLAGS) libft.a tests/test_strchr.c -o test_strchr.out
+	$(CC) $(CFLAGS) libft.a tests/test_strunsplit.c -o test_strunsplit.out
 
 $(NAME): $(OBJS_BASE)
 	@echo $(NAME)
