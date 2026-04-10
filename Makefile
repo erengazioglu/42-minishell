@@ -17,8 +17,11 @@ TOKENIZE_TEST_SRCS = \
 	src/crash.c \
 	libft/libft.a
 
-tests:
+tests: libft/libft.a
 	@mkdir -p tests/out
 	$(CC) $(CFLAGS) $(TOKENIZE_TEST_SRCS) -o tests/out/tokenize.out
+
+libft/libft.a:
+	@make -C libft
 
 .PHONY: tests

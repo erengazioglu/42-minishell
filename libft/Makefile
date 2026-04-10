@@ -85,7 +85,7 @@ SRCS_GNL = \
 
 OBJS_BASE	:= $(SRCS_BASE:%.c=obj/base/%.o)
 OBJS_GNL	:= $(SRCS_GNL:%.c=obj/gnl/%.o)
-OBJS_LIST	:= $(SRCS_EXTRA:%.c=obj/list/%.o)
+OBJS_LIST	:= $(SRCS_LIST:%.c=obj/list/%.o)
 OBJS_PRINTF	:= $(SRCS_PRINTF:%.c=obj/printf/%.o)
 
 all: $(NAME) printf list gnl
@@ -95,15 +95,19 @@ tests:
 	$(CC) $(CFLAGS) tests/test_strchr.c src/base/ft_strlen.c src/base/ft_strchr.c -o test_strchr.out
 
 $(NAME): $(OBJS_BASE)
+	@echo $(NAME)
 	ar crs $@ $^
 
 gnl: $(OBJS_GNL)
+	@echo gnl
 	ar crs $(NAME) $^
 
 printf: $(OBJS_PRINTF)
+	@echo printf
 	ar crs $(NAME) $^
 
 list: $(OBJS_LIST)
+	@echo list
 	ar crs $(NAME) $^
 
 $(OBJS_BASE): $(SRCS_BASE:%.c=src/base/%.c)
