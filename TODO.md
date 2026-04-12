@@ -116,4 +116,14 @@ Input and output redirections can exist under EACH node, because this should wor
   - The args are retrieved from tokens, and expanded just before the redirs and execve.
 - There can be many of the same redir type! (e.g. `< Makefile cat -e > outfile > out2` will truncate outfile too, but only write to out2). So keep both input and output redirections as one redir list.
 
-Execution can then be recursive, 
+Execution can then be recursive (pseudocode below):
+```python
+def execute(node):
+    if node is pipe:
+        execute(pipe.left)
+        return execute(pipe.right)
+    if node is cmd:
+        expand_variables(node)
+        redirect()
+        return execve()
+```
