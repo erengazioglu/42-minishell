@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 18:53:19 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 19:22:28 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/12 19:29:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,10 @@ char	*ft_strunsplit(char **arr, char sep, int count, bool free_arr)
 	result = ft_strdup(*arr);
 	if (!result)
 		return (NULL);
-	ft_printf("%srunning strunsplit\nfirst:\"%s\", sep:%c, count:%d, free:%d\n",
-		BLU, result, sep, count, free_arr);
 	i = 1;
 	while (arr[i] && --count)
 	{
-		ft_printf("joining \"%s\" and \"%s\"\n", result, arr[i]);
 		result = ft_strsjoin(result, arr[i++], sep, true);
-		ft_printf("result:%s\n\n", result);
 		if (!result)
 		{
 			if (free_arr)
@@ -48,7 +44,6 @@ char	*ft_strunsplit(char **arr, char sep, int count, bool free_arr)
 			return (NULL);
 		}
 	}
-	ft_printf("%s", RST);
 	if (free_arr)
 		free_strarr(arr);
 	return (result);
