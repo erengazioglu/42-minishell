@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/13 00:24:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:45:40 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,26 @@ typedef struct s_redir
 	char		*target;
 }	t_redir;
 
-typedef struct s_ast t_ast;
+typedef union u_ast t_ast;
 typedef struct s_astnode
 {
+	t_asttype	type;
 	t_ast	*left;
 	t_ast	*right;
 }	t_astnode;
 
 typedef struct s_astleaf
 {
-	int		argc;
-	char	**argv;
-	t_redir	*redirs;
+	t_asttype	type;
+	int			argc;
+	char		**argv;
+	t_redir		*redirs;
 }	t_astleaf;
 
-struct s_ast
+typedef union u_ast
 {
-	t_asttype	type;
-	union {
-		t_astnode	node;
-		t_astleaf	leaf;
-	};
-};
+	t_astnode	node;
+	t_astleaf	leaf;
+}	t_ast;
 
 #endif
