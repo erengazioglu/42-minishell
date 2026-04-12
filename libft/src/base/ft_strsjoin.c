@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pathjoin.c                                      :+:      :+:    :+:   */
+/*   ft_strsjoin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:54:45 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/07 12:00:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/12 19:24:18 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
  * @param s2		String to join to s1.
  * @param free_s1	Option to free s1 at the end of the function.
  * @return	A pointer to the resulting new string.
- * @note	"s2" shouldn't contain the "sep" character, 
- * 			otherwise the function will return NULL.
  */
 char	*ft_strsjoin(char *s1, char *s2, char sep, bool free_s1)
 {
@@ -28,8 +26,6 @@ char	*ft_strsjoin(char *s1, char *s2, char sep, bool free_s1)
 	char	*result_base;
 	char	*s1_base;
 
-	if (ft_strchr(s2, sep, 0, false))
-		return (NULL);
 	result = malloc(ft_strlen(s1) + ft_strlen(s2) + 2);
 	if (!result)
 	{

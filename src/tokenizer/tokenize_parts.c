@@ -6,13 +6,13 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:07:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 19:19:59 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/12 18:48:59 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int		tokenize_quote(t_token *root, char *line)
+int	tokenize_quote(t_token **root, char *line)
 {
 	int		len;
 	char	quote;
@@ -34,7 +34,8 @@ int		tokenize_quote(t_token *root, char *line)
 	append_token(root, new);
 	return (len + 2);
 }
-int		tokenize_dollar(t_token *root, char *line)
+
+int	tokenize_dollar(t_token **root, char *line)
 {
 	int		len;
 	t_token	*new;
@@ -50,17 +51,31 @@ int		tokenize_dollar(t_token *root, char *line)
 	return (len + 1);	
 }
 
-int		tokenize_word(t_token *root, char *line)
+int	tokenize_word(t_token **root, char *line)
 {
 	int		len;
 	t_token	*new;
 
 	len = 0;
-	while (line[len] && !ft_isspace(*line))
+	while (line[len] && !ft_isspace(line[len]))
 		len++;
-	new = new_token(TK_DOLLAR, ft_substr(line, 0, len));
+	new = new_token(TK_WORD, ft_substr(line, 0, len));
 	if (!new)
 		crash("new_token() returned NULL");
 	append_token(root, new);
-	return (len);	
+	return (len);
+}
+
+int	tokenize_redir(t_token **root, char *line)
+{
+	t_token	*new;
+
+	new = new_token(TK_REDIR, ft_substr(
+		line, 0, 
+		(line[0] == line[1]) + 1
+	));
+	if (!new)
+		crash("new_token() returned NULL");
+	append_token(root, new);
+	return ((line[0] == line[1]) + 1);
 }

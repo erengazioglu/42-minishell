@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 19:20:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/11 21:48:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct	s_token
 // util
 
 t_token	*new_token(t_ttype type, char *content);
-void	append_token(t_token *root, t_token *new);
+void	append_token(t_token **root, t_token *new);
 
 // tokenize.c
 t_token	*tokenize(char *line);
@@ -45,8 +45,10 @@ void	print_tokens(t_token *root);
 
 // tokenize_helpers.c
 
-int		tokenize_quote(t_token *root, char *line);
-int		tokenize_dollar(t_token *root, char *line);
-int		tokenize_word(t_token *root, char *line);
+int		tokenize_quote(t_token **root, char *line);
+int		tokenize_dollar(t_token **root, char *line);
+int		tokenize_word(t_token **root, char *line);
+int		tokenize_redir(t_token **root, char *line);
+
 
 #endif

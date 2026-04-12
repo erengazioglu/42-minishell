@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 19:20:10 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/11 20:09:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,17 @@ t_token	*new_token(t_ttype type, char *content)
 	return (token);
 }
 
-void	append_token(t_token *root, t_token *new)
+void	append_token(t_token **root, t_token *new)
 {
-	while (root->next)
-		root = root->next;
-	root->next = new;
-}
+	t_token	*temp;
 
+	if (!(*root))
+	{
+		*root = new;
+		return ;
+	}
+	temp = *root;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
+}

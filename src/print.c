@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/27 00:36:53 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 19:16:42 by egaziogl         ###   ########.fr       */
+/*   Created: 2026/04/12 18:54:40 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/04/12 19:19:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft_base.h"
+#include "../include/minishell.h"
 
-/**
- * @brief	Calculates the length of a null-terminated string.
- * @param s		String to check.
- * @return		Number of characters up to the first null character.
- */
-size_t	ft_strlen(const char *s)
+void	print_args(int argc, char **argv)
 {
-	size_t	len;
+	int	i;
 
-	if (!s)
-		return (-1);
-	len = 0;
-	while (*(s++))
-		len++;
-	return (len);
+	i = 1;
+	ft_printf("%s%d args:\n(0) %s", YEL, argc, argv[0]);
+	while (i < argc)
+	{
+		ft_printf("\n(%d) %s", i, argv[i]);
+		i++;
+	}
+	ft_printf("%s\n", RST);
 }

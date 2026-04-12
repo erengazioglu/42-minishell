@@ -1,5 +1,10 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
+CFLAGS = -Wall -Werror -Wextra
+DFLAGS	= -g
+
+ifeq ($(shell uname -s),Darwin)
+	DFLAGS += -gdwarf-4 -gstrict-dwarf
+endif
 
 NAME = libft.a
 SRCS_BASE = \
@@ -113,16 +118,16 @@ list: $(OBJS_LIST)
 
 $(OBJS_BASE): $(SRCS_BASE:%.c=src/base/%.c)
 	@mkdir -p obj obj/base
-	$(CC) $(CFLAGS) -c $(@:obj/base/%.o=src/base/%.c) -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) -c $(@:obj/base/%.o=src/base/%.c) -o $@
 $(OBJS_GNL): $(SRCS_GNL:%.c=src/gnl/%.c)
 	@mkdir -p obj obj/gnl
-	$(CC) $(CFLAGS) -c $(@:obj/gnl/%.o=src/gnl/%.c) -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) -c $(@:obj/gnl/%.o=src/gnl/%.c) -o $@
 $(OBJS_LIST): $(SRCS_LIST:%.c=src/list/%.c)
 	@mkdir -p obj obj/list
-	$(CC) $(CFLAGS) -c $(@:obj/list/%.o=src/list/%.c) -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) -c $(@:obj/list/%.o=src/list/%.c) -o $@
 $(OBJS_PRINTF): $(SRCS_PRINTF:%.c=src/printf/%.c)
 	@mkdir -p obj obj/printf
-	$(CC) $(CFLAGS) -c $(@:obj/printf/%.o=src/printf/%.c) -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) -c $(@:obj/printf/%.o=src/printf/%.c) -o $@
 
 fclean: clean
 	rm -f $(NAME)
