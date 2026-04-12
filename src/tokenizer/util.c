@@ -6,12 +6,18 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/11 20:09:29 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/12 20:27:06 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell_tokenizer.h"
 
+/**
+ * @brief	Creates a new token.
+ * @param type		Token type (as defined by the ttype enum).
+ * @param content	Content of the token (must be malloced for it to work).
+ * @return	The new token node.
+ */
 t_token	*new_token(t_ttype type, char *content)
 {
 	t_token	*token;

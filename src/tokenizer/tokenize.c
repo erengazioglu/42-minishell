@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/11 20:44:17 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/12 20:22:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_tokens(t_token *root)
 {
 	while (root)
 	{
-		ft_printf("Token(type=%d,content=%s)\n", root->type, root->content);
+		ft_printf("Token(type: %d, content: %s)\n", root->type, root->content);
 		root = root->next;
 	}
 }
@@ -49,6 +49,8 @@ t_token	*tokenize(char *line)
 			line += tokenize_redir(&root, line);
 		else if (*line == '$')
 			line += tokenize_dollar(&root, line);
+		else if (*line == '|')
+			line += tokenize_pipe(&root, line);
 		else
 			line += tokenize_word(&root, line);
 	}
