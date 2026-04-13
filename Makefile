@@ -22,9 +22,18 @@ TOKENIZE_TEST_SRCS = \
 	src/print.c \
 	libft/libft.a
 
+PARSE_TEST_SRCS = \
+	$(wildcard src/tokenizer/*.c) \
+	$(wildcard src/parser/*.c) \
+	tests/test_parse.c \
+	src/print.c \
+	src/crash.c \
+	libft/libft.a
+
 tests: libft/libft.a
 	@mkdir -p tests/out
 	$(CC) $(CFLAGS) $(DFLAGS) $(TOKENIZE_TEST_SRCS) -o tests/out/tokenize.out
+	$(CC) $(CFLAGS) $(DFLAGS) $(PARSE_TEST_SRCS) -o tests/out/parse.out
 
 libft/libft.a:
 	@make -C libft

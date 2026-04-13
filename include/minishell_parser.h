@@ -6,14 +6,15 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/13 00:45:40 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/13 13:17:40 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_TOKENIZER_H
-# define MINISHELL_TOKENIZER_H
+#ifndef MINISHELL_PARSER_H
+# define MINISHELL_PARSER_H
 
 # include "../libft/include/libft.h"
+# include "minishell_tokenizer.h"
 
 typedef enum e_redirtype
 {
@@ -58,5 +59,7 @@ typedef union u_ast
 	t_astnode	node;
 	t_astleaf	leaf;
 }	t_ast;
+
+t_ast	*parse_tokens(t_token *root);
 
 #endif
