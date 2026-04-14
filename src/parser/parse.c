@@ -50,11 +50,7 @@ t_ast	*parse_tokens(t_token *root)
 	int		i;
 	t_ast	*ast;
 
-	i = find_node(root);
-	if (i == -1)
-		ft_printf("there's no pipe\n");
-	else
-		ft_printf("there's a pipe at idx %d\n", i);
+	i = find_token(root, TK_PIPE);
 	if (i != -1)
 		ast = parse_node(root, i);
 	else

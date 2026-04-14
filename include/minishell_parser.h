@@ -18,6 +18,7 @@
 
 typedef enum e_redirtype
 {
+	REDIR_NONE,
 	REDIR_IN,
 	REDIR_APPEND,
 	REDIR_TRUNC,
@@ -26,6 +27,7 @@ typedef enum e_redirtype
 
 typedef enum e_asttype
 {
+	NODE_NONE,
 	NODE_PIPE,
 	NODE_AND,
 	NODE_OR,
@@ -35,6 +37,8 @@ typedef enum e_asttype
 
 typedef enum e_err_parse
 {
+	ERR_PARSE_NONE,
+	ERR_PARSE_UNCLOSED_QUOTE,	// syntax error: unclosed quote
 	ERR_PARSE_REDIR,	// syntax error near unexpected token ">"
 	ERR_PARSE_PIPE		// syntax error near pipe "|"
 }	t_err_parse;
@@ -69,7 +73,6 @@ typedef struct s_asterr
 	t_err_parse	err;
 }	t_asterr;
 
-
 typedef union u_ast
 {
 	t_astnode	node;
@@ -81,8 +84,15 @@ typedef union u_ast
 
 t_ast	*parse_tokens(t_token *root);
 
+// parser/parse_leaf.c
+
+t_ast	*parse_leaf(t_token *root, int n);
+
 // parser/util.c
 
-t_token	*fetch_token(t_token *start, int i);
+void	append_redir(t_redir *root, t_redir *new);
+void	free_ast(t_ast *ast);
+t_redir	*fetch_redir(t_redir *redir, int i);
+t_redir	*new_redir(char *type, t_token *target);
 
 #endif

@@ -19,5 +19,6 @@
 // prints "error: str" to stderr and exits
 void	crash(char *str);
 void	print_args(int argc, char **argv);
+void	print_ast(t_ast *ast);
 
 #endif

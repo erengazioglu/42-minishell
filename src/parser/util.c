@@ -13,21 +13,24 @@
 #include "../../include/minishell_tokenizer.h"
 #include "../../include/minishell_parser.h"
 
-int	find_node(t_token *root)
+/**
+ * @brief Appends a redirection to the end of a redirection list.
+ * @param root	First element of redirection list.
+ * @param new	Redirection to append.
+ */
+void	append_redir(t_redir *root, t_redir *new)
 {
-	int	i;
-
-	i = 0;
-	while (root)
-	{
-		if (root->type == TK_PIPE)
-			return (i);
+	if (!root && !new)
+		return ;
+	while (root->next)
 		root = root->next;
-		i++;
-	}
-	return (-1);
+	root->next = new;
 }
 
+/**
+ * @brief Given a root node, frees the whole AST tree recursively.
+ * @param ast	Root of the AST to free.
+ */
 void	free_ast(t_ast *ast)
 {
 	if (ast->node.type == NODE_PIPE)
@@ -40,14 +43,52 @@ void	free_ast(t_ast *ast)
 }
 
 /**
- * @brief Returns the token at index i, or NULL if it fails.
- * @param start	List element to start counting from.
- * @param i		Index to fetch. If bigger than total size, will return NULL.
- * @return		Token `i` elements away from `start`.
+ * @brief	Given a root node, returns the redirection 
+ * at index `i` in the list.
+ * @param redir	First element of redirection list.
+ * @param i		Index of redirection to fetch. 
+ * If `i` >= number of redirections or < 0, 
+ * returns the last redirection in the list.
+ * @returns		Redirection at index `i`. 
  */
-t_token	*fetch_token(t_token *start, int i)
+t_redir	*fetch_redir(t_redir *redir, int i)
 {
-	while (start && i--)
-		start = start->next;
-	return (start);
+	while (redir->next && i--)
+		redir = redir->next;
+	return (redir);
+}
+
+/**
+ * @brief	Creates a new redirection with the given type and target token.
+ * @param type		Type of redirection ("<", ">", ">>", "<<").
+ * @param target	Token representing the target of the redirection 
+ * (e.g. quoted file name, variable...).
+ * @returns		Pointer to the newly created redirection, 
+ * or `NULL` on allocation failure.
+ * @note	Assumes the `type` string is formatted correctly.
+ */
+t_redir	*new_redir(char *type, t_token *target)
+{
+	t_redir	*redir;
+
+	redir = malloc(sizeof(t_redir));
+	if (!redir)
+		return (NULL);
+	redir->next = NULL;
+	if (*type == '<')
+	{
+		if (*(type + 1))
+			redir->type = REDIR_HEREDOC;
+		else
+			redir->type = REDIR_IN;
+	}
+	else if (*type == '>')
+	{
+		if (*(type + 1))
+			redir->type = REDIR_APPEND;
+		else
+			redir->type = REDIR_TRUNC;
+	}
+	redir->target = target;
+	return (redir);
 }
