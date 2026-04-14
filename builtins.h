@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstget.c                                        :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 19:47:39 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/03/11 14:27:47 by egaziogl         ###   ########.fr       */
+/*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
+/*   Updated: 2026/04/13 23:35:05 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/libft.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-void	*ft_lstget(t_list *list, unsigned int idx)
-{
-	t_list	*result;
+void	ft_echo(char **args);
 
-	result = list;
-	while (result)
-	{
-		if (idx == 0)
-			return (result->content);
-		idx--;
-		result = result->next;
-	}
-	return (NULL);
-}
+#endif
