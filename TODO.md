@@ -129,3 +129,7 @@ def execute(node):
         redirect()
         return execve()
 ```
+
+Redirs are tokens that consume the next token and redirect accordingly.  
+- `cat < infile hello.txt` will redirect `infile` to `stdin` but then launch `cat hello.txt` with that, thereby `cat`ing both infile and hello.txt.
+- `cat -e test_file.txt > outfile test_ptrptr.c > outfile2` this will open both outfiles in succession, so `outfile` will be opened and closed, and `outfile2` will be used. `outfile` will be truncated.
