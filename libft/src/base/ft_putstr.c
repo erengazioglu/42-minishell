@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 15:42:03 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/09 19:26:30 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:19:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 /**
  * @brief Writes a string to a file descriptor.
- * @param n		String to write.
+ * @param s		String to write.
+ * @param n		Number of characters to write. If n < 0, 
+ * writes the entire string.
  * @param fd	File descriptor to write in.
  * @param newline	Option to print a '\n' after.
  * @return	Number of characters written.
- * @note	If n < 0, writes the entire string.
  */
 int	ft_putstr(char *s, int fd, int n, bool newline)
 {

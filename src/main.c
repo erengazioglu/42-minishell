@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_signals.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/13 12:54:36 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:21:13 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "signals.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "minishell.h"
 #include <sys/wait.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 int main(void)
 {
@@ -31,29 +25,27 @@ int main(void)
 		line = readline("minishell> ");
 		if (line == NULL)
 		{
-			printf("exit\n");
+			ft_putstr("exit\n", 2, -1, true);
 			break;
 		}
-
-		if (strlen(line) > 0)
+		if (ft_strlen(line) > 0)
 			add_history(line);
 
 		// ==========================================
 		// [PLACEHOLDER] 2. TOKENIZATION & PARSING
 		// ==========================================
 
-		if (strncmp(line, "sleep", 5) == 0)
+		if (!ft_strncmp(line, "sleep", 5))
 		{
-			printf("Running command (sleep 5)...\n");
-			printf("Try pressing Ctrl-C or Ctrl-\\ now!\n");
+			ft_printf("Running command (sleep 5)...\n");
+			ft_printf("Try pressing Ctrl-C or Ctrl-\\ now!\n");
 
 			pid = fork();
 			if (pid == 0)
 			{
 				set_child_signals();
-
 				sleep(5);
-				printf("\nSleep finished without being killed.\n");
+				ft_printf("\nSleep finished without being killed.\n");
 				exit(0);
 			}
 			else if (pid > 0)

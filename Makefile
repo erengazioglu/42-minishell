@@ -4,13 +4,15 @@ CFLAGS	= -Wall -Werror -Wextra
 DFLAGS	= -g
 
 UNAME_S := $(shell uname -s)
+INCLUDE = -I./include
+LIBS = -L./libft -lft
 
 ifeq ($(UNAME_S),Darwin)
-	RL_INC = -I/opt/homebrew/opt/readline/include
-	RL_LIB = -L/opt/homebrew/opt/readline/lib -lreadline
+	INCLUDE += -I/opt/homebrew/opt/readline/include
+	LIBS += -L/opt/homebrew/opt/readline/lib -lreadline
 else ifeq ($(UNAME_S),Linux)
-	RL_INC =
-	RL_LIB = -lreadline
+	INCLUDE += -I/usr/include/readline
+	LIBS += -L/usr/lib -lreadline
 endif
 
 TOKENIZE_TEST_SRCS = \
@@ -31,7 +33,7 @@ tests: libft/libft.a
 	$(CC) $(CFLAGS) $(DFLAGS) $(TOKENIZE_TEST_SRCS) -o tests/out/tokenize.out
 
 $(NAME): libft/libft.a
-	$(CC) $(CFLAGS) $(SIGNAL_TEST_SRCS) $(RL_INC) $(RL_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(SIGNAL_TEST_SRCS) $(INCLUDE) $(LIBS) -o $(NAME)
 
 libft/libft.a:
 	@make -C libft
