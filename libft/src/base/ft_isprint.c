@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/15 18:06:06 by jalfaiat         ###   ########.fr       */
+/*   Created: 2025/10/26 19:29:53 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/04/07 16:08:38 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../../include/libft_base.h"
 
-# include "libft.h"
-
-void	ft_echo(char **args);
-
-#endif
+/**
+ * @brief Checks if a character represents printable character.
+ * @param c		Character to check.
+ */
+bool	ft_isprint(int c)
+{
+	if (c <= 126 && c >= 32)
+		return (1);
+	return (0);
+}

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   libft_gnl.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/15 18:06:06 by jalfaiat         ###   ########.fr       */
+/*   Created: 2026/04/07 13:34:00 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/04/07 16:10:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef LIBFT_GNL_H
+# define LIBFT_GNL_H
 
-# include "libft.h"
+# include "libft_base.h"
 
-void	ft_echo(char **args);
+# ifndef GNL_BUFSIZ
+#  define GNL_BUFSIZ 64
+# endif
+
+char	*get_next_line(int fd);
 
 #endif

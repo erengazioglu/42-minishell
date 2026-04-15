@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/15 18:06:06 by jalfaiat         ###   ########.fr       */
+/*   Created: 2025/10/26 19:20:48 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/04/05 21:48:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../../include/libft_base.h"
 
-# include "libft.h"
-
-void	ft_echo(char **args);
-
-#endif
+/**
+ * @brief Checks if a character represents an ASCII value.
+ * @param c		Character to check.
+ */
+bool	ft_isascii(int c)
+{
+	if (c <= 127 && c >= 0)
+		return (1);
+	return (0);
+}
