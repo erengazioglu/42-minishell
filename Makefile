@@ -29,4 +29,4 @@ tests: libft/libft.a
 libft/libft.a:
 	@make -C libft
 
-.PHONY: tests
+.PHONY: tests all
