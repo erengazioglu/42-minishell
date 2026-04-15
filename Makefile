@@ -3,13 +3,13 @@ CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
 DFLAGS	= -g
 
-// correct this later
-ifeq ($(shell uname -s),Darwin)
-	DFLAGS += -gdwarf-4 -gstrict-dwarf
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
 	RL_INC = -I/opt/homebrew/opt/readline/include
 	RL_LIB = -L/opt/homebrew/opt/readline/lib -lreadline
-else ifeq ($(shell uname -s),Linux)
-	RL_INC = -I/usr/include/readline
+else ifeq ($(UNAME_S),Linux)
+	RL_INC =
 	RL_LIB = -lreadline
 endif
 
