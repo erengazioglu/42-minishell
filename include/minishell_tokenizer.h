@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 20:27:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/15 17:20:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef enum	e_ttype
 {
+	TK_NONETYPE,
 	TK_REDIR,
 	TK_WORD,
 	TK_DQUOTE,
