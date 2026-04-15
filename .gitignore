@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.dSYM/
 *.out
 .vscode
@@ -5,3 +6,12 @@ minishell
 *.o
 *.a
 *.out
+=======
+*.o
+*.obj
+*.elf
+*.a
+*.out
+*.dSYM/
+minishell
+>>>>>>> eba951b84ebe7964ea61634e61da0936faa447a2
