@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/16 19:35:40 by jalfaiat         ###   ########.fr       */
+/*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
+/*   Updated: 2026/04/16 19:47:43 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include "libft.h"
-
-void	ft_echo(char **args);
-void	ft_exit(char **args, int last_exit_status);
-
-typedef struct s_env
+int	ft_env(char **args, t_env *env)
 {
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-	struct s_env	*prev;
-}t_env;
-
-
-#endif
+	if (!args || !args[0])
+		return (1);
+	if (ft_strcmp(args[0], "env") != 0)
+		return (1);
+	if (args[1])
+	{
+		ft_putstr_fd("env: too many arguments\n", 2);
+		return (127);
+	}
+	while (env)
+	{
+		if (env->key && env->value)
+			printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
+	return (0);
+}
