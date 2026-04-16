@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/16 20:26:05 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/16 20:37:50 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static bool	ft_is_valid_export_arg(char *arg)
 			return (true);
 		i++;
 	}
-	return (false);
+	return (true);
 }
 
 int	ft_export(char **args, t_env *env)
