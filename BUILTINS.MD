@@ -20,6 +20,10 @@ This document explains what every builtin in our Minishell does in the simplest 
 - **What it does:** Adds or updates variables in your environment list (your backpack).
 - **Baby explanation:** It lets you stick a new label onto an item and throw it into the backpack. If you type `export COLOR=blue`, you just told the shell to remember your favorite color forever. It also shows you the whole backpack in *alphabetical order* if you run it with no arguments.
 
+### 7. `unset.c` (The Eraser) 🧽
+- **What it does:** Removes variables from your environment list entirely.
+- **Baby explanation:** If you don't want the shell to remember your favorite color anymore, you type `unset COLOR` and it permanently deletes it from the backpack.
+
 ---
 
 ## The 4 Files To Build Next
@@ -31,8 +35,3 @@ This document explains what every builtin in our Minishell does in the simplest 
 ### 5. `cd.c` (The Teleporter) 🚀
 - **What it does:** Changes Directory. It updates your current path to a new location.
 - **Baby explanation:** It teleports you from your current folder into a new folder. If you say `cd desktop`, it beams you over to the desktop!
-
-
-### 7. `unset.c` (The Eraser) 🧽
-- **What it does:** Removes variables from your environment list entirely.
-- **Baby explanation:** If you don't want the shell to remember your favorite color anymore, you type `unset COLOR` and it permanently deletes it from the backpack.
