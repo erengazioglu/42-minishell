@@ -1,0 +1,60 @@
+{
+    "workbench.iconTheme": "material-product-icons",
+    "editor.fontLigatures": true,
+    "editor.wordWrap": "on",
+    "terminal.integrated.fontSize": 14,
+    "files.autoSave": "afterDelay",
+    "explorer.confirmDragAndDrop": false,
+    "explorer.confirmDelete": false,
+    "debug.onTaskErrors": "debugAnyway",
+    "workbench.editor.untitled.hint": "hidden",
+    "workbench.editor.empty.hint": "hidden",
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.renderWhitespace": "all",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "42header.username": "jalfaiat",
+    "42header.email": "jalfaiat@student.42.fr",
+    "[c]": {
+        "editor.defaultFormatter": "keyhr.42-c-format"
+    },
+    "git.openRepositoryInParentFolders": "always",
+    "terminal.integrated.fontFamily": "monospace",
+    "[cpp]": {
+        "editor.defaultFormatter": "keyhr.42-c-format"
+    },
+    "workbench.startupEditor": "none",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "c": false
+    },
+    "chat.tools.terminal.autoApprove": {
+        "set": true,
+        "sed": true
+    },
+    "workbench.colorTheme": "Dark+",
+    "editor.fontFamily": "Cascadia Code, Menlo, Monaco, 'Courier New', monospace",
+    "editor.fontSize": 14,
+    "window.titleBarStyle": "custom",
+    "workbench.list.smoothScrolling": true,
+    "editor.smoothScrolling": true,
+    "terminal.integrated.gpuAcceleration": "off",
+    "workbench.colorCustomizations": {
+        "terminal.background": "#00000000"
+    },
+    "glassit.alpha": 220,
+    "window.systemColorTheme": "dark",
+    "window.autoDetectColorScheme": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.initialHint": false
+}
