@@ -24,13 +24,14 @@ This document explains what every builtin in our Minishell does in the simplest 
 - **What it does:** Removes variables from your environment list entirely.
 - **Baby explanation:** If you don't want the shell to remember your favorite color anymore, you type `unset COLOR` and it permanently deletes it from the backpack.
 
+### 4. `pwd.c` (The Map) 🗺️
+- **What it does:** Prints the "Print Working Directory" (your current folder path).
+- **Baby explanation:** It’s like the "You Are Here" red dot on a mall map. It tells you exactly which folder your terminal is currently sitting inside.
+
 ---
 
 ## The 4 Files To Build Next
 
-### 4. `pwd.c` (The Map) 🗺️
-- **What it does:** Prints the "Print Working Directory" (your current folder path).
-- **Baby explanation:** It’s like the "You Are Here" red dot on a mall map. It tells you exactly which folder your terminal is currently sitting inside.
 
 ### 5. `cd.c` (The Teleporter) 🚀
 - **What it does:** Changes Directory. It updates your current path to a new location.

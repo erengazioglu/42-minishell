@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:32 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/14 13:53:10 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:29:24 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell_builtins.h"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -30,7 +30,11 @@ static bool	is_n_flag(char *arg)
 	}
 	return (i > 1);
 }
-
+/**
+ * @brief Implements the echo built-in command
+ * @param args Array of strings representing the command arguments
+ * @details The echo command prints its arguments to the standard output, separated by spaces, and followed by a newline. If the -n flag is provided, it suppresses the trailing newline.
+ */
 void	ft_echo(char **args)
 {
 	int		i;

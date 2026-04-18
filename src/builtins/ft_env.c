@@ -1,17 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/16 19:47:43 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:29:26 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell_builtins.h"
 
+/**
+ * @brief Implements the env built-in command
+ * @param args Array of strings representing the command arguments
+ * @param env Pointer to the environment variables list
+ * @return Exit status of the command
+ */
 int	ft_env(char **args, t_env *env)
 {
 	if (!args || !args[0])

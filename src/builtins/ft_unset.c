@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 18:07:40 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/17 18:34:00 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:29:29 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell_builtins.h"
 
 static bool	ft_is_valid_unset_arg(char *arg)
 {
@@ -56,6 +56,12 @@ static void	ft_remove_env_variable(char *arg, t_env **env)
 	}
 }
 
+/**
+ * @brief Implements the unset built-in command
+ * @param args Array of strings representing the command arguments
+ * @param env Pointer to the environment variables list
+ * @return Exit status of the command
+ */
 int	ft_unset(char **args, t_env **env)
 {
 	int	i;

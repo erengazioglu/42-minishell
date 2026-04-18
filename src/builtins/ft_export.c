@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/16 20:37:50 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/18 19:29:28 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell_builtins.h"
 
 static bool	ft_is_valid_export_arg(char *arg)
 {
@@ -32,6 +32,12 @@ static bool	ft_is_valid_export_arg(char *arg)
 	return (true);
 }
 
+/**
+ * @brief Implements the export built-in command
+ * @param args Array of strings representing the command arguments
+ * @param env Pointer to the environment variables list
+ * @return Exit status of the command
+ */
 int	ft_export(char **args, t_env *env)
 {
 	int	i;
