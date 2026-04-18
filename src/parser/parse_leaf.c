@@ -42,6 +42,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 		append_token(&ast->leaf.argv, clone_token(tkn, false));
 		*n -= 1;
 		retval = tkn->next;
+		ast->leaf.argc++;
 		return (free(tkn), retval);
 	}
 }
