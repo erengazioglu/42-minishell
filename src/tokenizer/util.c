@@ -52,6 +52,13 @@ t_token	*new_token(t_ttype type, char *content)
 	return (token);
 }
 
+/**
+ * @brief	Appends a token to the end of a token list.
+ * @param root	Pointer to the first element of the token list. 
+ * If `*root` is `NULL`, the new token becomes the first element.
+ * @param new	Token to append.
+ * @return	None. Modifies the list in place.
+ */
 void	append_token(t_token **root, t_token *new)
 {
 	t_token	*temp;
@@ -78,4 +85,18 @@ t_token	*fetch_token(t_token *start, int i)
 	while (start && i--)
 		start = start->next;
 	return (start);
+}
+
+/**
+ * @brief	Creates a copy of the given token.
+ * @param tkn	Token to clone.
+ * @param deep	If `true`, also duplicates the content string.
+ * @return	Cloned token.
+ */
+t_token	*clone_token(t_token *tkn, bool deep)
+{
+	if (deep)
+		return (new_token(tkn->type, ft_strdup(tkn->content)));
+	else
+		return (new_token(tkn->type, tkn->content));
 }

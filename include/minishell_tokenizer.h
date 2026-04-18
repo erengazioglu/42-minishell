@@ -40,6 +40,7 @@ t_token	*new_token(t_ttype type, char *content);
 t_token	*fetch_token(t_token *start, int i);
 void	append_token(t_token **root, t_token *new);
 int		find_token(t_token *root, t_ttype type);
+t_token	*clone_token(t_token *tkn, bool deep);
 
 // tokenizer/tokenize.c
 

@@ -25,27 +25,24 @@
  */
 t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 {
+	t_token	*retval;
+
 	if (tkn->type == TK_REDIR)
 	{
 		if (!tkn->next)
 			return (NULL); // crash and error here!
-		if (!ast->leaf.redirs)
-			ast->leaf.redirs = new_redir(tkn->content, tkn->next);
-		else
-			append_redir(ast->leaf.redirs, 
-				new_redir(tkn->content, tkn->next));
+		append_redir(&ast->leaf.redirs, 
+			new_redir(tkn->content, clone_token(tkn->next, false)));
 		*n -= 2;
-		return (tkn->next->next);
+		retval = tkn->next->next;
+		return (free(tkn), free(tkn->next), retval);
 	}
 	else
 	{
-		if (!ast->leaf.argv)
-			ast->leaf.argv = tkn;
-		else
-			append_token(&ast->leaf.argv, 
-				new_token(tkn->type, tkn->content));
+		append_token(&ast->leaf.argv, clone_token(tkn, false));
 		*n -= 1;
-		return (tkn->next);
+		retval = tkn->next;
+		return (free(tkn), retval);
 	}
 }
 

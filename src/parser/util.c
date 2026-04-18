@@ -15,16 +15,22 @@
 
 /**
  * @brief Appends a redirection to the end of a redirection list.
- * @param root	First element of redirection list.
+ * @param root	Pointer to the first element of the redirection list. 
+ * If `*root` is `NULL`, the new redir becomes the first element.
  * @param new	Redirection to append.
  */
-void	append_redir(t_redir *root, t_redir *new)
+void	append_redir(t_redir **root, t_redir *new)
 {
-	if (!root && !new)
+	if (!new)
 		return ;
-	while (root->next)
-		root = root->next;
-	root->next = new;
+	if (!*root)
+	{
+		*root = new;
+		return ;
+	}
+	while ((*root)->next)
+		*root = (*root)->next;
+	(*root)->next = new;
 }
 
 /**

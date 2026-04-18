@@ -90,7 +90,7 @@ t_ast	*parse_leaf(t_token *root, int n);
 
 // parser/util.c
 
-void	append_redir(t_redir *root, t_redir *new);
+void	append_redir(t_redir **root, t_redir *new);
 void	free_ast(t_ast *ast);
 t_redir	*fetch_redir(t_redir *redir, int i);
 t_redir	*new_redir(char *type, t_token *target);

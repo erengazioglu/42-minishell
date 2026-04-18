@@ -23,7 +23,7 @@ void	test_parse(char *line, bool free_input)
 	root = tokenize(line);
 	ast = parse_tokens(root);
 	print_ast(ast);
-	free_tokens(root);
+	free_ast(ast); // not done yet
 	if (free_input)
 		free(line);
 }
