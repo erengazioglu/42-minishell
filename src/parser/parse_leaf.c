@@ -30,7 +30,15 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 	if (tkn->type == TK_REDIR)
 	{
 		if (!tkn->next)
+		{
+			ft_printf("minishell: syntax error near unexpected token `%s'\n", tkn->next->content);
 			return (NULL); // crash and error here!
+		}
+		if (tkn->next->type == TK_REDIR)
+		{
+			ft_printf("minishell: syntax error near unexpected token `%s'\n", tkn->next->content);
+			return (NULL); // crash and error here!
+		}
 		append_redir(&ast->leaf.redirs, 
 			new_redir(tkn->content, clone_token(tkn->next, false)));
 		*n -= 2;

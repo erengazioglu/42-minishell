@@ -48,7 +48,7 @@ void	print_ast(t_ast *ast)
 		t_redir *redir = ast->leaf.redirs;
 		while (redir)
 		{
-			ft_printf("  > %s\n", redir->target->content);
+			ft_printf("(redir %d) %s\n", redir->type, redir->target->content);
 			redir = redir->next;
 		}
 	}
