@@ -29,14 +29,11 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 
 	if (tkn->type == TK_REDIR)
 	{
-		if (!tkn->next)
+		if (!tkn->next || tkn->next->type == TK_PIPE
+			|| tkn->next->type == TK_OPT)
 		{
-			ft_printf("minishell: syntax error near unexpected token `%s'\n", tkn->next->content);
-			return (NULL); // crash and error here!
-		}
-		if (tkn->next->type == TK_REDIR)
-		{
-			ft_printf("minishell: syntax error near unexpected token `%s'\n", tkn->next->content);
+			ft_printf("minishell: syntax error near unexpected token `%s'\n", 
+				tkn->next->content);
 			return (NULL); // crash and error here!
 		}
 		append_redir(&ast->leaf.redirs, 
