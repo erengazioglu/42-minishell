@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/18 19:55:44 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/19 21:30:51 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_env(char **args, t_env *env)
 	if (args[1])
 	{
 		ft_putstr_fd("env: too many arguments\n", 2);
-		return (127);
+		return (1);
 	}
 	while (env)
 	{

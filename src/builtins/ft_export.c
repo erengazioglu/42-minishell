@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/18 19:29:28 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/20 01:20:55 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static bool	ft_is_valid_export_arg(char *arg)
  * @param env Pointer to the environment variables list
  * @return Exit status of the command
  */
-int	ft_export(char **args, t_env *env)
+int	ft_export(char **args, t_env **env)
 {
 	int	i;
 
@@ -52,7 +52,7 @@ int	ft_export(char **args, t_env *env)
 	while (args[i])
 	{
 		if (ft_is_valid_export_arg(args[i]))
-			ft_process_export_arg(args[i], env);
+			ft_export_process_arg(args[i], env);
 		else
 			ft_putstr_fd("export: invalid argument\n", 2);
 		i++;

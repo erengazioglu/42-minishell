@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/18 19:29:27 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/19 21:19:40 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static	bool	is_numeric(char *str)
 /**
  * @brief Implements the exit built-in command
  * @param args Array of strings representing the command arguments
- * @param last_exit_status Last exit status
- * @details The exit command terminates the shell. If an argument is provided, it is used as the exit status. If the argument is not a valid number, an error message is printed and the shell exits with status 255. If there are too many arguments, an error message is printed and the shell does not exit. If no arguments are provided, the shell exits with the last exit status.
+ * @param last_exit_status Last exit status of the shell.
  */
 void	ft_exit(char **args, int last_exit_status)
 {
