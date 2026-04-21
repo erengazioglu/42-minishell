@@ -84,6 +84,5 @@ int	ft_export_process_arg(char *arg, t_env **env)
 	}
 	else if (ft_create_env_node(env, key, value))
 		return (free(key), free(value), 1);
-	free(key);
 	return (0);
 }
