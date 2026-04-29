@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 14:18:03 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/29 14:19:36 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/29 15:52:47 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include <signal.h>
 
-extern volatile sig_atomic_t g_signal;
+extern volatile sig_atomic_t	g_signal;
 
 #endif

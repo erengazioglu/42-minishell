@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 20:27:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/29 15:52:26 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/include/libft.h"
 
-typedef enum	e_ttype
+typedef enum e_ttype
 {
 	TK_REDIR,
 	TK_WORD,
@@ -26,7 +26,7 @@ typedef enum	e_ttype
 	TK_DOLLAR
 }	t_ttype;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	t_ttype			type;
 	char			*content;
@@ -51,6 +51,5 @@ int		tokenize_dollar(t_token **root, char *line);
 int		tokenize_word(t_token **root, char *line);
 int		tokenize_redir(t_token **root, char *line);
 int		tokenize_pipe(t_token **root, char *line);
-
 
 #endif
