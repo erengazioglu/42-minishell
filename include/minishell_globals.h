@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   crash.c                                            :+:      :+:    :+:   */
+/*   minishell_globals.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/09 17:53:58 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 15:44:09 by jalfaiat         ###   ########.fr       */
+/*   Created: 2026/04/29 14:18:03 by jalfaiat          #+#    #+#             */
+/*   Updated: 2026/04/29 14:19:36 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#ifndef MINISHELL_GLOBALS_H
+# define MINISHELL_GLOBALS_H
 
-void	crash(char *str)
-{
-	ft_putstr(RED, 1, -1, false);
-	ft_putstr("error: ", 1, -1, false);
-	ft_putstr(str, 1, -1, true);
-	ft_putstr(RST, 1, -1, false);
-	exit(1);
-}
+# include <signal.h>
+
+extern volatile sig_atomic_t g_signal;
+
+#endif

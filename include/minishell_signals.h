@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_signals.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:39:46 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/15 18:17:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:21:20 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#ifndef MINISHELL_SIGNALS_H
+# define MINISHELL_SIGNALS_H
 
 # include <signal.h>
 

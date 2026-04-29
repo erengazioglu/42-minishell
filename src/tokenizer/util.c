@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 20:27:06 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/29 15:45:52 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 t_token	*new_token(t_ttype type, char *content)
 {
 	t_token	*token;
-	
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);
