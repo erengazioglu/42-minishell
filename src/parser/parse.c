@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/13 21:58:12 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/30 15:49:46 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ t_ast	*parse_node(t_token *root, int i)
 	if (!ast)
 		return (NULL);
 	ast->node.type = NODE_PIPE;
-	ast->node.left = parse_leaf(root, i);
+	ast->node.left = parse_leaf(&root, i);
 	if (!ast->node.left)
 		return (free(ast), NULL);
-	ast->node.right = parse_tokens(fetch_token(root, i));
+	ast->node.right = parse_tokens(root->next);
 	if (!ast->node.right)
 		return (free(ast->node.left), free(ast), NULL);
 	return (ast);
@@ -54,6 +54,6 @@ t_ast	*parse_tokens(t_token *root)
 	if (i != -1)
 		ast = parse_node(root, i);
 	else
-		ast = parse_leaf(root, -1);
+		ast = parse_leaf(&root, -1);
 	return (ast);
 }

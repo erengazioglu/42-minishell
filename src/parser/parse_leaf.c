@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/30 14:59:16 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/30 15:47:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 		}
 		append_redir(&ast->leaf.redirs, 
 			new_redir(tkn->content, clone_token(tkn->next, false)));
-		*n -= 2;
 		retval = tkn->next->next;
+		*n -= 2;
 		return (free(tkn->next), free(tkn), retval);
 	}
 	else
@@ -60,7 +60,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
  * of elements in the list, parses all tokens forward from `root`.
  * @returns		Fully populated AST leaf, or `NULL` if error.
  */
-t_ast	*parse_leaf(t_token *root, int n)
+t_ast	*parse_leaf(t_token **root, int n)
 {
 	t_ast	*ast;
 
@@ -68,9 +68,9 @@ t_ast	*parse_leaf(t_token *root, int n)
 	if (!ast)
 		return (NULL);
 	ast->leaf.type = NODE_CMD;
-	while (root && n)
+	while (*root && n)
 	{
-		root = parse_leaf_step(ast, root, &n);
+		*root = parse_leaf_step(ast, *root, &n);
 		if (ast->node.type == NODE_ERR)
 			return (NULL); // cleanup here...
 	}

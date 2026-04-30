@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/13 23:50:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/30 15:48:12 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_ast	*parse_tokens(t_token *root);
 
 // parser/parse_leaf.c
 
-t_ast	*parse_leaf(t_token *root, int n);
+t_ast	*parse_leaf(t_token **root, int n);
 
 // parser/util.c
 
