@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/14 00:54:28 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/30 14:59:16 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 			new_redir(tkn->content, clone_token(tkn->next, false)));
 		*n -= 2;
 		retval = tkn->next->next;
-		return (free(tkn), free(tkn->next), retval);
+		return (free(tkn->next), free(tkn), retval);
 	}
 	else
 	{
