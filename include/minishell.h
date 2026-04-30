@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 14:24:06 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:41:00 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>
+# include "minishell_parser.h"
 
 // prints "error: str" to stderr and exits
 void	crash(char *str);
 void	print_args(int argc, char **argv);
+void	print_ast(t_ast *ast);
 
 #endif

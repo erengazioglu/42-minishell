@@ -29,7 +29,7 @@ char	*ft_strchr(const char *s, char c, int n, bool reverse)
 
 	len = ft_strlen(s);
 	if (n >= len || n <= 0)
-		n = len - 1;
+		n = len;
 	if (!c && ((reverse && n) || n >= len - 1))
 		return ((char *) &s[len]);
 	dir = -reverse | 1;

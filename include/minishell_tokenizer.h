@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_tokenizer.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 15:52:26 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:41:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef enum e_ttype
 {
+	TK_NONETYPE,
 	TK_REDIR,
 	TK_WORD,
 	TK_DQUOTE,
@@ -33,18 +34,21 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-// util
+// tokenizer/util.c
 
 t_token	*new_token(t_ttype type, char *content);
+t_token	*fetch_token(t_token *start, int i);
 void	append_token(t_token **root, t_token *new);
+int		find_token(t_token *root, t_ttype type);
+t_token	*clone_token(t_token *tkn, bool deep);
 
-// tokenize.c
+// tokenizer/tokenize.c
 
 t_token	*tokenize(char *line);
 void	free_tokens(t_token *root);
 void	print_tokens(t_token *root);
 
-// tokenize_parts.c
+// tokenizer/tokenize_parts.c
 
 int		tokenize_quote(t_token **root, char *line);
 int		tokenize_dollar(t_token **root, char *line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 18:54:40 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 15:44:51 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:44:24 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,34 @@ void	print_args(int argc, char **argv)
 		i++;
 	}
 	ft_printf("%s\n", RST);
+}
+
+void	print_ast(t_ast *ast)
+{
+	if (!ast)
+		return ;
+	if (ast->node.type == NODE_PIPE)
+	{
+		ft_printf("PIPE\n");
+		print_ast(ast->node.left);
+		print_ast(ast->node.right);
+	}
+	else if (ast->node.type == NODE_CMD)
+	{
+		ft_printf("CMD: argc=%d\n", ast->leaf.argc);
+		t_token *tkn = ast->leaf.argv;
+		while (tkn)
+		{
+			ft_printf("  - %s\n", tkn->content);
+			tkn = tkn->next;
+		}
+		t_redir *redir = ast->leaf.redirs;
+		while (redir)
+		{
+			ft_printf("(redir %d) %s\n", redir->type, redir->target->content);
+			redir = redir->next;
+		}
+	}
+	else if (ast->node.type == NODE_ERR)
+		ft_printf("ERROR: %d\n", ast->err.err);
 }
