@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/30 15:57:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/04/30 16:49:56 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ t_ast	*parse_leaf(t_token **root, int n)
 	while (*root && n)
 	{
 		*root = parse_leaf_step(ast, *root, &n);
+		if (!(*root))
+			return (NULL);
 		if (ast->node.type == NODE_ERR)
 			return (NULL); // cleanup here...
 	}

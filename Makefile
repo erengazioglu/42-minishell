@@ -23,7 +23,8 @@ SRCS = \
 	src/crash.c \
 	src/print.c \
 	$(wildcard src/signals/*.c) \
-	$(wildcard src/tokenizer/*.c)
+	$(wildcard src/tokenizer/*.c) \
+	$(wildcard src/parser/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
