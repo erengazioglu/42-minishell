@@ -18,7 +18,6 @@ endif
 
 # ========== minishell sources ==========
 SRCS = \
-	src/main.c \
 	src/globals.c \
 	src/crash.c \
 	src/print.c \
@@ -26,6 +25,7 @@ SRCS = \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c)
 
+MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
@@ -34,7 +34,10 @@ all: $(NAME)
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): libft/libft.a $(OBJS)
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) $(INCLUDE) $(LIBS) -o $@
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) src/main.o $(INCLUDE) $(LIBS) -o $@
+
+tests: libft/libft.a
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_parse.c $(INCLUDE) $(LIBS) -o tests/test_parse
 
 libft/libft.a:
 	@make -C libft
@@ -48,4 +51,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re tests
