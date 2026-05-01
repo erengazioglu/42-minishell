@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_parts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:07:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 15:45:33 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:45:41 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	tokenize_pipe(t_token **root, char *line)
 	len = 0;
 	while (line[len] && !ft_isspace(line[len]))
 		len++;
-	new = new_token(TK_PIPE, ft_strdup(""));
+	new = new_token(TK_PIPE, ft_strdup("|"));
 	if (!new)
 		crash("new_token() returned NULL");
 	append_token(root, new);

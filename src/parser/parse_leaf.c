@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 13:12:06 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:44:49 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 			ft_printf("minishell: syntax error near unexpected token `newline'\n");
 			return (NULL); // crash and error here!
 		}
-		if (tkn->next->type == TK_PIPE
-			|| tkn->next->type == TK_OPT
-			|| tkn->next->type == TK_REDIR)
+		if (tkn->next->type == TK_PIPE || tkn->next->type == TK_REDIR)
 		{
 			ft_printf("minishell: syntax error near unexpected token `%s'\n", 
 				tkn->next->content);

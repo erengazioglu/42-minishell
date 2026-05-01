@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:08:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 13:08:44 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:35:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ int	main(int argc, char **argv)
 {
 	char	*input;
 
+	if (argc < 2)
+	{
+		ft_putstr("Usage: ./test_parse <args>", 2, -1, true);
+		return (1);
+	}
 	input = ft_strunsplit(argv + 1, ' ', argc, false);
 	if (!input)
 		crash("unsplit argv failed");

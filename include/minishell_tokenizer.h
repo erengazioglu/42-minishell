@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 12:28:09 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 15:44:36 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef enum e_ttype
 	TK_WORD,
 	TK_DQUOTE,
 	TK_SQUOTE,
-	TK_OPT,
 	TK_PIPE,
 	TK_DOLLAR
 }	t_ttype;
