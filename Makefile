@@ -33,7 +33,7 @@ all: $(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
 
-$(NAME): libft/libft.a $(OBJS)
+$(NAME): libft/libft.a $(OBJS) src/main.o
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) src/main.o $(INCLUDE) $(LIBS) -o $@
 
 tests: libft/libft.a

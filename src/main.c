@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/01 11:46:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 13:18:21 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(void)
 	char	*line;
 	t_token	*tokens;
 	t_ast	*ast;
+	char	*temp;
 
 	while (1)
 	{
@@ -30,14 +31,20 @@ int	main(void)
 		}
 		if (ft_strlen(line) > 0)
 			add_history(line);
-		tokens = tokenize(line);
-		printf("%sTokens:\n", YEL);
-		print_tokens(tokens);
-		ast = parse_tokens(tokens);
-		printf("%sAST:\n", CYN);
-		print_ast(ast);
-		printf("%s", RST);
-		free_ast(ast); // not done yet
+		temp = line;
+		while (ft_isspace(*temp))
+			temp++;
+		if (*temp)
+		{
+			tokens = tokenize(line);
+			printf("%sTokens:\n", YEL);
+			print_tokens(tokens);
+			ast = parse_tokens(tokens);
+			printf("%sAST:\n", CYN);
+			print_ast(ast);
+			printf("%s", RST);
+			free_ast(ast); // not done yet
+		}
 		free(line);
 	}
 	rl_clear_history();
