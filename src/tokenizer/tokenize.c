@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 20:22:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 12:28:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,30 @@ void	free_tokens(t_token *root)
 	}
 }
 
+void	print_token(t_token *token, bool display_count)
+{
+	int	count;
+	if (token == NULL)
+		return ;
+	ft_printf("Token(type: %d, content: %s)", token->type, token->content);
+	count = 0;
+	if (display_count)
+	{
+		while (token->next)
+		{
+			count++;
+			token = token->next;
+		}
+		ft_printf(" + %d", count);
+	}
+	ft_putchar('\n', 1, false);
+}
+
 void	print_tokens(t_token *root)
 {
 	while (root)
 	{
-		ft_printf("Token(type: %d, content: %s)\n", root->type, root->content);
+		print_token(root, false);
 		root = root->next;
 	}
 }

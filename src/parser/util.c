@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/13 21:57:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 12:34:21 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
  */
 void	append_redir(t_redir **root, t_redir *new)
 {
+	t_redir	*temp;
+	
 	if (!new)
 		return ;
 	if (!*root)
@@ -28,9 +30,10 @@ void	append_redir(t_redir **root, t_redir *new)
 		*root = new;
 		return ;
 	}
-	while ((*root)->next)
-		*root = (*root)->next;
-	(*root)->next = new;
+	temp = *root;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new;
 }
 
 /**

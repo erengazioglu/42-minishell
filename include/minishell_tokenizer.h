@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/30 16:41:02 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 12:28:09 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_token	*clone_token(t_token *tkn, bool deep);
 
 t_token	*tokenize(char *line);
 void	free_tokens(t_token *root);
+void	print_token(t_token *token, bool display_count);
 void	print_tokens(t_token *root);
 
 // tokenizer/tokenize_parts.c
