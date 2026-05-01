@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 15:44:36 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 16:54:16 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 typedef enum e_ttype
 {
-	TK_NONETYPE,
+	TK_ERR,
 	TK_REDIR,
 	TK_WORD,
 	TK_DQUOTE,
@@ -54,6 +54,6 @@ int		tokenize_quote(t_token **root, char *line);
 int		tokenize_dollar(t_token **root, char *line);
 int		tokenize_word(t_token **root, char *line);
 int		tokenize_redir(t_token **root, char *line);
-int		tokenize_pipe(t_token **root, char *line);
+int		tokenize_pipe(t_token **root);
 
 #endif

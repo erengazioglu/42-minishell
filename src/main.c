@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/01 13:18:21 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/01 17:06:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ int	main(void)
 		if (*temp)
 		{
 			tokens = tokenize(line);
-			printf("%sTokens:\n", YEL);
 			print_tokens(tokens);
 			ast = parse_tokens(tokens);
-			printf("%sAST:\n", CYN);
-			print_ast(ast);
-			printf("%s", RST);
-			free_ast(ast); // not done yet
+			if (ast)
+			{
+				print_ast(ast);
+				free_ast(ast); // not done yet
+			}
 		}
 		free(line);
 	}
