@@ -6,3 +6,4 @@ minishell
 *.o
 *.obj
 vgcore*
+tests/test_parse
