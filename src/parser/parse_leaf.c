@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 17:05:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/02 15:21:55 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ t_token	*check_unexpected_token(t_token *tkn)
 {
 	t_token	*err;
 
-	ft_printf("%schecking token:\n", RED);
-	print_token(tkn, false);
-	ft_printf("%s", RST);
 	err = ft_calloc(1, sizeof(t_token));
 	err->type = TK_ERR;
 	if (tkn->type == TK_REDIR)
