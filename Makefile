@@ -23,7 +23,8 @@ SRCS = \
 	src/print.c \
 	$(wildcard src/signals/*.c) \
 	$(wildcard src/tokenizer/*.c) \
-	$(wildcard src/parser/*.c)
+	$(wildcard src/parser/*.c) \
+	$(wildcard src/dispatcher/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
@@ -36,8 +37,9 @@ all: $(NAME)
 $(NAME): libft/libft.a $(OBJS) src/main.o
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) src/main.o $(INCLUDE) $(LIBS) -o $@
 
-tests: libft/libft.a
+tests: libft/libft.a $(OBJS)
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_parse.c $(INCLUDE) $(LIBS) -o tests/test_parse
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_execve.c $(INCLUDE) $(LIBS) -o tests/test_execve
 
 libft/libft.a:
 	@make -C libft

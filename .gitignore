@@ -7,3 +7,4 @@ minishell
 *.obj
 vgcore*
 tests/test_parse
+tests/test_execve
