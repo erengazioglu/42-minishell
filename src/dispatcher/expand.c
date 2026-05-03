@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:15:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:29:32 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*advance(char *result, char **str)
 	int	len;
 
 	len = 0;
-	while ((*str)[len] && (*str)[len] != '$' && !ft_isspace((*str)[len]))
+	while ((*str)[len] && (*str)[len] != '$')
 		len++;
 	result = ft_strjoin(result, ft_substr(*str, 0, len), -1, true);
 	*str += len;
