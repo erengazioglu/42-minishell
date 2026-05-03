@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:10 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:37:35 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 18:24:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,7 @@ void	test_execve(char *line, char **envp)
 	root = tokenize(line);
 	ast = parse_tokens(root);
 	print_ast(ast);
-	if (ast->node.type == NODE_PIPE)
-	{
-		ft_printf("Pipes not supported in test_execve\n");
-		return ;
-	}
-	else
-		dispatch(ast, envp);
+	dispatch(ast, envp);
 }
 
 int	main(int argc, char **argv, char **envp)

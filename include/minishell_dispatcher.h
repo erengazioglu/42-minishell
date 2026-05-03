@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:55:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 21:19:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,19 @@ void	dispatch(t_ast *ast, char **envp);
 
 // redirects.c
 
-void	handle_redirects(t_ast *ast);
+void	handle_redirects(t_ast *ast, int *fd);
 
 // expand.c
 
 void	expand_tokens(t_token *root);
 
+// execute.c
+
+bool	check_paths(char **paths);
+
 // util.c
 
-char	**build_argv(t_token *root);
+char	**build_argv(t_token *root, int *argc);
+char	**extract_paths(char *cmd, char **envp);
 
 #endif
