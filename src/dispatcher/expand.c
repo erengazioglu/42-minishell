@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:29:32 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:39:27 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*expand_var(char *result, char **str)
  * @brief	Expands the variables in a token (in place).
  * @param tkn	Token to be expanded.
  */
-char	*expand_string(char *str)
+static char	*expand_string(char *str)
 {
 	char	*result;
 	char	*temp;
@@ -77,7 +77,7 @@ char	*expand_string(char *str)
 	return(result);
 }
 
-void	expand_argv(t_token *root)
+void	expand_tokens(t_token *root)
 {
 	while (root)
 	{

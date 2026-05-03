@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 12:17:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:57:20 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@ bool	check_paths(char **paths)
 	if (result == -1)
 		return (free_strarr(paths), false);
 	return (true);
-}
-
-char	**build_argv(t_token *root)
-{
-	(void) root;
-	return (NULL);
 }
 
 void	execute(t_ast *ast, char **envp)

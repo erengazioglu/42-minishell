@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 15:21:30 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:13:39 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:40:15 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	test_expand(char *line)
 	root = tokenize(line);
 	print_tokens(root);
 	ft_printf("--- After expansion ---\n");
-	expand_argv(root);
+	expand_tokens(root);
 	print_tokens(root);
 }
 

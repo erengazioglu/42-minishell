@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:10 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 13:48:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:37:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	test_execve(char *line, char **envp)
 {
 	t_token	*root;
 	t_ast	*ast;
-	char	*env_var;
 
 	root = tokenize(line);
 	ast = parse_tokens(root);
@@ -32,10 +31,6 @@ void	test_execve(char *line, char **envp)
 	}
 	else
 		dispatch(ast, envp);
-	env_var = getenv("USER");
-	if (!env_var)
-		env_var = "";
-	ft_printf("$USER = %s\n", env_var);
 }
 
 int	main(int argc, char **argv, char **envp)

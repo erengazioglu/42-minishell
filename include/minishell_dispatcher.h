@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 15:26:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 17:55:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void	handle_redirects(t_ast *ast);
 
 // expand.c
 
-void	expand_argv(t_token *root);
+void	expand_tokens(t_token *root);
 
+// util.c
+
+char	**build_argv(t_token *root);
 
 #endif
