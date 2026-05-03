@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 11:54:45 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 19:24:18 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 11:45:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  * 			and returns a new string as a result.
  * @param s1		String to be joined to.
  * @param s2		String to join to s1.
+ * @param sep		Character to be placed between s1 and s2.
  * @param free_s1	Option to free s1 at the end of the function.
  * @return	A pointer to the resulting new string.
  */

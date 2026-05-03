@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dispatch.c                                         :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 12:09:40 by egaziogl         ###   ########.fr       */
+/*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/05/03 11:48:24 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dispatch(t_ast *ast, char **envp)
+void	handle_redirects(t_ast *ast)
 {
-	(void) envp;
-	ft_printf("Dispatching AST...\n");
-	handle_redirects(ast);
-
-	// execve()
+	(void) ast;
+	ft_printf(">\tHandling redirects...\n");
 }

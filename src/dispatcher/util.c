@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirects.c                                        :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 11:28:54 by egaziogl         ###   ########.fr       */
+/*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/05/03 11:44:39 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_redirects(t_ast *ast)
+char	*ft_pathjoin(char *s1, char *s2)
 {
-	(void) ast;
-	ft_printf(">\tHandling redirects...\n");
+	return (ft_strsjoin(s1, s2, '/', false));
 }

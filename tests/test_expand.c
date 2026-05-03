@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_execve.c                                      :+:      :+:    :+:   */
+/*   test_expand.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/03 11:15:10 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 13:48:52 by egaziogl         ###   ########.fr       */
+/*   Created: 2026/05/03 15:21:30 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/05/03 17:13:39 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,31 @@
 #include "minishell_parser.h"
 
 /**
- * @brief	Execve test. Reads tokens, turns them into AST, and executes.
+ * @brief	Expand test. Reads tokens, expands them, and prints the result.
  */
-void	test_execve(char *line, char **envp)
+void	test_expand(char *line)
 {
 	t_token	*root;
-	t_ast	*ast;
-	char	*env_var;
 
 	root = tokenize(line);
-	ast = parse_tokens(root);
-	print_ast(ast);
-	if (ast->node.type == NODE_PIPE)
-	{
-		ft_printf("Pipes not supported in test_execve\n");
-		return ;
-	}
-	else
-		dispatch(ast, envp);
-	env_var = getenv("USER");
-	if (!env_var)
-		env_var = "";
-	ft_printf("$USER = %s\n", env_var);
+	print_tokens(root);
+	ft_printf("--- After expansion ---\n");
+	expand_argv(root);
+	print_tokens(root);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv)
 {
 	char	*input;
 
 	if (argc < 2)
 	{
-		ft_putstr("Usage: ./test_execve <args>", 2, -1, true);
+		ft_putstr("Usage: ./test_expand <args>", 2, -1, true);
 		return (1);
 	}
 	input = ft_strunsplit(argv + 1, ' ', argc, false);
 	if (!input)
 		crash("unsplit argv failed");
-	test_execve(input, envp);
+	test_expand(input);
 	return (0);
 }

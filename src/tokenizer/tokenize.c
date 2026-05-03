@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 16:28:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 12:23:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ t_token	*tokenize(char *line)
 			line += tokenize_quote(&root, line);
 		else if (ft_strchr("<>", *line, 0, 0))
 			line += tokenize_redir(&root, line);
-		else if (*line == '$')
-			line += tokenize_dollar(&root, line);
 		else if (*line == '|')
 			line += tokenize_pipe(&root);
 		else

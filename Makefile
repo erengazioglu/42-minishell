@@ -39,6 +39,7 @@ $(NAME): libft/libft.a $(OBJS) src/main.o
 
 tests: libft/libft.a $(OBJS)
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_parse.c $(INCLUDE) $(LIBS) -o tests/test_parse
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_expand.c $(INCLUDE) $(LIBS) -o tests/test_expand
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_execve.c $(INCLUDE) $(LIBS) -o tests/test_execve
 
 libft/libft.a:
