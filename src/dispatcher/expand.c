@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:39:27 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 23:28:34 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,6 @@ static char	*pick_var_name(char **str)
 		i++;
 	result = ft_substr(*str, 0, i);
 	*str += i;
-	return (result);
-}
-
-static char	*advance(char *result, char **str)
-{
-	int	len;
-
-	len = 0;
-	while ((*str)[len] && (*str)[len] != '$')
-		len++;
-	result = ft_strjoin(result, ft_substr(*str, 0, len), -1, true);
-	*str += len;
 	return (result);
 }
 
@@ -71,10 +59,23 @@ static char	*expand_string(char *str)
 		if (*temp == '$')
 			result = expand_var(result, &temp);
 		else
-			result = advance(result, &temp);
+			result = ft_strwalk(&temp, result, '$');
 	}
 	free(str);
 	return(result);
+}
+
+void	expand_redirs(t_redir *root)
+{
+	t_token	*tkn;
+	
+	while (root)
+	{
+		tkn = root->target;
+		if (tkn->type == TK_WORD || tkn->type == TK_DQUOTE)
+			tkn->content = expand_string(tkn->content);
+		root = root->next;
+	}
 }
 
 void	expand_tokens(t_token *root)

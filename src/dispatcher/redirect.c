@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 21:19:13 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 23:25:38 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@
 // 	open_file(state, FLAG_WRITE);
 // }
 
-void	handle_redirects(t_ast *ast, int *fd)
+void	redirect(t_ast *ast, int *fd)
 {
-	(void) ast;
 	(void) fd;
 	ft_printf(">\tHandling redirects...\n");
+	expand_redirs(ast->leaf.redirs);
+	print_ast(ast);
 }

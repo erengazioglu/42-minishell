@@ -54,7 +54,8 @@ SRCS_BASE = \
 	ft_strtrim.c \
 	ft_substr.c \
 	ft_tolower.c \
-	ft_toupper.c 
+	ft_toupper.c \
+	ft_strwalk.c
 
 SRCS_LIST = \
 	ft_lstadd_back.c \

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/30 15:48:12 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 21:55:15 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef union u_ast t_ast;
 typedef struct s_astnode
 {
 	t_asttype	type;
-	t_ast	*left;
-	t_ast	*right;
+	t_ast		*left;
+	t_ast		*right;
 }	t_astnode;
 
 typedef struct s_astleaf

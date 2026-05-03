@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 21:23:38 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 21:46:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	child_process(t_ast *ast, char **envp, int *fd)
 	char	**paths;
 	int		i;
 
-	handle_redirects(ast, fd);
+	redirect(ast, fd);
 	expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (ft_strchr(argv[0], '/', 0, 0))
@@ -38,6 +38,7 @@ void	child_process(t_ast *ast, char **envp, int *fd)
 	free_strarr(paths);
 	ft_putstr("something went wrong", 2, -1, true);
 }
+
 // returns false if it fails
 bool	create_pipe(int *fd)
 {
@@ -53,10 +54,17 @@ bool	create_pipe(int *fd)
 void	dispatch(t_ast *ast, char **envp)
 {
 	int		fd[3];
+	int		pid;
 
-	ft_printf("Dispatching AST...\n");
+	fd[2] = STDIN_FILENO;
 	while (ast->node.type == NODE_PIPE)
 	{
+		if (!create_pipe(fd))
+			return ; // TODO: error while creating pipe
+		pid = fork();
+		if (pid == -1)
+			return ; // TODO: error while forking
+		
 		ft_printf("Pipes not supported in dispatch yet\n");
 		ast = ast->node.right;
 	}
