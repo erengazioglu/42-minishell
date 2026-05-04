@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 12:56:12 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:07:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ bool	open_file(char *fn, t_redirtype flag)
 
 	if (flag == REDIR_IN)
 	{
-		close(STDIN_FILENO);
 		fd_new = open(fn, O_RDONLY);
+		close(STDIN_FILENO);
 		if (fd_new == -1)
 			return (false); // TODO: handle OPENR error
 	}
 	else
 	{
-		close(STDOUT_FILENO);
 		fd_new = open(fn, O_WRONLY | O_TRUNC | O_CREAT,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		close(STDOUT_FILENO);
 		if (fd_new == -1)
 			return (false); // TODO: handle OPENW error
 	}
