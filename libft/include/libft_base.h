@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:41:41 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/12 16:21:56 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 22:55:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ char	*ft_strsjoin(char *s1, char *s2, char sep, bool free_s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strunsplit(char **arr, char sep, int count, bool free_arr);
 char	**ft_split(char const *s, char c, bool ltrim);
+char	*ft_strwalk(char **str, char *acc, char end);
 
 // int<->str conversions
 
