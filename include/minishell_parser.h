@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 21:55:15 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/03 23:43:10 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ typedef enum e_redirtype
 {
 	REDIR_NONE,
 	REDIR_IN,
+	REDIR_HEREDOC,
 	REDIR_APPEND,
-	REDIR_TRUNC,
-	REDIR_HEREDOC
+	REDIR_TRUNC
 }	t_redirtype;
 
 typedef enum e_asttype

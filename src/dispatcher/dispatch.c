@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 21:46:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 11:18:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,38 @@ bool	create_pipe(int *fd)
 	return (true);
 }
 
-void	dispatch(t_ast *ast, char **envp)
+int	dispatch(t_ast *ast, char **envp)
 {
-	int		fd[3];
-	int		pid;
+	int	fd[3];
+	int	pid;
+	int	i;
+	int	exit_code;
 
+	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;
+	i = 1;
 	while (ast->node.type == NODE_PIPE)
 	{
 		if (!create_pipe(fd))
-			return ; // TODO: error while creating pipe
+			return (-1); // TODO: error while creating pipe
 		pid = fork();
 		if (pid == -1)
-			return ; // TODO: error while forking
-		
-		ft_printf("Pipes not supported in dispatch yet\n");
+			return (-1); // TODO: error while forking
+		child_process(ast->node.left, envp, fd); // TODO: child process exit if error
+		close(fd[1]);
+		if (fd[2] != STDIN_FILENO)
+			close(fd[2]);
+		fd[2] = fd[0];
 		ast = ast->node.right;
+		i++;
 	}
 	child_process(ast, envp, fd);
+	if (fd[2] != STDIN_FILENO)
+		close(fd[2]);
+	while (i--)
+	{
+		if (wait(&exit_code) == pid)
+			exit_code = get_exit_code(exit_code);
+	}
+	return (exit_code);
 }

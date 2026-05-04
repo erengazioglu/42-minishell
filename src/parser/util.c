@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 12:34:21 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:01:23 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ t_redir	*new_redir(char *type, t_token *target)
 	redir->next = NULL;
 	if (*type == '<')
 	{
-		if (*(type + 1))
+		if (*(type + 1) == '<')
 			redir->type = REDIR_HEREDOC;
 		else
 			redir->type = REDIR_IN;
 	}
 	else if (*type == '>')
 	{
-		if (*(type + 1))
+		if (*(type + 1) == '>')
 			redir->type = REDIR_APPEND;
 		else
 			redir->type = REDIR_TRUNC;
