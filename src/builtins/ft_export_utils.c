@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/20 00:00:00 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:56:23 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_env	*ft_find_env_node(t_env *env, char *key)
 {
 	while (env)
 	{
-		if (env->key && ft_strcmp(env->key, key) == 0)
+		if (env->key && ft_str_equals(env->key, key))
 			return (env);
 		env = env->next;
 	}
