@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/02 17:35:30 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:54:19 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ int	ft_env(char **args, t_env *env)
 	while (env)
 	{
 		if (env->key && env->value)
-			ft_putstr(env->key, 1, -1, false), ft_putstr("=", 1, -1, false), ft_putstr(env->value, 1, -1, true);
+		{
+			ft_putstr(env->key, 1, -1, false);
+			ft_putstr("=", 1, -1, false);
+			ft_putstr(env->value, 1, -1, true);
+		}
 		env = env->next;
 	}
 	return (0);

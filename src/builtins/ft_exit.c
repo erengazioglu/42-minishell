@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/02 17:33:55 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:54:57 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static	bool	is_numeric(char *str)
  */
 void	ft_exit(char **args, int last_exit_status)
 {
-	ft_putstr("exit\n", 1, -1, true);
+	ft_putstr("exit", 1, -1, true);
 	if (args[1] && is_numeric(args[1]))
 	{
 		if (args[2])
-			ft_putstr("exit: too many arguments\n", 2, -1, true);
+			ft_putstr("exit: too many arguments", 2, -1, true);
 		else
 		{
 			// ft_free_all();
@@ -47,9 +47,9 @@ void	ft_exit(char **args, int last_exit_status)
 	}
 	else if (args[1] && !is_numeric(args[1]))
 	{
-		ft_putstr("minishell: exit: ", 2, -1, true);
-		ft_putstr(args[1], 2, -1, true);
-		ft_putstr(": numeric argument required\n", 2, -1, true);
+		ft_putstr("minishell: exit: ", 2, -1, false);
+		ft_putstr(args[1], 2, -1, false);
+		ft_putstr(": numeric argument required", 2, -1, true);
 		// ft_free_all();
 		exit(255);
 	}

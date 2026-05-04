@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 18:07:40 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/02 17:39:06 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:56:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_remove_env_variable(char *arg, t_env **env)
 	tmp = *env;
 	while (tmp)
 	{
-		if (ft_str_equals(tmp->key, arg) == 0)
+		if (ft_str_equals(tmp->key, arg))
 		{
 			if (tmp->prev == NULL)
 				*env = tmp->next;
@@ -78,7 +78,7 @@ int	ft_unset(char **args, t_env **env)
 		if (ft_is_valid_unset_arg(args[i]))
 			ft_remove_env_variable(args[i], env);
 		else
-			ft_putstr("unset: invalid argument\n", 2, -1, true);
+			ft_putstr("unset: invalid argument", 2, -1, true);
 		i++;
 	}
 	return (0);
