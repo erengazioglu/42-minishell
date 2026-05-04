@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 13:13:08 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:15:15 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,46 +80,6 @@ char	**build_argv(t_token *root, int *argc)
 	}
 	*argc = count;
 	return (argv[i] = NULL, argv);
-}
-
-/**
- * @brief	Opens a file and redirects to STDIN or STDOUT.
- * @param fn	Name of the file to be opened.
- * @param flag	Type of redirect to handle.
- * @return		`true` on success, `false` on failure.
- * @note	Called by the child process. Call `exit()` freely on failure.
- */
-bool	open_file(char *fn, t_redirtype flag)
-{
-	int	fd_new;
-	int	fd_keep;
-	int	flags;
-
-	if (flag == REDIR_IN)
-	{
-		fd_new = open(fn, O_RDONLY);
-		close(STDIN_FILENO);
-		if (fd_new == -1)
-			return (false); // TODO: handle OPENR error
-	}
-	else
-	{
-		flags = O_WRONLY | O_CREAT;
-		if (flag == REDIR_APPEND)
-			flags |= O_APPEND;
-		else
-			flags |= O_TRUNC;
-		fd_new = open(fn, flags,
-			S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-		close(STDOUT_FILENO);
-		if (fd_new == -1)
-			return (false); // TODO: handle OPENW error
-	}
-	fd_keep = dup2(fd_new, flag >= REDIR_APPEND);
-	if (fd_keep == -1)
-		return (false); // TODO: handle DUP2 error
-	close(fd_new);
-	return (true);
 }
 
 int	get_exit_code(int exit_value)

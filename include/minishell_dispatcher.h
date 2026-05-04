@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 12:56:35 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:36:16 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		dispatch(t_ast *ast, char **envp);
 
 // redirects.c
 
+bool	open_file(char *fn, t_redirtype mode);
 void	redirect(t_ast *ast, int *fd);
 
 // expand.c
@@ -71,7 +72,6 @@ bool	check_paths(char **paths);
 
 char	**build_argv(t_token *root, int *argc);
 char	**extract_paths(char *cmd, char **envp);
-bool	open_file(char *fn, t_redirtype flag);
 int		get_exit_code(int exit_value);
 
 #endif
