@@ -6,23 +6,24 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:35:16 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/19 21:30:51 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/02 16:55:12 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+#include <stdio.h>
 
 int	ft_cd(char **args, t_env **env)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 
-	if (!args || !args[0] || ft_strcmp(args[0], "cd") != 0)
+	if (!args || !args[0] || !ft_str_equals(args[0], "cd"))
 		return (1);
 	if (!args[1])
-		return (ft_putstr_fd("cd: missing argument\n", 2), 1);
+		return (ft_putstr("cd: missing argument", 2, -1, true), 1);
 	if (args[2])
-		return (ft_putstr_fd("cd: too many arguments\n", 2), 1);
+		return (ft_putstr("cd: too many arguments", 2, -1, true), 1);
 	if (env)
 		old_pwd = ft_get_old_pwd(*env);
 	else

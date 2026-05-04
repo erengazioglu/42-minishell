@@ -3,6 +3,7 @@
 .venv
 .vscode
 *.md
+minishell
 
 # Object files
 *.o

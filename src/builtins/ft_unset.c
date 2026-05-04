@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 18:07:40 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/18 19:29:29 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/02 17:39:06 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	ft_remove_env_variable(char *arg, t_env **env)
 	tmp = *env;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->key, arg) == 0)
+		if (ft_str_equals(tmp->key, arg) == 0)
 		{
 			if (tmp->prev == NULL)
 				*env = tmp->next;
@@ -68,7 +68,7 @@ int	ft_unset(char **args, t_env **env)
 
 	if (!args || !args[0])
 		return (1);
-	if (ft_strcmp(args[0], "unset") != 0)
+	if (!ft_str_equals(args[0], "unset"))
 		return (1);
 	if (!args[1])
 		return (0);
@@ -78,7 +78,7 @@ int	ft_unset(char **args, t_env **env)
 		if (ft_is_valid_unset_arg(args[i]))
 			ft_remove_env_variable(args[i], env);
 		else
-			ft_putstr_fd("unset: invalid argument\n", 2);
+			ft_putstr("unset: invalid argument\n", 2, -1, true);
 		i++;
 	}
 	return (0);

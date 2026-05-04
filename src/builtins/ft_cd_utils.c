@@ -16,7 +16,7 @@ static t_env	*ft_find_env(t_env *env, char *key)
 {
 	while (env)
 	{
-		if (env->key && ft_strcmp(env->key, key) == 0)
+		if (env->key && ft_str_equals(env->key, key))
 			return (env);
 		env = env->next;
 	}
