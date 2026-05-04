@@ -9,3 +9,4 @@ vgcore*
 tests/test_parse
 tests/test_execve
 tests/test_expand
+outfile
