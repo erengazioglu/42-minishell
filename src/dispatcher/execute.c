@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 17:57:20 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:03:00 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,11 @@ bool	check_paths(char **paths)
 	return (true);
 }
 
-void	execute(t_ast *ast, char **envp)
+int	exec_builtin(t_ast *ast, char **envp)
 {
 	(void) ast;
 	(void) envp;
-	// t_token	*argv;
 
-	// argv = build_argv(ast->leaf.argv);
-	// if (ft_strchr(argv->content, '/'))
-	// {
-	// 	execve(argv->content, state->child_args, state->envp);
-	// 	crash(state, ERR_EXEC);
-	// }
+	ft_printf("> executing %s\n", ast->leaf.argv[0].content);
+	return (0);
 }

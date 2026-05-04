@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 16:39:09 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:03:38 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	expand_redirs(t_redir *root);
 // execute.c
 
 bool	check_paths(char **paths);
+int		exec_builtin(t_ast *ast, char **envp);
 
 // util.c
 

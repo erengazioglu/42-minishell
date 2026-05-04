@@ -6,11 +6,24 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 11:18:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:11:17 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	is_builtin(char *str)
+{
+	return (
+		ft_str_equals(str, "cd")
+		|| ft_str_equals(str, "echo")
+		|| ft_str_equals(str, "env")
+		|| ft_str_equals(str, "export")
+		|| ft_str_equals(str, "pwd")
+		|| ft_str_equals(str, "unset")
+		|| ft_str_equals(str, "exit")
+	);
+}
 
 void	child_process(t_ast *ast, char **envp, int *fd)
 {
@@ -68,7 +81,8 @@ int	dispatch(t_ast *ast, char **envp)
 		pid = fork();
 		if (pid == -1)
 			return (-1); // TODO: error while forking
-		child_process(ast->node.left, envp, fd); // TODO: child process exit if error
+		if (!pid)
+			child_process(ast->node.left, envp, fd); // TODO: child process exit if error
 		close(fd[1]);
 		if (fd[2] != STDIN_FILENO)
 			close(fd[2]);
@@ -76,7 +90,14 @@ int	dispatch(t_ast *ast, char **envp)
 		ast = ast->node.right;
 		i++;
 	}
-	child_process(ast, envp, fd);
+	if (is_builtin(ast->leaf.argv->content))
+		return (exec_builtin(ast, envp));
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (!pid)
+		child_process(ast, envp, fd);
+	i++;
 	if (fd[2] != STDIN_FILENO)
 		close(fd[2]);
 	while (i--)
@@ -86,3 +107,16 @@ int	dispatch(t_ast *ast, char **envp)
 	}
 	return (exit_code);
 }
+
+/*
+
+ls | cat -e | cat -e
+
+PIPE() -> pipe1[0], pipe1[1]
+ls  - STDIN ; PIPE1[1]
+PIPE() -> pipe2[0], pipe2[1]
+cat - PIPE1[0] ; PIPE2[1];
+cat2- PIPE2[0] ; STDOUT
+
+
+*/

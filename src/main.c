@@ -6,20 +6,22 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/01 17:06:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 18:10:34 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_token	*tokens;
 	t_ast	*ast;
 	char	*temp;
 
+	(void) argc;
+	(void) argv;
 	while (1)
 	{
 		set_interactive_signals();
@@ -37,12 +39,13 @@ int	main(void)
 		if (*temp)
 		{
 			tokens = tokenize(line);
-			print_tokens(tokens);
+			// print_tokens(tokens);
 			ast = parse_tokens(tokens);
 			if (ast)
 			{
-				print_ast(ast);
-				free_ast(ast); // not done yet
+				// print_ast(ast);
+				dispatch(ast, envp);
+				free_ast(ast);
 			}
 		}
 		free(line);
