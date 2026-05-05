@@ -8,7 +8,7 @@
 
 ## Description
 
-`minishell` est un 
+`minishell` est un
 
 **Ce que j'ai appris :**
 
@@ -78,9 +78,9 @@ make
 
 ## Fonctionnalités
 
-- [ ] 
-- [ ] 
-- [ ] 
+- [ ]
+- [ ]
+- [ ]
 
 ---
 
@@ -88,9 +88,9 @@ make
 
 Le programme affiche un message d'erreur et continue/quitte si :
 
-- 
-- 
-- 
+-
+-
+-
 
 ---
 
@@ -143,9 +143,9 @@ valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./
 
 ## Ce que j'ai vraiment appris
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ---
 
