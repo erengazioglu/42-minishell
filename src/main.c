@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:10:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:26:11 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	main(int argc, char **argv, char **envp)
 		line = readline("minishell> ");
 		if (line == NULL)
 		{
-			ft_putstr("exit\n", 2, -1, true);
+			if(isatty(STDIN_FILENO))
+				ft_putstr("exit\n", 2, -1, true);
 			break ;
 		}
 		if (ft_strlen(line) > 0)
