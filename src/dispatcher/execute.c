@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 16:43:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:18:49 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	check_paths(char **paths)
 	return (true);
 }
 
-int builtin_sorter(int builtin_id, char **argv, t_env **env)
+int	builtin_sorter(int builtin_id, char **argv, t_env **env)
 {
 	if (builtin_id == CD)
 		return (ft_cd(argv, env));
@@ -66,7 +66,7 @@ int	exec_builtin(t_ast *ast, t_env **env)
 	int		builtin_id;
 	int		fd[4];
 	int		status;
-	
+
 	status = 0;
 	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;

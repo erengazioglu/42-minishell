@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 23:28:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:18:58 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ static char	*expand_string(char *str)
 			result = ft_strwalk(&temp, result, '$');
 	}
 	free(str);
-	return(result);
+	return (result);
 }
 
 void	expand_redirs(t_redir *root)
 {
 	t_token	*tkn;
-	
+
 	while (root)
 	{
 		tkn = root->target;

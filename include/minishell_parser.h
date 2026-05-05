@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parser.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 23:43:10 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:48:30 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_redirtype
 	REDIR_HEREDOC,
 	REDIR_APPEND,
 	REDIR_TRUNC
-}	t_redirtype;
+}						t_redirtype;
 
 typedef enum e_asttype
 {
@@ -33,66 +33,66 @@ typedef enum e_asttype
 	NODE_OR,
 	NODE_CMD,
 	NODE_ERR
-}	t_asttype;
+}						t_asttype;
 
 typedef enum e_err_parse
 {
 	ERR_PARSE_NONE,
-	ERR_PARSE_UNCLOSED_QUOTE,	// syntax error: unclosed quote
-	ERR_PARSE_REDIR,	// syntax error near unexpected token ">"
-	ERR_PARSE_PIPE		// syntax error near pipe "|"
-}	t_err_parse;
+	ERR_PARSE_UNCLOSED_QUOTE, // TODO: syntax error: unclosed quote
+	ERR_PARSE_REDIR,          // TODO: syntax error near unexpected token ">"
+	ERR_PARSE_PIPE            // TODO: syntax error near pipe "|"
+}						t_err_parse;
 
-typedef struct s_redir t_redir;
-struct s_redir
+typedef struct s_redir	t_redir;
+struct					s_redir
 {
-	t_redirtype	type;
-	t_token		*target;
-	t_redir		*next;
+	t_redirtype			type;
+	t_token				*target;
+	t_redir				*next;
 };
 
-typedef union u_ast t_ast;
+typedef union u_ast		t_ast;
 typedef struct s_astnode
 {
-	t_asttype	type;
-	t_ast		*left;
-	t_ast		*right;
-}	t_astnode;
+	t_asttype			type;
+	t_ast				*left;
+	t_ast				*right;
+}						t_astnode;
 
 typedef struct s_astleaf
 {
-	t_asttype	type;
-	int			argc;
-	t_token		*argv;
-	t_redir		*redirs;
-}	t_astleaf;
+	t_asttype			type;
+	int					argc;
+	t_token				*argv;
+	t_redir				*redirs;
+}						t_astleaf;
 
 typedef struct s_asterr
 {
-	t_asttype	type;
-	t_err_parse	err;
-}	t_asterr;
+	t_asttype			type;
+	t_err_parse			err;
+}						t_asterr;
 
 typedef union u_ast
 {
-	t_astnode	node;
-	t_astleaf	leaf;
-	t_asterr	err;
-}	t_ast;
+	t_astnode			node;
+	t_astleaf			leaf;
+	t_asterr			err;
+}						t_ast;
 
 // parser/parse.c
 
-t_ast	*parse_tokens(t_token *root);
+t_ast					*parse_tokens(t_token *root);
 
 // parser/parse_leaf.c
 
-t_ast	*parse_leaf(t_token **root, int n);
+t_ast					*parse_leaf(t_token **root, int n);
 
 // parser/util.c
 
-void	append_redir(t_redir **root, t_redir *new);
-void	free_ast(t_ast *ast);
-t_redir	*fetch_redir(t_redir *redir, int i);
-t_redir	*new_redir(char *type, t_token *target);
+void					append_redir(t_redir **root, t_redir *new);
+void					free_ast(t_ast *ast);
+t_redir					*fetch_redir(t_redir *redir, int i);
+t_redir					*new_redir(char *type, t_token *target);
 
 #endif

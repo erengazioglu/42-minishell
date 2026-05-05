@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_leaf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/02 15:21:55 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:47:18 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*check_unexpected_token(t_token *tkn)
 		}
 		if (tkn->next->type == TK_PIPE || tkn->next->type == TK_REDIR)
 		{
-			ft_printf("minishell: syntax error near unexpected token '%s'\n", 
+			ft_printf("minishell: syntax error near unexpected token '%s'\n",
 				tkn->next->content);
 			return (err);
 		}
@@ -54,7 +54,7 @@ t_token	*check_unexpected_token(t_token *tkn)
  * and returns the next token to parse.
  * @param ast	AST leaf to be populated.
  * @param tkn	Current token to parse.
- * @param n		A pointer to the number of tokens left to parse. 
+ * @param n		A pointer to the number of tokens left to parse.
  * Decremented by this function for each token parsed.
  * @returns		Next token to parse (or `NULL` if finished/error).
  * @note	On error, fills in the AST leaf with error information.
@@ -68,8 +68,8 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 		return (retval);
 	if (tkn->type == TK_REDIR)
 	{
-		append_redir(&ast->leaf.redirs, 
-			new_redir(tkn->content, clone_token(tkn->next, false)));
+		append_redir(&ast->leaf.redirs, new_redir(tkn->content,
+				clone_token(tkn->next, false)));
 		retval = tkn->next->next;
 		*n -= 2;
 		return (free(tkn->next), free(tkn), retval);
@@ -104,7 +104,7 @@ t_ast	*parse_leaf(t_token **root, int n)
 	{
 		*root = parse_leaf_step(ast, *root, &n);
 		if (*root && (*root)->type == TK_ERR)
-			return (NULL); // cleanup here...	
+			return (NULL); // cleanup here...
 	}
 	return (ast);
 }

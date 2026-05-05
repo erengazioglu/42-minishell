@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 03:15:22 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 16:44:02 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ int	dispatch(t_ast *ast, t_env **env)
 	while (ast->node.type == NODE_PIPE)
 	{
 		if (!create_pipe(fd))
-			return (-1); // TODO: error while creating pipe
+			return (-1);
 		pid = fork();
 		if (pid == -1)
-			return (-1); // TODO: error while forking
+			return (-1);
 		if (!pid)
-			child_process(ast->node.left, env, fd); // TODO: child process exit if error
+			child_process(ast->node.left, env, fd);
 		close(fd[1]);
 		if (fd[2] != STDIN_FILENO)
 			close(fd[2]);

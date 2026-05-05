@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 13:40:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:20:02 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,17 @@ bool	open_file(char *fn, t_redirtype mode)
 void	redirect(t_ast *ast, int *fd)
 {
 	t_redir	*redir;
-	
+
 	if (fd[2] != STDIN_FILENO)
 	{
 		if (dup2(fd[2], 0) == -1)
-			return ; // TODO: handle dup2 error
+			return; // TODO: handle dup2 error
 		close(fd[2]);
 	}
 	if (fd[1] != STDOUT_FILENO)
 	{
 		if (dup2(fd[1], 1) == -1)
-			return ; // TODO: handle dup2 error
+			return; // TODO: handle dup2 error
 		close(fd[1]);
 	}
 	redir = ast->leaf.redirs;

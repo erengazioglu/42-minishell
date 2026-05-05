@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 13:02:32 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:47:48 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell_tokenizer.h"
 #include "../../include/minishell_parser.h"
+#include "../../include/minishell_tokenizer.h"
 
 /**
  * @brief Appends a redirection to the end of a redirection list.
- * @param root	Pointer to the first element of the redirection list. 
+ * @param root	Pointer to the first element of the redirection list.
  * If `*root` is `NULL`, the new redir becomes the first element.
  * @param new	Redirection to append.
  */
 void	append_redir(t_redir **root, t_redir *new)
 {
 	t_redir	*temp;
-	
+
 	if (!new)
 		return ;
 	if (!*root)
@@ -52,13 +52,13 @@ void	free_ast(t_ast *ast)
 }
 
 /**
- * @brief	Given a root node, returns the redirection 
+ * @brief	Given a root node, returns the redirection
  * at index `i` in the list.
  * @param redir	First element of redirection list.
- * @param i		Index of redirection to fetch. 
- * If `i` >= number of redirections or < 0, 
+ * @param i		Index of redirection to fetch.
+ * If `i` >= number of redirections or < 0,
  * returns the last redirection in the list.
- * @returns		Redirection at index `i`. 
+ * @returns		Redirection at index `i`.
  */
 t_redir	*fetch_redir(t_redir *redir, int i)
 {
@@ -70,9 +70,9 @@ t_redir	*fetch_redir(t_redir *redir, int i)
 /**
  * @brief	Creates a new redirection with the given type and target token.
  * @param type		Type of redirection ("<", ">", ">>", "<<").
- * @param target	Token representing the target of the redirection 
+ * @param target	Token representing the target of the redirection
  * (e.g. quoted file name, variable...).
- * @returns		Pointer to the newly created redirection, 
+ * @returns		Pointer to the newly created redirection,
  * or `NULL` on allocation failure.
  * @note	Assumes the `type` string is formatted correctly.
  */

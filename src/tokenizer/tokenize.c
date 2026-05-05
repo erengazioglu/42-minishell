@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 12:23:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:47:52 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	free_tokens(t_token *root)
 void	print_token(t_token *token, bool display_count)
 {
 	int	count;
+
 	if (token == NULL)
 		return ;
 	ft_printf("Token(type: %d, content: %s)", token->type, token->content);

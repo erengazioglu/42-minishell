@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 03:16:06 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:48:16 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*env;
 	int		exit_code;
 
-	(void) argc;
-	(void) argv;
+	(void)argc;
+	(void)argv;
 	env = env_from_envp(envp);
 	exit_code = 0;
 	while (1)
