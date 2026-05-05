@@ -20,24 +20,14 @@
  */
 int	ft_pwd(char **args)
 {
-	char	*path;
+	char	cwd[1024];
 
-	if (!args || !args[0])
-		return (1);
-	if (!ft_str_equals(args[0], "pwd"))
-		return (1);
-	if (args[1])
-		return (ft_putstr("pwd: too many arguments", 2, -1, true), 1);
-	path = getcwd(NULL, 0);
-	if (path)
+	(void)args;
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		ft_printf("%s\n", path);
-		free(path);
+		ft_putstr(cwd, 1, -1, true);
+		return (0);
 	}
-	else
-	{
-		perror("pwd");
-		return (1);
-	}
-	return (0);
+	perror("minishell: pwd");
+	return (1);
 }

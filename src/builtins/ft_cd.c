@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:35:16 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/02 16:55:12 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 02:53:53 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@ int	ft_cd(char **args, t_env **env)
 		return (1);
 	if (!args[1])
 		return (ft_putstr("cd: missing argument", 2, -1, true), 1);
-	if (args[2])
-		return (ft_putstr("cd: too many arguments", 2, -1, true), 1);
+	if (args[1] && args[2])
+	{
+		ft_putstr("minishell: cd: too many arguments\n", 2, -1, false);
+		return (2);
+	}
 	if (env)
 		old_pwd = ft_get_old_pwd(*env);
 	else

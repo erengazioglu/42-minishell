@@ -51,11 +51,11 @@ void	ft_echo(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr(args[i], 1, -1, false);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr(" ", 1, -1, false);
 		i++;
 	}
 	if (!n_flag)
-		printf("\n");
+		ft_putstr("\n", 1, -1, false);
 }

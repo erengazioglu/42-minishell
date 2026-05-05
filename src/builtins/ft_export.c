@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:56:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 02:18:10 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ static bool	ft_is_valid_export_arg(char *arg)
 int	ft_export(char **args, t_env **env)
 {
 	int	i;
+	int	status;
 
+	status = 0;
 	if (!args || !args[0])
 		return (1);
 	if (!ft_str_equals(args[0], "export"))
@@ -54,8 +56,13 @@ int	ft_export(char **args, t_env **env)
 		if (ft_is_valid_export_arg(args[i]))
 			ft_export_process_arg(args[i], env);
 		else
-			ft_putstr("export: invalid argument", 2, -1, true);
+		{
+			ft_putstr("minishell: export: `", 2, -1, false);
+			ft_putstr(args[i], 2, -1, false);
+			ft_putstr("': not a valid identifier\n", 2, -1, false);
+			status = 1;
+		}
 		i++;
 	}
-	return (0);
+	return (status);
 }

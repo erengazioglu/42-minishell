@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 18:03:00 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 03:18:24 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,43 @@ bool	check_paths(char **paths)
 	return (true);
 }
 
-int	exec_builtin(t_ast *ast, char **envp)
+int builtin_sorter(int builtin_id, char **argv, t_env **env)
 {
-	(void) ast;
-	(void) envp;
+	if (builtin_id == CD)
+		return (ft_cd(argv, env));
+	if (builtin_id == ECHO)
+		return (ft_echo(argv), 0);
+	if (builtin_id == ENV)
+		return (ft_env(argv, *env));
+	if (builtin_id == EXIT)
+	{
+		ft_exit(argv, 0);
+		return (0);
+	}
+	if (builtin_id == EXPORT)
+		return (ft_export(argv, env));
+	if (builtin_id == PWD)
+		return (ft_pwd(argv));
+	if (builtin_id == UNSET)
+		return (ft_unset(argv, env));
+	return (-1);
+}
 
-	ft_printf("> executing %s\n", ast->leaf.argv[0].content);
-	return (0);
+int	exec_builtin(t_ast *ast, t_env **env)
+{
+	int		argc;
+	char	**argv;
+	int		builtin_id;
+	int		status;
+	
+	status = 0;
+	if (ast->leaf.argv)
+		expand_tokens(ast->leaf.argv);
+	argv = build_argv(ast->leaf.argv, &argc);
+	if (!argv || !argv[0])
+		return (free(argv), 0);
+	builtin_id = is_builtin(argv[0]);
+	status = builtin_sorter(builtin_id, argv, env);
+	free(argv);
+	return (status);
 }

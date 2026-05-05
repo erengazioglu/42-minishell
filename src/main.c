@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:10:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 03:16:06 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@ int	main(int argc, char **argv, char **envp)
 	t_token	*tokens;
 	t_ast	*ast;
 	char	*temp;
+	t_env	*env;
+	int		exit_code;
 
 	(void) argc;
 	(void) argv;
+	env = env_from_envp(envp);
+	exit_code = 0;
 	while (1)
 	{
 		set_interactive_signals();
@@ -44,12 +48,12 @@ int	main(int argc, char **argv, char **envp)
 			if (ast)
 			{
 				// print_ast(ast);
-				dispatch(ast, envp);
+				exit_code = dispatch(ast, &env);
 				free_ast(ast);
 			}
 		}
 		free(line);
 	}
 	rl_clear_history();
-	return (0);
+	return (exit_code);
 }

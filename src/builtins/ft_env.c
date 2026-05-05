@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:54:19 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 02:54:14 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,51 @@ int	ft_env(char **args, t_env *env)
 		env = env->next;
 	}
 	return (0);
+}
+
+t_env	*env_from_envp(char **envp)
+{
+	t_env	*env;
+	int		i;
+
+	env = NULL;
+	i = 0;
+	while (envp && envp[i])
+	{
+		ft_export_process_arg(envp[i], &env);
+		i++;
+	}
+	return (env);
+}
+
+char	**env_to_envp(t_env *env)
+{
+	int		count;
+	t_env	*tmp;
+	char	**envp;
+	int		i;
+	char	*tmp_str;
+
+	count = 0;
+	tmp = env;
+	while (tmp)
+	{
+		if (tmp->value)
+			count++;
+		tmp = tmp->next;
+	}
+	envp = ft_calloc(count + 1, sizeof(char *));
+	if (!envp)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		if (env->value)
+		{
+			tmp_str = ft_strjoin(env->key, "=", -1, false);
+			envp[i++] = ft_strjoin(tmp_str, env->value, -1, true);
+		}
+		env = env->next;
+	}
+	return (envp);
 }

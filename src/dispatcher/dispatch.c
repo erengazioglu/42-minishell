@@ -3,38 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 18:11:17 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 03:15:22 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_builtin(char *str)
+int	is_builtin(char *str)
 {
-	return (
-		ft_str_equals(str, "cd")
-		|| ft_str_equals(str, "echo")
-		|| ft_str_equals(str, "env")
-		|| ft_str_equals(str, "export")
-		|| ft_str_equals(str, "pwd")
-		|| ft_str_equals(str, "unset")
-		|| ft_str_equals(str, "exit")
-	);
+	if (ft_str_equals(str, "cd"))
+		return (CD);
+	if (ft_str_equals(str, "echo"))
+		return (ECHO);
+	if (ft_str_equals(str, "env"))
+		return (ENV);
+	if (ft_str_equals(str, "exit"))
+		return (EXIT);
+	if (ft_str_equals(str, "export"))
+		return (EXPORT);
+	if (ft_str_equals(str, "pwd"))
+		return (PWD);
+	if (ft_str_equals(str, "unset"))
+		return (UNSET);
+	return (-1);
 }
 
-void	child_process(t_ast *ast, char **envp, int *fd)
+void	child_process(t_ast *ast, t_env **env, int *fd)
 {
 	int		argc;
 	char	**argv;
 	char	**paths;
 	int		i;
+	char	**envp;
 
 	redirect(ast, fd);
 	expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);
+	envp = env_to_envp(*env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 	{
 		ft_printf("Executing command: %s\n", argv[0]);
@@ -42,13 +50,16 @@ void	child_process(t_ast *ast, char **envp, int *fd)
 		ft_putstr("something went wrong", 2, -1, true);
 		return ;
 	}
-	paths = extract_paths(*argv, envp);
+	paths = extract_paths(*argv, *env);
 	check_paths(paths);
 	execve(argv[0], argv, envp);
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 		execve(paths[i++], argv, envp);
-	free_strarr(paths);
+	if (paths)
+		free_strarr(paths);
+	if (envp)
+		free_strarr(envp);
 	ft_putstr("something went wrong", 2, -1, true);
 }
 
@@ -64,7 +75,7 @@ bool	create_pipe(int *fd)
 	return (true);
 }
 
-int	dispatch(t_ast *ast, char **envp)
+int	dispatch(t_ast *ast, t_env **env)
 {
 	int	fd[3];
 	int	pid;
@@ -82,7 +93,7 @@ int	dispatch(t_ast *ast, char **envp)
 		if (pid == -1)
 			return (-1); // TODO: error while forking
 		if (!pid)
-			child_process(ast->node.left, envp, fd); // TODO: child process exit if error
+			child_process(ast->node.left, env, fd); // TODO: child process exit if error
 		close(fd[1]);
 		if (fd[2] != STDIN_FILENO)
 			close(fd[2]);
@@ -90,13 +101,13 @@ int	dispatch(t_ast *ast, char **envp)
 		ast = ast->node.right;
 		i++;
 	}
-	if (is_builtin(ast->leaf.argv->content))
-		return (exec_builtin(ast, envp));
+	if (is_builtin(ast->leaf.argv->content) != -1)
+		return (exec_builtin(ast, env));
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, envp, fd);
+		child_process(ast, env, fd);
 	i++;
 	if (fd[2] != STDIN_FILENO)
 		close(fd[2]);

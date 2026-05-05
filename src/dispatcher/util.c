@@ -3,38 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 13:15:15 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 03:04:08 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "minishell_builtins.h"
 
 char	*ft_pathjoin(char *s1, char *s2)
 {
 	return (ft_strsjoin(s1, s2, '/', false));
 }
 
-char	**extract_paths(char *cmd, char **envp)
+char	**extract_paths(char *cmd, t_env *env)
 {
 	char	**paths;
 	int		i;
 
 	paths = NULL;
 	i = 0;
-	while (envp[i])
+	while (env)
 	{
-		if (ft_str_startswith(envp[i], "PATH=", -1))
+		if (ft_str_startswith(env->key, "PATH", -1))
 		{
-			paths = ft_split(envp[i] + 5, ':', false);
+			paths = ft_split(env->value, ':', false);
 			break ;
 		}
-		i++;
-		if (!envp[i])
-			return (NULL);
+		env = env->next;
 	}
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
