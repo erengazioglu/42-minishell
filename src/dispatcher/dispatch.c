@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 03:15:22 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:33:07 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ int	dispatch(t_ast *ast, t_env **env)
 	int	pid;
 	int	i;
 	int	exit_code;
+	t_intlist	*hdocs;
 
+	hdocs = create_heredocs(*ast);
 	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;
 	i = 1;
@@ -118,16 +120,3 @@ int	dispatch(t_ast *ast, t_env **env)
 	}
 	return (exit_code);
 }
-
-/*
-
-ls | cat -e | cat -e
-
-PIPE() -> pipe1[0], pipe1[1]
-ls  - STDIN ; PIPE1[1]
-PIPE() -> pipe2[0], pipe2[1]
-cat - PIPE1[0] ; PIPE2[1];
-cat2- PIPE2[0] ; STDOUT
-
-
-*/
