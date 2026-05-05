@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 03:18:24 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 16:43:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,15 @@ int	exec_builtin(t_ast *ast, t_env **env)
 	int		argc;
 	char	**argv;
 	int		builtin_id;
+	int		fd[4];
 	int		status;
 	
 	status = 0;
+	fd[1] = STDOUT_FILENO;
+	fd[2] = STDIN_FILENO;
+	fd[0] = dup(STDIN_FILENO);
+	fd[3] = dup(STDOUT_FILENO);
+	redirect(ast, fd);
 	if (ast->leaf.argv)
 		expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);
@@ -74,6 +80,10 @@ int	exec_builtin(t_ast *ast, t_env **env)
 		return (free(argv), 0);
 	builtin_id = is_builtin(argv[0]);
 	status = builtin_sorter(builtin_id, argv, env);
+	close(STDOUT_FILENO);
+	close(STDIN_FILENO);
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[3], STDOUT_FILENO);
 	free(argv);
 	return (status);
 }
