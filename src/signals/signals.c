@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:39:48 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/29 14:52:58 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:43:56 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ static void	handle_sigint_interactive(int signum)
 	rl_redisplay();
 }
 
-/*
-** set_interactive_signals:
-** Call this in your main loop right before calling readline().
-** - SIGINT (Ctrl-C): Calls our custom handler.
-** - SIGQUIT (Ctrl-\): Ignored in the shell prompt.
-*/
+
+/**
+ * @brief	Sets signals for interactive loop.
+ * @note	Call this in your main loop right before calling `readline`.
+ * @note	`SIGINT` (Ctrl-C): Calls our custom handler.
+ * @note	`SIGQUIT` (Ctrl-\): Ignored in the shell prompt.
+ */
 void	set_interactive_signals(void)
 {
 	struct sigaction	sa_int;
