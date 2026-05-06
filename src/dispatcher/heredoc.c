@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 00:27:47 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 10:05:45 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ t_intlist	*create_heredoc(t_redir *redir)
 		while (true)
 		{
 			input = readline("> ");
-			write(fd[1], input, ft_strlen(input));
+			ft_printf("%s   %s%s\n", GRN, input, RST);
 			if (ft_str_equals(input, redir->target->content))
 				break;
+			write(fd[1], input, ft_strlen(input));
 			free(input);
 		}
 		free(input);

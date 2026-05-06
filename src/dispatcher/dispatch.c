@@ -6,7 +6,11 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/05/06 12:23:17 by egaziogl         ###   ########.fr       */
+=======
+/*   Updated: 2026/05/06 12:12:32 by egaziogl         ###   ########.fr       */
+>>>>>>> ab435db (redirect builtins)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +35,7 @@ int	is_builtin(char *str)
 	return (-1);
 }
 
-void	child_process(t_ast *ast, t_env **env, int *fd)
+void	child_process(t_ast *ast, t_env **env, int *fd, t_intlist **hdoc)
 {
 	int		argc;
 	char	**argv;
@@ -39,7 +43,7 @@ void	child_process(t_ast *ast, t_env **env, int *fd)
 	int		i;
 	char	**envp;
 
-	redirect(ast, fd);
+	redirect(ast, fd, hdoc);
 	expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);
 	envp = env_to_envp(*env);
@@ -95,7 +99,7 @@ int	dispatch(t_ast *ast, t_env **env)
 		if (pid == -1)
 			return (-1);
 		if (!pid)
-			child_process(ast->node.left, env, fd);
+			child_process(ast->node.left, env, fd, &hdocs); // TODO: child process exit if error
 		close(fd[1]);
 		if (fd[2] != STDIN_FILENO)
 			close(fd[2]);
@@ -109,7 +113,7 @@ int	dispatch(t_ast *ast, t_env **env)
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, env, fd);
+		child_process(ast, env, fd, &hdocs);
 	i++;
 	if (fd[2] != STDIN_FILENO)
 		close(fd[2]);

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:22:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:23:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@
  * @todo HEREDOC isn't implemented yet. Call its function from here.
  * @note You could have this function handle errors too?
  */
-int	open_read_file(char *fn, t_redirtype mode)
+int	open_read_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 {
 	int	fd;
+	t_intlist	*temp;
 
 	if (mode == REDIR_HEREDOC)
 	{
-		ft_putstr("HEREDOC not implemented yet.", 2, -1, true);
-		return (-1);
+		fd = (*hdoc)->val;
+		close(STDIN_FILENO);
+		temp = *hdoc;
+		*hdoc = (*hdoc)->next;
+		free(temp);
+		return (fd);
 	}
 	fd = open(fn, O_RDONLY);
 	close(STDIN_FILENO);
@@ -63,14 +68,14 @@ int	open_write_file(char *fn, t_redirtype mode)
  * @return		`true` on success, `false` on failure.
  * @note	Called by the child process. Call `exit()` freely on failure.
  */
-bool	open_file(char *fn, t_redirtype mode)
+bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 {
 	int	fd_new;
 	int	fd_keep;
 
 	if (mode == REDIR_IN || mode == REDIR_HEREDOC)
 	{
-		fd_new = open_read_file(fn, mode);
+		fd_new = open_read_file(fn, mode, hdoc);
 		if (fd_new == -1)
 			return (false); // TODO: handle OPENR error
 	}
@@ -87,7 +92,7 @@ bool	open_file(char *fn, t_redirtype mode)
 	return (true);
 }
 
-void	redirect(t_ast *ast, int *fd)
+void	redirect(t_ast *ast, int *fd, t_intlist **hdoc)
 {
 	t_redir	*redir;
 
@@ -107,10 +112,7 @@ void	redirect(t_ast *ast, int *fd)
 	expand_redirs(redir);
 	while (redir)
 	{
-		if (redir->type == REDIR_HEREDOC)
-			ft_printf("> HEREDOC not implemented yet\n");
-		else
-			open_file(redir->target->content, redir->type);
+		open_file(redir->target->content, redir->type, hdoc);
 		redir = redir->next;
 	}
 }
