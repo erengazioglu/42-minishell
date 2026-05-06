@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:25:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 22:26:37 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@
 # define FLAG_READ	0
 # define FLAG_WRITE	1
 
-typedef struct s_intlist
+typedef struct s_intlist t_intlist;
+struct s_intlist
 {
 	int	val;
 	t_intlist	*next;
-}	t_intlist;
+};
 
 // dispatch.c
 
@@ -59,5 +60,9 @@ int		builtin_sorter(int builtin_id, char **argv, t_env **env);
 char	**build_argv(t_token *root, int *argc);
 char	**extract_paths(char *cmd, t_env *env);
 int		get_exit_code(int exit_value);
+
+// heredoc.c
+
+t_intlist	*create_heredocs(t_ast *ast);
 
 #endif

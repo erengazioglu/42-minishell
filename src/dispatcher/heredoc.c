@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 18:41:38 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 00:27:47 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ t_intlist	*create_heredoc(t_redir *redir)
 	char	*input;
 	int		fd[2];
 	int		pid;
+	int		status;
 
+	ft_printf("> create_heredoc called\n");
 	pipe(fd);
 	pid = fork();
 	if (!pid)
@@ -65,7 +67,7 @@ t_intlist	*create_heredoc(t_redir *redir)
 		while (true)
 		{
 			input = readline("> ");
-			write(input, fd[1], ft_strlen(input));
+			write(fd[1], input, ft_strlen(input));
 			if (ft_str_equals(input, redir->target->content))
 				break;
 			free(input);
@@ -74,26 +76,35 @@ t_intlist	*create_heredoc(t_redir *redir)
 		close(fd[1]);
 		exit(0);
 	}
+	wait(&status);
+	// TODO: catch exit code in child, print error...
 	return (new_int(fd[0]));
-
 }
 
 t_intlist	*create_heredocs(t_ast *ast)
 {
 	t_intlist	*hdoc;
 	t_redir		*redir;
-	char		*input;
-	char		*end;
-	int			fd[2];
 
+	ft_printf("> create_heredocs called\n");
+	hdoc = NULL;
 	while (ast->node.type == NODE_PIPE)
 	{
 		redir = ast->node.left->leaf.redirs;
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
-				append_int(hdoc, create_heredoc(redir));
+				append_int(&hdoc, create_heredoc(redir));
+			redir = redir->next;
 		}
+		ast = ast->node.right;
 	}
-	// TODO: finish this
+	redir = ast->leaf.redirs;
+	while (redir)
+	{
+		if (redir->type == REDIR_HEREDOC)
+			append_int(&hdoc, create_heredoc(redir));
+		redir = redir->next;
+	}
+	return (hdoc);
 }

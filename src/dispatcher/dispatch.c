@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:22:15 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:23:17 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	dispatch(t_ast *ast, t_env **env)
 	int	exit_code;
 	t_intlist	*hdocs;
 
-	hdocs = create_heredocs(*ast);
+	hdocs = create_heredocs(ast);
 	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;
 	i = 1;
@@ -118,5 +118,6 @@ int	dispatch(t_ast *ast, t_env **env)
 		if (wait(&exit_code) == pid)
 			exit_code = get_exit_code(exit_code);
 	}
+	free(hdocs);
 	return (exit_code);
 }
