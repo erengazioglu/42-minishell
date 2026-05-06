@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:31:32 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:36:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_intlist	*create_heredoc(t_redir *redir)
 	int		pid;
 	int		status;
 
-	ft_printf("> create_heredoc called\n");
 	pipe(fd);
 	pid = fork();
 	if (!pid)
