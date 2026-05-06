@@ -6,11 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/05/06 12:23:17 by egaziogl         ###   ########.fr       */
-=======
-/*   Updated: 2026/05/06 12:12:32 by egaziogl         ###   ########.fr       */
->>>>>>> ab435db (redirect builtins)
+/*   Updated: 2026/05/06 12:25:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +104,7 @@ int	dispatch(t_ast *ast, t_env **env)
 		i++;
 	}
 	if (is_builtin(ast->leaf.argv->content) != -1)
-		return (exec_builtin(ast, env));
+		return (exec_builtin(ast, env, &hdocs));
 	pid = fork();
 	if (pid == -1)
 		return (-1);

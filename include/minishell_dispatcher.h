@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:12:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:26:45 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	expand_redirs(t_redir *root);
 // execute.c
 
 bool	check_paths(char **paths);
-int		exec_builtin(t_ast *ast, t_env **env);
+int		exec_builtin(t_ast *ast, t_env **env, t_intlist **hdocs);
 int		builtin_sorter(int builtin_id, char **argv, t_env **env);
 
 // util.c

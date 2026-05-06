@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:18:49 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:24:55 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	builtin_sorter(int builtin_id, char **argv, t_env **env)
 	return (-1);
 }
 
-int	exec_builtin(t_ast *ast, t_env **env)
+int	exec_builtin(t_ast *ast, t_env **env, t_intlist **hdoc)
 {
 	int		argc;
 	char	**argv;
@@ -72,7 +72,7 @@ int	exec_builtin(t_ast *ast, t_env **env)
 	fd[2] = STDIN_FILENO;
 	fd[0] = dup(STDIN_FILENO);
 	fd[3] = dup(STDOUT_FILENO);
-	redirect(ast, fd);
+	redirect(ast, fd, hdoc);
 	if (ast->leaf.argv)
 		expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);

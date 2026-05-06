@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 10:05:45 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:31:32 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ t_intlist	*create_heredocs(t_ast *ast)
 	t_intlist	*hdoc;
 	t_redir		*redir;
 
-	ft_printf("> create_heredocs called\n");
 	hdoc = NULL;
 	while (ast->node.type == NODE_PIPE)
 	{

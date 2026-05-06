@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 17:48:16 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/06 12:32:19 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_interactive_signals();
-		line = readline("minishell> ");
+		line = readline("\e[0;36mminishell>\e[0m ");
 		if (line == NULL)
 		{
 			ft_putstr("exit\n", 2, -1, true);
