@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:36:44 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:17:34 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,21 @@ t_intlist	*create_heredoc(t_redir *redir)
 	pid = fork();
 	if (!pid)
 	{
+		close(fd[0]);
 		while (true)
 		{
 			input = readline("> ");
-			ft_printf("%s   %s%s\n", GRN, input, RST);
 			if (ft_str_equals(input, redir->target->content))
 				break;
 			write(fd[1], input, ft_strlen(input));
+			write(fd[1], "\n", 1);
 			free(input);
 		}
 		free(input);
 		close(fd[1]);
 		exit(0);
 	}
+	close(fd[1]);
 	wait(&status);
 	// TODO: catch exit code in child, print error...
 	return (new_int(fd[0]));
