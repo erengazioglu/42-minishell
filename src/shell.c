@@ -6,27 +6,29 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 18:14:33 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:35:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: return exit code or something useful
-char	*get_input(void)
+bool	parse_input(t_shell *shell, char *input)
 {
-	char	*line;
-	char	*trimmed;
+	t_token	*tokens;
 
-	set_interactive_signals();
-	line = readline("\e[0;36mminishell>\e[0m ");
-	if (line == NULL)
-		return (NULL);
-	if (ft_strlen(line) > 0)
-		add_history(line);
-	trimmed = ft_strtrim(line, " \f\t\v\r\n");
-	free(line);
-	return (trimmed);
+	if (!*input)
+		return (false);
+	tokens = tokenize(input);
+	free(input);
+	if (!tokens)
+		return (false);
+	shell->ast = parse_tokens(tokens);
+	if (!shell->ast)
+	{
+		free_tokens(tokens);
+		return (false);
+	}
+	return (true);
 }
 
 // TODO: return exit code or something useful
