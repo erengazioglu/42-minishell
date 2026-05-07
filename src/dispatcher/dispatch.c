@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:35:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:07:41 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	child_process(t_ast *ast, t_env **env, int *fd, t_intlist **hdoc)
 	expand_tokens(ast->leaf.argv);
 	argv = build_argv(ast->leaf.argv, &argc);
 	envp = env_to_envp(*env);
+	if (is_builtin(argv[0]) != -1)
+	{
+		exec_builtin(ast, env, hdoc);
+		exit(0);
+	}
 	if (ft_strchr(argv[0], '/', 0, 0))
 	{
 		ft_printf("Executing command: %s\n", argv[0]);
@@ -60,7 +65,8 @@ void	child_process(t_ast *ast, t_env **env, int *fd, t_intlist **hdoc)
 		free_strarr(paths);
 	if (envp)
 		free_strarr(envp);
-	ft_putstr("something went wrong", 2, -1, true);
+	ft_putstr("something went wrong", 1, -1, true);
+	exit(1);
 }
 
 // returns false if it fails
@@ -110,9 +116,9 @@ int	dispatch(t_ast *ast, t_env **env)
 		return (-1);
 	if (!pid)
 		child_process(ast, env, fd, &hdocs);
-	i++;
 	if (fd[2] != STDIN_FILENO)
 		close(fd[2]);
+	i++;
 	while (i--)
 	{
 		if (wait(&exit_code) == pid)
