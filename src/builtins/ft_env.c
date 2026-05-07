@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 10:48:01 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:49:15 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+
+void	free_env(t_env *env)
+{
+	t_env	*temp;
+
+	if (!env)
+		return ;
+	while (env)
+	{
+		temp = env;
+		env = env->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+	}
+}
 
 /**
  * @brief Implements the env built-in command
