@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 21:24:00 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/19 21:30:51 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:47:06 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,16 @@ static int	ft_create_and_append_env_node(t_env **env, char *key, char *value)
 	return (0);
 }
 
+/**
+ * @brief Set or create an environment variable.
+ *
+ * If the key exists, replaces its value. Otherwise, appends a new node.
+ *
+ * @param env Environment list pointer.
+ * @param key Variable name.
+ * @param value Variable value.
+ * @return 0 on success, non-zero on allocation/argument error.
+ */
 int	ft_set_env_value(t_env **env, char *key, char *value)
 {
 	t_env	*node;
@@ -71,6 +81,15 @@ int	ft_set_env_value(t_env **env, char *key, char *value)
 	return (ft_create_and_append_env_node(env, key, value));
 }
 
+/**
+ * @brief Get the previous working directory for `cd`.
+ *
+ * Tries getcwd() first. If that fails, falls back to the current PWD stored
+ * in the environment list.
+ *
+ * @param env Environment list (may be NULL).
+ * @return Newly allocated string, or NULL if unavailable.
+ */
 char	*ft_get_old_pwd(t_env *env)
 {
 	t_env	*node;

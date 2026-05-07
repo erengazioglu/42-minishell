@@ -47,7 +47,8 @@ libft/libft.a:
 	@make -C libft
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) src/main.o
+	@make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)

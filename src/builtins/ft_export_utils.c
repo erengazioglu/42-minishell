@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:56:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:48:27 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ static int	ft_split_export_arg(char *arg, char **key, char **value)
 	return (0);
 }
 
+/**
+ * @brief Parse and apply a single export-style assignment.
+ *
+ * Accepts either "KEY=VALUE" or "KEY" and updates/creates the corresponding
+ * env node.
+ *
+ * @param arg Export argument string.
+ * @param env Environment list pointer to update.
+ * @return 0 on success, non-zero on error.
+ */
 int	ft_export_process_arg(char *arg, t_env **env)
 {
 	t_env	*node;

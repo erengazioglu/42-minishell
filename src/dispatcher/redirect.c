@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 12:35:23 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:30:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,27 +92,44 @@ bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 	return (true);
 }
 
-void	redirect(t_ast *ast, int *fd, t_intlist **hdoc)
+/**
+ * @brief Apply pipe FDs and AST redirections for a command leaf.
+ *
+ * If @p fd is non-NULL, applies the provided pipe endpoints (fd[2] -> STDIN,
+ * fd[1] -> STDOUT) and closes the originals after dup'ing.
+ * Then expands and applies the redirection list stored on @p ast.
+ *
+ * @param ast   AST node expected to contain @c leaf.redirs.
+ * @param fd    Optional array of FDs coming from the pipeline executor.
+ * @param shell Shell context used for redirection expansion.
+ * @return true on success, false on failure.
+ */
+bool	redirect(t_ast *ast, int *fd, t_shell *shell, t_intlist **hdoc)
 {
 	t_redir	*redir;
 
-	if (fd[2] != STDIN_FILENO)
+	if (fd)
 	{
-		if (dup2(fd[2], 0) == -1)
-			return; // TODO: handle dup2 error
-		close(fd[2]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		if (dup2(fd[1], 1) == -1)
-			return; // TODO: handle dup2 error
-		close(fd[1]);
+		if (fd[2] != STDIN_FILENO)
+		{
+			if (dup2(fd[2], 0) == -1)
+				return (false);
+			close(fd[2]);
+		}
+		if (fd[1] != STDOUT_FILENO)
+		{
+			if (dup2(fd[1], 1) == -1)
+				return (false);
+			close(fd[1]);
+		}
 	}
 	redir = ast->leaf.redirs;
-	expand_redirs(redir);
+	expand_redirs(redir, shell);
 	while (redir)
 	{
-		open_file(redir->target->content, redir->type, hdoc);
+		if (!open_file(redir->target->content, redir->type, hdoc))
+			return (false);
 		redir = redir->next;
 	}
+	return (true);
 }

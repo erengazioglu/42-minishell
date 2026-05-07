@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 02:50:39 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 11:07:37 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef enum e_builtin_type
 	UNSET
 }t_builtin_type;
 
+typedef struct t_shell
+{
+	t_env	*env;
+	int		last_exit_status;
+}t_shell;
+
 /* ft_cd.c */
 int		ft_cd(char **args, t_env **env);
 
@@ -53,7 +59,7 @@ t_env	*env_from_envp(char **envp);
 char	**env_to_envp(t_env *env);
 
 /* ft_exit.c */
-void	ft_exit(char **args, int last_exit_status);
+int		ft_exit(char **args, int last_exit_status);
 
 /* ft_export.c */
 int		ft_export(char **args, t_env **env);

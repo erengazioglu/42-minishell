@@ -6,33 +6,45 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/06 12:32:19 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:12:58 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
+/**
+ * @brief Entry point for minishell.
+ *
+ * Initializes the shell environment from @p envp, then enters a readline()
+ * loop. For each non-empty input line it tokenizes, parses into an AST, and
+ * dispatches execution, tracking the last exit status.
+ *
+ * @param argc Unused.
+ * @param argv Unused.
+ * @param envp Environment array used to build the internal env list.
+ * @return Always 0 (normal termination via EOF).
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_token	*tokens;
 	t_ast	*ast;
 	char	*temp;
-	t_env	*env;
-	int		exit_code;
+	t_shell	shell;
 
-	(void)argc;
-	(void)argv;
-	env = env_from_envp(envp);
-	exit_code = 0;
+	(void) argc;
+	(void) argv;
+	shell.env = env_from_envp(envp);
+	shell.last_exit_status = 0;
 	while (1)
 	{
 		set_interactive_signals();
 		line = readline("\e[0;36mminishell>\e[0m ");
 		if (line == NULL)
 		{
-			ft_putstr("exit\n", 2, -1, true);
+			if (isatty(STDIN_FILENO))
+				ft_putstr("exit\n", 2, -1, true);
 			break ;
 		}
 		if (ft_strlen(line) > 0)
@@ -48,12 +60,12 @@ int	main(int argc, char **argv, char **envp)
 			if (ast)
 			{
 				// print_ast(ast);
-				exit_code = dispatch(ast, &env);
+				shell.last_exit_status = dispatch(ast, &shell);
 				free_ast(ast);
 			}
 		}
 		free(line);
 	}
 	rl_clear_history();
-	return (exit_code);
+	return (0);
 }

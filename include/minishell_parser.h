@@ -6,14 +6,14 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:48:30 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:05:01 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_PARSER_H
 # define MINISHELL_PARSER_H
 
-# include "../libft/include/libft.h"
+# include "libft.h"
 # include "minishell_tokenizer.h"
 
 typedef enum e_redirtype
