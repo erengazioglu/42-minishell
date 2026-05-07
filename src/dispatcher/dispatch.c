@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:17:25 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:42:41 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,22 +92,6 @@ void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
 }
 
 /**
- * @brief Create a pipe and store its endpoints.
- * @param fd Output array where fd[0]=read end and fd[1]=write end.
- * @return true on success, false on failure.
- */
-bool	create_pipe(int *fd)
-{
-	int	new_fd[2];
-
-	if (pipe(new_fd) == -1)
-		return (false);
-	fd[0] = new_fd[0];
-	fd[1] = new_fd[1];
-	return (true);
-}
-
-/**
  * @brief Dispatch execution of an AST.
  *
  * Executes pipelines by forking one child per left segment and a final child
@@ -142,7 +126,7 @@ int	dispatch(t_shell *shell)
 	}
 	while (ast->node.type == NODE_PIPE)
 	{
-		if (!create_pipe(fd))
+		if (pipe(fd) == -1)
 			return (-1);
 		pid = fork();
 		if (pid == -1)
@@ -161,7 +145,7 @@ int	dispatch(t_shell *shell)
 	}
 	if (is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
-	fd[1] = STDOUT_FILENO;
+	// fd[1] = STDOUT_FILENO;
 	pid = fork();
 	if (pid == -1)
 		return (-1);

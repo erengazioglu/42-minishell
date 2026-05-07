@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:06:58 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:36:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ typedef struct s_shell
 	t_env		*env;
 	t_ast		*ast;
 	t_intlist	*hdoc;
-	int		last_exit_status;
+	int			fd[4];
+	int			children;
+	int			last_exit_status;
 }	t_shell;
 
 // shell.c

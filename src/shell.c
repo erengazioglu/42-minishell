@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:17:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:49:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ bool	parse_input(t_shell *shell, char *input)
 {
 	t_token	*tokens;
 
-	if (!*input)
+	if (!input || !*input)
 		return (false);
 	tokens = tokenize(input);
 	free(input);
@@ -37,5 +37,8 @@ int	init_shell(t_shell *shell, char **envp)
 	shell->env = env_from_envp(envp);
 	shell->last_exit_status = 0;
 	shell->hdoc = NULL;
+	shell->fd[1] = STDOUT_FILENO;
+	shell->fd[2] = STDIN_FILENO;
+	shell->children = 1;
 	return (0);
 }
