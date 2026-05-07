@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:42:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 20:41:49 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
  */
 int	dispatch(t_shell *shell)
 {
-	int	fd[3];
 	int	pid;
 	int	i;
 	int	exit_code;
@@ -115,8 +114,6 @@ int	dispatch(t_shell *shell)
 
 	ast = shell->ast;
 	create_heredocs(shell);
-	fd[1] = STDOUT_FILENO;
-	fd[2] = STDIN_FILENO;
 	i = 1;
 	if (ast->node.type != NODE_PIPE && ast->leaf.argv)
 	{
@@ -126,34 +123,34 @@ int	dispatch(t_shell *shell)
 	}
 	while (ast->node.type == NODE_PIPE)
 	{
-		if (pipe(fd) == -1)
+		if (pipe(shell->fd) == -1)
 			return (-1);
 		pid = fork();
 		if (pid == -1)
 			return (-1);
 		if (!pid)
 		{
-			close(fd[0]);
-			child_process(ast->node.left, shell, fd, &(shell->hdoc));
+			close(shell->fd[0]);
+			child_process(ast->node.left, shell, shell->fd, &(shell->hdoc));
 		}
-		close(fd[1]);
-		if (fd[2] != STDIN_FILENO)
-			close(fd[2]);
-		fd[2] = fd[0];
+		close(shell->fd[1]);
+		if (shell->fd[2] != STDIN_FILENO)
+			close(shell->fd[2]);
+		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 		i++;
 	}
 	if (is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
-	// fd[1] = STDOUT_FILENO;
+	shell->fd[1] = STDOUT_FILENO;
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, shell, fd, &(shell->hdoc));
+		child_process(ast, shell, shell->fd, &(shell->hdoc));
 	i++;
-	if (fd[2] != STDIN_FILENO)
-		close(fd[2]);
+	if (shell->fd[2] != STDIN_FILENO)
+		close(shell->fd[2]);
 	set_execution_signals();
 	while (i--)
 	{
