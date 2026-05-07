@@ -6,13 +6,23 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:35:16 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 02:53:53 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:47:26 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
 #include <stdio.h>
 
+/**
+ * @brief Implement the `cd` builtin.
+ *
+ * Changes the current working directory to args[1] and updates PWD/OLDPWD in
+ * the environment list.
+ *
+ * @param args argv-style array (args[0] expected to be "cd").
+ * @param env Pointer to the environment list to update.
+ * @return Exit status (0 on success, non-zero on error).
+ */
 int	ft_cd(char **args, t_env **env)
 {
 	char	*old_pwd;

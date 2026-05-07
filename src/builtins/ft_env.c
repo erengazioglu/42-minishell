@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 02:54:14 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:48:01 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ int	ft_env(char **args, t_env *env)
 	return (0);
 }
 
+/**
+ * @brief Build an internal env list from a traditional envp array.
+ *
+ * Each entry is processed via export parsing logic.
+ *
+ * @param envp NULL-terminated array of "KEY=VALUE" strings.
+ * @return Head of a newly allocated env list (may be NULL).
+ */
 t_env	*env_from_envp(char **envp)
 {
 	t_env	*env;
@@ -57,6 +65,14 @@ t_env	*env_from_envp(char **envp)
 	return (env);
 }
 
+/**
+ * @brief Convert an internal env list into an envp array.
+ *
+ * Only nodes with a non-NULL value are included.
+ *
+ * @param env Head of env list.
+ * @return Newly allocated NULL-terminated array, or NULL on allocation error.
+ */
 char	**env_to_envp(t_env *env)
 {
 	int		count;

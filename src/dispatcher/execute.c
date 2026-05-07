@@ -6,16 +6,20 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:18:49 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 11:06:42 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief	Checks if any of the given paths exist and are executable.
- * @param paths	An array of strings representing the paths to check.
- * @return	True if at least one path exists and is executable, false otherwise.
+ * @brief Validate that all candidate paths exist and are executable.
+ *
+ * On failure, frees the @p paths array via free_strarr(). On success, the
+ * caller keeps ownership of @p paths.
+ *
+ * @param paths NULL-terminated array of candidate executable paths.
+ * @return true if all entries exist and are executable, false otherwise.
  */
 bool	check_paths(char **paths)
 {
@@ -37,53 +41,81 @@ bool	check_paths(char **paths)
 	return (true);
 }
 
-int	builtin_sorter(int builtin_id, char **argv, t_env **env)
+/**
+ * @brief Execute the selected builtin implementation.
+ * @param builtin_id Builtin identifier returned by is_builtin().
+ * @param argv Argument vector (argv[0] is the builtin name).
+ * @param shell Shell context (env + last status).
+ * @return Builtin exit status.
+ */
+int builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 {
 	if (builtin_id == CD)
-		return (ft_cd(argv, env));
+		return (ft_cd(argv, &shell->env));
 	if (builtin_id == ECHO)
-		return (ft_echo(argv), 0);
-	if (builtin_id == ENV)
-		return (ft_env(argv, *env));
-	if (builtin_id == EXIT)
 	{
-		ft_exit(argv, 0);
+		ft_echo(argv);
 		return (0);
 	}
+	if (builtin_id == ENV)
+		return (ft_env(argv, shell->env));
+	if (builtin_id == EXIT)
+		return (ft_exit(argv, shell->last_exit_status));
 	if (builtin_id == EXPORT)
-		return (ft_export(argv, env));
+		return (ft_export(argv, &shell->env));
 	if (builtin_id == PWD)
 		return (ft_pwd(argv));
 	if (builtin_id == UNSET)
-		return (ft_unset(argv, env));
+		return (ft_unset(argv, &shell->env));
 	return (-1);
 }
 
-int	exec_builtin(t_ast *ast, t_env **env)
+/**
+ * @brief Execute a builtin in the parent process.
+ *
+ * Saves STDIN/STDOUT, applies redirections, expands tokens, builds argv and
+ * runs the builtin. Restores STDIN/STDOUT before returning.
+ *
+ * @param ast Command AST leaf.
+ * @param shell Shell context (env + last status).
+ * @return Builtin exit status.
+ */
+int	exec_builtin(t_ast *ast, t_shell *shell)
 {
 	int		argc;
 	char	**argv;
 	int		builtin_id;
-	int		fd[4];
 	int		status;
+	int		saved_stdin;
+	int		saved_stdout;
 
-	status = 0;
-	fd[1] = STDOUT_FILENO;
-	fd[2] = STDIN_FILENO;
-	fd[0] = dup(STDIN_FILENO);
-	fd[3] = dup(STDOUT_FILENO);
-	redirect(ast, fd);
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	if (!redirect(ast, NULL, shell))
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
+		return (1);
+	}
 	if (ast->leaf.argv)
-		expand_tokens(ast->leaf.argv);
+		expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+		close(saved_stdin);
+		close(saved_stdout);
 		return (free(argv), 0);
+	}
 	builtin_id = is_builtin(argv[0]);
-	status = builtin_sorter(builtin_id, argv, env);
-	close(STDOUT_FILENO);
-	close(STDIN_FILENO);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[3], STDOUT_FILENO);
+	status = builtin_sorter(builtin_id, argv, shell);
 	free(argv);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
 	return (status);
 }

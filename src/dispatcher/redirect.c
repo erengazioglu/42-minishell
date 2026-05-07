@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:20:02 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 11:09:51 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,30 +87,44 @@ bool	open_file(char *fn, t_redirtype mode)
 	return (true);
 }
 
-void	redirect(t_ast *ast, int *fd)
+/**
+ * @brief Apply pipe FDs and AST redirections for a command leaf.
+ *
+ * If @p fd is non-NULL, applies the provided pipe endpoints (fd[2] -> STDIN,
+ * fd[1] -> STDOUT) and closes the originals after dup'ing.
+ * Then expands and applies the redirection list stored on @p ast.
+ *
+ * @param ast   AST node expected to contain @c leaf.redirs.
+ * @param fd    Optional array of FDs coming from the pipeline executor.
+ * @param shell Shell context used for redirection expansion.
+ * @return true on success, false on failure.
+ */
+bool	redirect(t_ast *ast, int *fd, t_shell *shell)
 {
 	t_redir	*redir;
 
-	if (fd[2] != STDIN_FILENO)
+	if (fd)
 	{
-		if (dup2(fd[2], 0) == -1)
-			return; // TODO: handle dup2 error
-		close(fd[2]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		if (dup2(fd[1], 1) == -1)
-			return; // TODO: handle dup2 error
-		close(fd[1]);
+		if (fd[2] != STDIN_FILENO)
+		{
+			if (dup2(fd[2], 0) == -1)
+				return (false);
+			close(fd[2]);
+		}
+		if (fd[1] != STDOUT_FILENO)
+		{
+			if (dup2(fd[1], 1) == -1)
+				return (false);
+			close(fd[1]);
+		}
 	}
 	redir = ast->leaf.redirs;
-	expand_redirs(redir);
+	expand_redirs(redir, shell);
 	while (redir)
 	{
-		if (redir->type == REDIR_HEREDOC)
-			ft_printf("> HEREDOC not implemented yet\n");
-		else
-			open_file(redir->target->content, redir->type);
+		if (!open_file(redir->target->content, redir->type))
+			return (false);
 		redir = redir->next;
 	}
+	return (true);
 }
