@@ -3,27 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/04 18:54:57 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:26:00 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
 
-static	bool	is_numeric(char *str)
+static bool	is_numeric(char *str, long long *val)
 {
-	if (!str || !str[0])
-		return (false);
-	if (str[0] == '-' || str[0] == '+')
-		str++;
-	while (*str)
+	int					i;
+	int					sign;
+	unsigned long long	res;
+
+	i = 0;
+	sign = 1;
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		if (!ft_isdigit(*str))
-			return (false);
-		str++;
+		if (str[i] == '-')
+			sign = -1;
+		i++;
 	}
+	if (!ft_isdigit(str[i]))
+		return (false);
+	res = 0;
+	while (ft_isdigit(str[i]))
+	{
+		res = res * 10 + (str[i] - '0');
+		if (sign == 1 && res > 9223372036854775807ULL)
+			return (false);
+		if (sign == -1 && res > 9223372036854775808ULL)
+			return (false);
+		i++;
+	}
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i])
+		return (false);
+	*val = (long long)res * sign;
 	return (true);
 }
 
@@ -32,30 +53,28 @@ static	bool	is_numeric(char *str)
  * @param args Array of strings representing the command arguments
  * @param last_exit_status Last exit status of the shell.
  */
-void	ft_exit(char **args, int last_exit_status)
+int	ft_exit(char **args, int last_status)
 {
-	ft_putstr("exit", 1, -1, true);
-	if (args[1] && is_numeric(args[1]))
+	long long	exit_code;
+
+	if (isatty(STDIN_FILENO))
+		ft_putstr("exit\n", 2, -1, false);
+	if (args[1])
 	{
-		if (args[2])
-			ft_putstr("exit: too many arguments", 2, -1, true);
-		else
+		if (!is_numeric(args[1], &exit_code))
 		{
-			// ft_free_all();
-			exit(ft_atoi(args[1]));
+			ft_putstr("minishell: exit: ", 2, -1, false);
+			ft_putstr(args[1], 2, -1, false);
+			ft_putstr(": numeric argument required\n", 2, -1, false);
+			exit(2);
+		}
+		if (args[2])
+		{
+			ft_putstr("minishell: exit: too many arguments\n", 2, -1, false);
+			return (2);
 		}
 	}
-	else if (args[1] && !is_numeric(args[1]))
-	{
-		ft_putstr("minishell: exit: ", 2, -1, false);
-		ft_putstr(args[1], 2, -1, false);
-		ft_putstr(": numeric argument required", 2, -1, true);
-		// ft_free_all();
-		exit(255);
-	}
 	else
-	{
-		// ft_free_all();
-		exit(last_exit_status);
-	}
+		exit_code = last_status;
+	exit(exit_code % 256);
 }

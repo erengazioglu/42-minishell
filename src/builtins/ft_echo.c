@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:32 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/19 21:19:30 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:47:45 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	ft_echo(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s", args[i]);
+		ft_putstr(args[i], 1, -1, false);
 		if (args[i + 1])
-			printf(" ");
+			ft_putstr(" ", 1, -1, false);
 		i++;
 	}
 	if (!n_flag)
-		printf("\n");
+		ft_putstr("\n", 1, -1, false);
 }

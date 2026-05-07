@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/04/29 15:45:52 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:48:12 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
  * @brief Returns the index of a given token type, or -1 if it fails.
  * @param root	List element to start counting from.
  * @param type	Token type to search for.
- * @return		Index of the first occurrence of the token type, or -1 if not found.
+ * @return		Index of the first occurrence of the token type, or
+			-1 if not found.
  */
 int	find_token(t_token *root, t_ttype type)
 {
@@ -54,7 +55,7 @@ t_token	*new_token(t_ttype type, char *content)
 
 /**
  * @brief	Appends a token to the end of a token list.
- * @param root	Pointer to the first element of the token list. 
+ * @param root	Pointer to the first element of the token list.
  * If `*root` is `NULL`, the new token becomes the first element.
  * @param new	Token to append.
  * @return	None. Modifies the list in place.

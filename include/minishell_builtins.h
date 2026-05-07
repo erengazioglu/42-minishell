@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_builtins.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/04/19 21:30:51 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:49:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ typedef struct s_env
 	struct s_env	*prev;
 }t_env;
 
+typedef enum e_builtin_type
+{
+	CD,
+	ECHO,
+	ENV,
+	EXIT,
+	EXPORT,
+	PWD,
+	UNSET
+}t_builtin_type;
+
+typedef struct t_shell
+{
+	t_env	*env;
+	int		last_exit_status;
+}t_shell;
+
 /* ft_cd.c */
 int		ft_cd(char **args, t_env **env);
 
@@ -38,9 +55,12 @@ void	ft_echo(char **args);
 
 /* ft_env.c */
 int		ft_env(char **args, t_env *env);
+t_env	*env_from_envp(char **envp);
+char	**env_to_envp(t_env *env);
+void	free_env(t_env *env);
 
 /* ft_exit.c */
-void	ft_exit(char **args, int last_exit_status);
+int		ft_exit(char **args, int last_exit_status);
 
 /* ft_export.c */
 int		ft_export(char **args, t_env **env);

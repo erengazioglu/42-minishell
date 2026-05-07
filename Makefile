@@ -5,7 +5,7 @@ DFLAGS	= -g
 
 UNAME_S := $(shell uname -s)
 
-INCLUDE = -I./include
+INCLUDE = -I./include -I./libft/include
 LIBS    = -L./libft -lft
 
 ifeq ($(UNAME_S),Darwin)
@@ -24,7 +24,8 @@ SRCS = \
 	$(wildcard src/signals/*.c) \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \
-	$(wildcard src/dispatcher/*.c)
+	$(wildcard src/dispatcher/*.c) \
+	$(wildcard src/builtins/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
@@ -46,7 +47,8 @@ libft/libft.a:
 	@make -C libft
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) src/main.o
+	@make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)

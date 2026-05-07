@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/04 13:40:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:30:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@
  * @todo HEREDOC isn't implemented yet. Call its function from here.
  * @note You could have this function handle errors too?
  */
-int	open_read_file(char *fn, t_redirtype mode)
+int	open_read_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 {
 	int	fd;
+	t_intlist	*temp;
 
 	if (mode == REDIR_HEREDOC)
 	{
-		ft_putstr("HEREDOC not implemented yet.", 2, -1, true);
-		return (-1);
+		fd = (*hdoc)->val;
+		close(STDIN_FILENO);
+		temp = *hdoc;
+		*hdoc = (*hdoc)->next;
+		free(temp);
+		return (fd);
 	}
 	fd = open(fn, O_RDONLY);
 	close(STDIN_FILENO);
@@ -63,14 +68,14 @@ int	open_write_file(char *fn, t_redirtype mode)
  * @return		`true` on success, `false` on failure.
  * @note	Called by the child process. Call `exit()` freely on failure.
  */
-bool	open_file(char *fn, t_redirtype mode)
+bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 {
 	int	fd_new;
 	int	fd_keep;
 
 	if (mode == REDIR_IN || mode == REDIR_HEREDOC)
 	{
-		fd_new = open_read_file(fn, mode);
+		fd_new = open_read_file(fn, mode, hdoc);
 		if (fd_new == -1)
 			return (false); // TODO: handle OPENR error
 	}
@@ -87,30 +92,44 @@ bool	open_file(char *fn, t_redirtype mode)
 	return (true);
 }
 
-void	redirect(t_ast *ast, int *fd)
+/**
+ * @brief Apply pipe FDs and AST redirections for a command leaf.
+ *
+ * If @p fd is non-NULL, applies the provided pipe endpoints (fd[2] -> STDIN,
+ * fd[1] -> STDOUT) and closes the originals after dup'ing.
+ * Then expands and applies the redirection list stored on @p ast.
+ *
+ * @param ast   AST node expected to contain @c leaf.redirs.
+ * @param fd    Optional array of FDs coming from the pipeline executor.
+ * @param shell Shell context used for redirection expansion.
+ * @return true on success, false on failure.
+ */
+bool	redirect(t_ast *ast, int *fd, t_shell *shell, t_intlist **hdoc)
 {
 	t_redir	*redir;
-	
-	if (fd[2] != STDIN_FILENO)
+
+	if (fd)
 	{
-		if (dup2(fd[2], 0) == -1)
-			return ; // TODO: handle dup2 error
-		close(fd[2]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		if (dup2(fd[1], 1) == -1)
-			return ; // TODO: handle dup2 error
-		close(fd[1]);
+		if (fd[2] != STDIN_FILENO)
+		{
+			if (dup2(fd[2], 0) == -1)
+				return (false);
+			close(fd[2]);
+		}
+		if (fd[1] != STDOUT_FILENO)
+		{
+			if (dup2(fd[1], 1) == -1)
+				return (false);
+			close(fd[1]);
+		}
 	}
 	redir = ast->leaf.redirs;
-	expand_redirs(redir);
+	expand_redirs(redir, shell);
 	while (redir)
 	{
-		if (redir->type == REDIR_HEREDOC)
-			ft_printf("> HEREDOC not implemented yet\n");
-		else
-			open_file(redir->target->content, redir->type);
+		if (!open_file(redir->target->content, redir->type, hdoc))
+			return (false);
 		redir = redir->next;
 	}
+	return (true);
 }

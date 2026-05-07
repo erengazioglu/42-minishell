@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/03 23:39:07 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/04 23:22:48 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 # include "minishell_signals.h"
 # include "minishell_tokenizer.h"
 # include "minishell_parser.h"
+# include "minishell_builtins.h"
 # include "minishell_dispatcher.h"
 
 # include <stdio.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h>

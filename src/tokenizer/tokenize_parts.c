@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_parts.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:07:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/01 15:56:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:47:56 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	tokenize_word(t_token **root, char *line)
 	t_token	*new;
 
 	len = 0;
-	while (line[len] && !ft_isspace(line[len])
-			&& !ft_strchr("<>|", line[len], 0, 0))
+	while (line[len] && !ft_isspace(line[len]) && !ft_strchr("<>|", line[len],
+			0, 0))
 		len++;
 	new = new_token(TK_WORD, ft_substr(line, 0, len));
 	if (!new)
