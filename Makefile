@@ -25,7 +25,11 @@ SRCS = \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \
 	$(wildcard src/dispatcher/*.c) \
+<<<<<<< HEAD
 	$(wildcard src/builtins/*.c)
+=======
+	$(wildcard src/builtins/*.c) 
+>>>>>>> a00db2a (Refined the readme: removed all push_swap skeleton for insetion of minishell data. Ready to start filling.)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
