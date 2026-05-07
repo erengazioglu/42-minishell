@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 23:49:13 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 00:00:45 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,34 @@ void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
 	exit(127);
 }
 
+int	spawn_child(t_shell *shell)
+{
+	int	pid;
+	
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (!pid)
+		child_process(shell->ast->node.left, shell, shell->fd, &(shell->hdoc));
+	if (shell->fd[2] != STDIN_FILENO)
+		close(shell->fd[2]);
+	return (pid);
+}
+
+int	wait_children(t_shell *shell, int pid)
+{
+	int	status;
+	int	exit_code;
+
+	set_execution_signals();
+	while (shell->children--)
+	{
+		if (wait(&status) == pid)
+			exit_code = get_exit_code(status);
+	}
+	return (exit_code);
+}
+
 /**
  * @brief Dispatch execution of an AST.
  *
@@ -123,8 +151,6 @@ int	dispatch(t_shell *shell)
 {
 	t_ast	*ast;
 	int		pid;
-	int		status;
-	int		exit_code;
 
 	ast = shell->ast;
 	create_heredocs(shell);
@@ -132,14 +158,8 @@ int	dispatch(t_shell *shell)
 	{
 		if (!create_pipe(shell->fd))
 			return (-1);
-		pid = fork();
-		if (pid == -1)
-			return (-1);
-		if (!pid)
-			child_process(ast->node.left, shell, shell->fd, &(shell->hdoc));
+		pid = spawn_child(shell);
 		close(shell->fd[1]);
-		if (shell->fd[2] != STDIN_FILENO)
-			close(shell->fd[2]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 		shell->children++;
@@ -154,11 +174,5 @@ int	dispatch(t_shell *shell)
 		child_process(ast, shell, shell->fd, &(shell->hdoc));
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
-	set_execution_signals();
-	while (shell->children--)
-	{
-		if (wait(&status) == pid)
-			exit_code = get_exit_code(status);
-	}
-	return (exit_code);
+	return (wait_children(shell, pid));
 }
