@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 10:07:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 10:11:20 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,14 @@ void	child_process(t_ast *ast, t_env **env, int *fd, t_intlist **hdoc)
 	envp = env_to_envp(*env);
 	if (is_builtin(argv[0]) != -1)
 	{
-		exec_builtin(ast, env, hdoc);
-		exit(0);
+		exit(exec_builtin(ast, env, hdoc));
 	}
 	if (ft_strchr(argv[0], '/', 0, 0))
 	{
 		ft_printf("Executing command: %s\n", argv[0]);
 		execve(argv[0], argv, envp);
 		ft_putstr("something went wrong", 2, -1, true);
-		return ;
+		exit(1);
 	}
 	paths = extract_paths(*argv, *env);
 	check_paths(paths);
