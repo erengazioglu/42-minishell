@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 15:35:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:03:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,17 @@ bool	create_pipe(int *fd)
  * @param shell Shell context (env + last status).
  * @return Exit status of the last pipeline command (or builtin status).
  */
-int	dispatch(t_ast *ast, t_shell *shell)
+int	dispatch(t_shell *shell)
 {
 	int	fd[3];
 	int	pid;
 	int	i;
 	int	exit_code;
+	t_ast		*ast;
 	t_intlist	*hdocs;
 	int	b_id;
 
+	ast = shell->ast;
 	hdocs = create_heredocs(ast);
 	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;
