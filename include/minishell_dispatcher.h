@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:03:12 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:18:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_redirs(t_redir *root, t_shell *shell);
 // execute.c
 
 bool	check_paths(char **paths);
-int		exec_builtin(t_ast *ast, t_shell *shell, t_intlist **hdoc);
+int		exec_builtin(t_ast *ast, t_shell *shell);
 int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 
 // util.c
@@ -66,6 +66,6 @@ int		get_exit_code(int exit_value);
 
 // heredoc.c
 
-t_intlist	*create_heredocs(t_ast *ast);
+t_intlist	*create_heredocs(t_shell *shell);
 
 #endif

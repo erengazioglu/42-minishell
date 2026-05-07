@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 18:35:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:17:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int	init_shell(t_shell *shell, char **envp)
 {
 	shell->env = env_from_envp(envp);
 	shell->last_exit_status = 0;
+	shell->hdoc = NULL;
 	return (0);
 }

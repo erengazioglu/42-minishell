@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 18:32:15 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:29:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		if (shell.ast)
 		{
-			shell.last_exit_status = dispatch(shell.ast, &shell);
+			shell.last_exit_status = dispatch(&shell);
 			free_ast(shell.ast);
 		}
 	}

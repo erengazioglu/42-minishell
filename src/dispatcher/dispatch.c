@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:03:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:17:25 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
 	if (!argv || !argv[0])
 		exit(0);
 	if (is_builtin(argv[0]) != -1)
-		exit(exec_builtin(ast, shell, hdoc));
+		exit(exec_builtin(ast, shell));
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 	{
@@ -126,11 +126,11 @@ int	dispatch(t_shell *shell)
 	int	i;
 	int	exit_code;
 	t_ast		*ast;
-	t_intlist	*hdocs;
 	int	b_id;
+	int	status;
 
 	ast = shell->ast;
-	hdocs = create_heredocs(ast);
+	create_heredocs(shell);
 	fd[1] = STDOUT_FILENO;
 	fd[2] = STDIN_FILENO;
 	i = 1;
@@ -138,7 +138,7 @@ int	dispatch(t_shell *shell)
 	{
 		b_id = is_builtin(ast->leaf.argv->content);
 		if (b_id != -1)
-			return (exec_builtin(ast, shell, &hdocs));
+			return (exec_builtin(ast, shell));
 	}
 	while (ast->node.type == NODE_PIPE)
 	{
@@ -150,7 +150,7 @@ int	dispatch(t_shell *shell)
 		if (!pid)
 		{
 			close(fd[0]);
-			child_process(ast->node.left, shell, fd, &hdocs);
+			child_process(ast->node.left, shell, fd, &(shell->hdoc));
 		}
 		close(fd[1]);
 		if (fd[2] != STDIN_FILENO)
@@ -160,24 +160,22 @@ int	dispatch(t_shell *shell)
 		i++;
 	}
 	if (is_builtin(ast->leaf.argv->content) != -1)
-		return (exec_builtin(ast, shell, &hdocs));
+		return (exec_builtin(ast, shell));
 	fd[1] = STDOUT_FILENO;
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, shell, fd, &hdocs);
+		child_process(ast, shell, fd, &(shell->hdoc));
 	i++;
 	if (fd[2] != STDIN_FILENO)
 		close(fd[2]);
 	set_execution_signals();
-	int	status;
-
 	while (i--)
 	{
 		if (wait(&status) == pid)
 			exit_code = get_exit_code(status);
 	}
-	free(hdocs);
+	free(shell->hdoc);
 	return (exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 15:35:56 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:18:31 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int builtin_sorter(int builtin_id, char **argv, t_shell *shell)
  * @param shell Shell context (env + last status).
  * @return Builtin exit status.
  */
-int	exec_builtin(t_ast *ast, t_shell *shell, t_intlist **hdoc)
+int	exec_builtin(t_ast *ast, t_shell *shell)
 {
 	int		argc;
 	char	**argv;
@@ -93,7 +93,7 @@ int	exec_builtin(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	fd[2] = STDIN_FILENO;
 	fd[0] = dup(STDIN_FILENO);
 	fd[3] = dup(STDOUT_FILENO);
-	if (!redirect(ast, NULL, shell, hdoc))
+	if (!redirect(ast, NULL, shell, &(shell->hdoc)))
 	{
 		dup2(fd[0], STDIN_FILENO);
 		dup2(fd[3], STDOUT_FILENO);
