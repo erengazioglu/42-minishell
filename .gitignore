@@ -10,3 +10,4 @@ tests/test_parse
 tests/test_execve
 tests/test_expand
 outfile
+compile_flags.txt
