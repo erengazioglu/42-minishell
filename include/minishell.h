@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:36:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 23:37:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_shell
 
 // shell.c
 
+void	cleanup(t_shell *shell);
 bool	parse_input(t_shell *shell, char *input);
 int		init_shell(t_shell *shell, char **envp);
 

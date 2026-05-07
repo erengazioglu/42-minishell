@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 20:41:49 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 23:49:13 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ int	is_builtin(char *str)
 	if (ft_str_equals(str, "unset"))
 		return (UNSET);
 	return (-1);
+}
+
+/**
+ * @brief Create a pipe and store its endpoints.
+ * @param fd Output array where fd[0]=read end and fd[1]=write end.
+ * @return true on success, false on failure.
+ */
+bool	create_pipe(int *fd)
+{
+	int	new_fd[2];
+
+	if (pipe(new_fd) == -1)
+		return (false);
+	fd[0] = new_fd[0];
+	fd[1] = new_fd[1];
+	return (true);
 }
 
 void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
@@ -105,40 +121,28 @@ void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc)
  */
 int	dispatch(t_shell *shell)
 {
-	int	pid;
-	int	i;
-	int	exit_code;
-	t_ast		*ast;
-	int	b_id;
-	int	status;
+	t_ast	*ast;
+	int		pid;
+	int		status;
+	int		exit_code;
 
 	ast = shell->ast;
 	create_heredocs(shell);
-	i = 1;
-	if (ast->node.type != NODE_PIPE && ast->leaf.argv)
-	{
-		b_id = is_builtin(ast->leaf.argv->content);
-		if (b_id != -1)
-			return (exec_builtin(ast, shell));
-	}
 	while (ast->node.type == NODE_PIPE)
 	{
-		if (pipe(shell->fd) == -1)
+		if (!create_pipe(shell->fd))
 			return (-1);
 		pid = fork();
 		if (pid == -1)
 			return (-1);
 		if (!pid)
-		{
-			close(shell->fd[0]);
 			child_process(ast->node.left, shell, shell->fd, &(shell->hdoc));
-		}
 		close(shell->fd[1]);
 		if (shell->fd[2] != STDIN_FILENO)
 			close(shell->fd[2]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
-		i++;
+		shell->children++;
 	}
 	if (is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
@@ -148,15 +152,13 @@ int	dispatch(t_shell *shell)
 		return (-1);
 	if (!pid)
 		child_process(ast, shell, shell->fd, &(shell->hdoc));
-	i++;
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
 	set_execution_signals();
-	while (i--)
+	while (shell->children--)
 	{
 		if (wait(&status) == pid)
 			exit_code = get_exit_code(status);
 	}
-	free(shell->hdoc);
 	return (exit_code);
 }

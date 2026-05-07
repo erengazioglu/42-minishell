@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 20:20:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 23:37:18 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,12 @@ int	init_shell(t_shell *shell, char **envp)
 	shell->fd[2] = STDIN_FILENO;
 	shell->children = 1;
 	return (0);
+}
+
+void	cleanup(t_shell *shell)
+{
+	shell->fd[1] = STDOUT_FILENO;
+	shell->fd[2] = STDIN_FILENO;
+	shell->children = 1;
+	shell->last_exit_status = 0;
 }
