@@ -28,7 +28,7 @@ SRCS = \
 <<<<<<< HEAD
 	$(wildcard src/builtins/*.c)
 =======
-	$(wildcard src/builtins/*.c) 
+	$(wildcard src/builtins/*.c)
 >>>>>>> a00db2a (Refined the readme: removed all push_swap skeleton for insetion of minishell data. Ready to start filling.)
 
 MAIN = src/main.c
@@ -51,6 +51,8 @@ libft/libft.a:
 	@make -C libft
 
 clean:
+	rm -f $(OBJS) src/main.o
+	@make -C libft clean
 	rm -f $(OBJS) src/main.o
 	@make -C libft clean
 

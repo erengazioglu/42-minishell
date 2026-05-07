@@ -10,9 +10,5 @@ tests/test_parse
 tests/test_execve
 tests/test_expand
 outfile
-<<<<<<< HEAD
 compile_flags.txt
 minishell_tester
-=======
-compile_flags.txt
->>>>>>> a00db2a (Refined the readme: removed all push_swap skeleton for insetion of minishell data. Ready to start filling.)
