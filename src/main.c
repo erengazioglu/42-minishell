@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 15:49:57 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:15:30 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,44 +27,35 @@
  */
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	char	*input;
 	t_token	*tokens;
 	t_ast	*ast;
-	char	*temp;
 	t_shell	shell;
 
 	(void) argc;
 	(void) argv;
-	shell.env = env_from_envp(envp);
-	shell.last_exit_status = 0;
+	init_shell(&shell, envp);
 	while (1)
 	{
 		set_interactive_signals();
-		line = readline("\e[0;36mminishell>\e[0m ");
-		if (line == NULL)
+		input = get_input();
+		if (!input)
 		{
 			if (isatty(STDIN_FILENO))
 				ft_putstr("exit\n", 2, -1, true);
 			break ;
 		}
-		if (ft_strlen(line) > 0)
-			add_history(line);
-		temp = line;
-		while (ft_isspace(*temp))
-			temp++;
-		if (*temp)
+		if (*input)
 		{
-			tokens = tokenize(line);
-			// print_tokens(tokens);
+			tokens = tokenize(input);
 			ast = parse_tokens(tokens);
 			if (ast)
 			{
-				// print_ast(ast);
 				shell.last_exit_status = dispatch(ast, &shell);
 				free_ast(ast);
 			}
 		}
-		free(line);
+		free(input);
 	}
 	free_env(shell.env);
 	rl_clear_history();

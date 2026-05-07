@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 15:30:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:13:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 
 # define FLAG_READ	0
 # define FLAG_WRITE	1
+
+// Forward declaration (from `minishell.h`)
+typedef struct s_shell t_shell;
 
 typedef struct s_intlist t_intlist;
 struct s_intlist

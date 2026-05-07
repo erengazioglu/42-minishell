@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 15:49:33 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:11:20 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ typedef enum e_builtin_type
 	PWD,
 	UNSET
 }t_builtin_type;
-
-typedef struct t_shell
-{
-	t_env	*env;
-	int		last_exit_status;
-}t_shell;
 
 /* ft_cd.c */
 int		ft_cd(char **args, t_env **env);
