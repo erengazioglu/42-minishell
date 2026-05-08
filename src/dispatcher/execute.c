@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:18:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 00:23:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,18 @@ int	exec_builtin(t_ast *ast, t_shell *shell)
 	char	**argv;
 	int		builtin_id;
 	int		status;
-	int		fd[4];
 
 	status = 0;
-	fd[1] = STDOUT_FILENO;
-	fd[2] = STDIN_FILENO;
-	fd[0] = dup(STDIN_FILENO);
-	fd[3] = dup(STDOUT_FILENO);
-	if (!redirect(ast, NULL, shell, &(shell->hdoc)))
+	shell->fd[1] = STDOUT_FILENO;
+	shell->fd[2] = STDIN_FILENO;
+	shell->fd[0] = dup(STDIN_FILENO);
+	shell->fd[3] = dup(STDOUT_FILENO);
+	if (!redirect(ast, shell, &(shell->hdoc)))
 	{
-		dup2(fd[0], STDIN_FILENO);
-		dup2(fd[3], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[3]);
+		dup2(shell->fd[0], STDIN_FILENO);
+		dup2(shell->fd[3], STDOUT_FILENO);
+		close(shell->fd[0]);
+		close(shell->fd[3]);
 		return (1);
 	}
 	if (ast->leaf.argv)
@@ -106,18 +105,18 @@ int	exec_builtin(t_ast *ast, t_shell *shell)
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
 	{
-		dup2(fd[0], STDIN_FILENO);
-		dup2(fd[3], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[3]);
+		dup2(shell->fd[0], STDIN_FILENO);
+		dup2(shell->fd[3], STDOUT_FILENO);
+		close(shell->fd[0]);
+		close(shell->fd[3]);
 		return (free(argv), 0);
 	}
 	builtin_id = is_builtin(argv[0]);
 	status = builtin_sorter(builtin_id, argv, shell);
 	free(argv);
-	dup2(fd[0], STDIN_FILENO);
-	dup2(fd[3], STDOUT_FILENO);
-	close(fd[0]);
-	close(fd[3]);
+	dup2(shell->fd[0], STDIN_FILENO);
+	dup2(shell->fd[3], STDOUT_FILENO);
+	close(shell->fd[0]);
+	close(shell->fd[3]);
 	return (status);
 }

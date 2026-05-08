@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:18:02 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 00:08:05 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ struct s_intlist
 // dispatch.c
 
 int		dispatch(t_shell *shell);
-void	child_process(t_ast *ast, t_shell *shell, int *fd, t_intlist **hdoc);
+void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc);
 int		is_builtin(char *str);
 
 // redirects.c
 
 bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc);
-bool	redirect(t_ast *ast, int *fd, t_shell *shell, t_intlist **hdoc);
+bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc);
 
 // expand.c
 
