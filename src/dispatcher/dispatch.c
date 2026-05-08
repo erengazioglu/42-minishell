@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 00:21:28 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 16:49:27 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int	spawn_child(t_shell *shell)
 		child_process(shell->ast->node.left, shell, &(shell->hdoc));
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
+	shell->children++;
 	return (pid);
 }
 
@@ -162,7 +163,6 @@ int	dispatch(t_shell *shell)
 		close(shell->fd[1]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
-		shell->children++;
 	}
 	if (shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
@@ -174,5 +174,6 @@ int	dispatch(t_shell *shell)
 		child_process(ast, shell, &(shell->hdoc));
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
+	shell->children++;
 	return (wait_children(shell, pid));
 }
