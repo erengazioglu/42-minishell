@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 17:39:33 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 18:58:08 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,29 @@ bool	create_pipe(int *fd)
 	return (true);
 }
 
+void	execute_absolute(char **argv, char **envp)
+{
+	int		err;
+	struct stat	path_stat;
+
+	if (stat(argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
+	{
+		ft_putstr("minishell: ", 2, -1, false);
+		ft_putstr(argv[0], 2, -1, false);
+		ft_putstr(": Is a directory\n", 2, -1, false);
+		exit(126);
+	}
+	execve(argv[0], argv, envp);
+	err = errno;
+	ft_putstr("minishell: ", 2, -1, false);
+	errno = err;
+	perror(argv[0]);
+	if (err == ENOENT)
+		exit(127);
+	else
+		exit(126);
+}
+
 void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 {
 	int		argc;
@@ -59,8 +82,6 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	char	**paths;
 	int		i;
 	char	**envp;
-	int			err;
-	struct stat	path_stat;
 
 	set_child_signals();
 	if (!redirect(ast, shell, hdoc))
@@ -74,24 +95,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 		exit(exec_builtin(ast, shell));
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
-	{
-		if (stat(argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-		{
-			ft_putstr("minishell: ", 2, -1, false);
-			ft_putstr(argv[0], 2, -1, false);
-			ft_putstr(": Is a directory\n", 2, -1, false);
-			exit(126);
-		}
-		execve(argv[0], argv, envp);
-		err = errno;
-		ft_putstr("minishell: ", 2, -1, false);
-		errno = err;
-		perror(argv[0]);
-		if (err == ENOENT)
-			exit(127);
-		else
-			exit(126);
-	}
+		execute_absolute(argv, envp);
 	paths = extract_paths(*argv, shell->env);
 	if (paths && !check_paths(paths))
 		paths = NULL;
