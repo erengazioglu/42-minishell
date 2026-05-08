@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 18:58:08 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 19:01:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,29 @@ void	execute_absolute(char **argv, char **envp)
 		exit(126);
 }
 
+void	execute_relative(char **argv, char **envp, t_shell *shell)
+{
+	char	**paths;
+	int		i;
+
+	paths = extract_paths(*argv, shell->env);
+	if (paths && !check_paths(paths))
+		paths = NULL;
+	execve(argv[0], argv, envp);
+	i = 0;
+	if (paths)
+	{
+		while (paths[i])
+			execve(paths[i++], argv, envp);
+	}
+	ft_putstr(argv[0], 2, -1, false);
+	ft_putstr(": command not found\n", 2, -1, false);
+}
+
 void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 {
 	int		argc;
 	char	**argv;
-	char	**paths;
-	int		i;
 	char	**envp;
 
 	set_child_signals();
@@ -96,18 +113,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 		execute_absolute(argv, envp);
-	paths = extract_paths(*argv, shell->env);
-	if (paths && !check_paths(paths))
-		paths = NULL;
-	execve(argv[0], argv, envp);
-	i = 0;
-	if (paths)
-	{
-		while (paths[i])
-			execve(paths[i++], argv, envp);
-	}
-	ft_putstr(argv[0], 2, -1, false);
-	ft_putstr(": command not found\n", 2, -1, false);
+	execute_relative(argv, envp, shell);
 	exit(127);
 }
 
