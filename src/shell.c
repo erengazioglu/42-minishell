@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 23:37:18 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:01:37 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ bool	parse_input(t_shell *shell, char *input)
 	free(input);
 	if (!tokens)
 		return (false);
+	if (fetch_token(tokens, -1)->type == TK_PIPE)
+		ft_printf("hey there's a pipe at the end, fetch more\n");
 	shell->ast = parse_tokens(tokens);
 	if (!shell->ast)
 	{

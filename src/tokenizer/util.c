@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:48:12 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:01:12 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,14 @@ void	append_token(t_token **root, t_token *new)
  */
 t_token	*fetch_token(t_token *start, int i)
 {
+	if (!start)
+		return (NULL);
+	if (i < 0)
+	{
+		while (start->next)
+			start = start->next;
+		return (start);
+	}
 	while (start && i--)
 		start = start->next;
 	return (start);
