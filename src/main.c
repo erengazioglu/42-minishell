@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/08 17:21:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:31:10 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			if (isatty(STDIN_FILENO))
-				ft_putstr("exit\n", 2, -1, true);
+				ft_putstr("exit", 2, -1, true);
 			break; // TODO: should it print error msg and continue instead?
 		}
 		shell.tokens = tokenize(input, NULL);
@@ -77,6 +77,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(input);
 			input = get_input(false);
+			if (!input)
+			{
+				ft_putstr("minishell: syntax error: unexpected end of file", 2, -1, true);
+				if (isatty(STDIN_FILENO))
+					ft_putstr("exit", 2, -1, true);
+				break; // TODO: should it print error msg and continue instead?
+			}
 			shell.tokens = tokenize(input, shell.tokens);
 		}
 		shell.ast = parse_tokens(shell.tokens);
