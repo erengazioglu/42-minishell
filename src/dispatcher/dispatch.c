@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 16:49:27 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 17:39:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	exit(127);
 }
 
-int	spawn_child(t_shell *shell)
+int	spawn_child(t_shell *shell, t_ast *ast)
 {
 	int	pid;
 	
@@ -115,7 +115,7 @@ int	spawn_child(t_shell *shell)
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(shell->ast->node.left, shell, &(shell->hdoc));
+		child_process(ast, shell, &(shell->hdoc));
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
 	shell->children++;
@@ -159,7 +159,7 @@ int	dispatch(t_shell *shell)
 	{
 		if (!create_pipe(shell->fd))
 			return (-1);
-		pid = spawn_child(shell);
+		pid = spawn_child(shell, ast->node.left);
 		close(shell->fd[1]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
@@ -167,13 +167,6 @@ int	dispatch(t_shell *shell)
 	if (shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
 	shell->fd[1] = STDOUT_FILENO;
-	pid = fork();
-	if (pid == -1)
-		return (-1);
-	if (!pid)
-		child_process(ast, shell, &(shell->hdoc));
-	if (shell->fd[2] != STDIN_FILENO)
-		close(shell->fd[2]);
-	shell->children++;
+	pid = spawn_child(shell, ast);
 	return (wait_children(shell, pid));
 }
