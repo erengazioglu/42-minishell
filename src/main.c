@@ -6,31 +6,36 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 23:37:05 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 15:26:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <sys/wait.h>
 
-static char	*get_input(void)
+/**
+ * @brief Prompts user for an input, and keeps going until the trimmed input
+ * is not an empty string.
+ */
+static char	*get_input(bool prompt)
 {
 	char	*line;
 	char	*trimmed;
 
 	set_interactive_signals();
-	line = readline("\e[0;36mminishell>\e[0m ");
-	if (line == NULL)
-		return (NULL);
-	if (ft_strlen(line) > 0)
-		add_history(line);
-	trimmed = ft_strtrim(line, " \f\t\v\r\n");
-	free(line);
-	if (!trimmed)
+	trimmed = ft_strdup("");
+	while (!*trimmed)
 	{
-		if (isatty(STDIN_FILENO))
-			ft_putstr("exit\n", 2, -1, true);
-		return (NULL);
+		if (prompt)
+			line = readline("\e[0;36mminishell>\e[0m ");
+		else
+			line = readline("\e[0;36m>\e[0m ");
+		if (line == NULL)
+			return (free(trimmed), NULL);
+		if (ft_strlen(line) > 0)
+			add_history(line);
+		trimmed = ft_strtrim(line, " \f\t\v\r\n");
+		free(line);
 	}
 	return (trimmed);
 }
@@ -58,15 +63,20 @@ int	main(int argc, char **argv, char **envp)
 	init_shell(&shell, envp);
 	while (true)
 	{
-		input = get_input();
+		input = get_input(true);
+		if (!input)
+			break; // TODO: should it print error msg and continue instead?
 		if (!parse_input(&shell, input))
-			break;
+			break; // TODO: should it print error msg and continue instead?
 		if (shell.ast)
 		{
 			shell.last_exit_status = dispatch(&shell);
 			free_ast(shell.ast);
 		}
 		cleanup(&shell);
+		// shell.tokens = tokenize(input);
+		// while (fetch_token(shell.tokens, -1)->type == TK_PIPE)
+		// 
 	}
 	free_env(shell.env);
 	rl_clear_history();
