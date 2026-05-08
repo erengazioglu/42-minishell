@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/08 17:31:10 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 20:15:07 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	main(int argc, char **argv, char **envp)
 			break; // TODO: should it print error msg and continue instead?
 		}
 		shell.tokens = tokenize(input, NULL);
+		free(input);
 		while (fetch_token(shell.tokens, -1)->type == TK_PIPE)
 		{
-			free(input);
 			input = get_input(false);
 			if (!input)
 			{
@@ -87,8 +87,6 @@ int	main(int argc, char **argv, char **envp)
 			shell.tokens = tokenize(input, shell.tokens);
 		}
 		shell.ast = parse_tokens(shell.tokens);
-		// if (!parse_input(&shell, tokens))
-			// break; // TODO: should it print error msg and continue instead?
 		if (shell.ast)
 		{
 			shell.last_exit_status = dispatch(&shell);
