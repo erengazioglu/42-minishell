@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 00:23:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 19:24:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 	return (-1);
 }
 
+void	restore_fds(t_shell *shell)
+{
+	dup2(shell->fd[0], STDIN_FILENO);
+	dup2(shell->fd[3], STDOUT_FILENO);
+	close(shell->fd[0]);
+	close(shell->fd[3]);
+}
+
 /**
  * @brief Execute a builtin in the parent process.
  *
@@ -93,30 +101,14 @@ int	exec_builtin(t_ast *ast, t_shell *shell)
 	shell->fd[0] = dup(STDIN_FILENO);
 	shell->fd[3] = dup(STDOUT_FILENO);
 	if (!redirect(ast, shell, &(shell->hdoc)))
-	{
-		dup2(shell->fd[0], STDIN_FILENO);
-		dup2(shell->fd[3], STDOUT_FILENO);
-		close(shell->fd[0]);
-		close(shell->fd[3]);
-		return (1);
-	}
+		return (restore_fds(shell), 1);
 	if (ast->leaf.argv)
 		expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
-	{
-		dup2(shell->fd[0], STDIN_FILENO);
-		dup2(shell->fd[3], STDOUT_FILENO);
-		close(shell->fd[0]);
-		close(shell->fd[3]);
-		return (free(argv), 0);
-	}
+		return (restore_fds(shell), free(argv), 0);
 	builtin_id = is_builtin(argv[0]);
 	status = builtin_sorter(builtin_id, argv, shell);
 	free(argv);
-	dup2(shell->fd[0], STDIN_FILENO);
-	dup2(shell->fd[3], STDOUT_FILENO);
-	close(shell->fd[0]);
-	close(shell->fd[3]);
-	return (status);
+	return (restore_fds(shell), status);
 }
