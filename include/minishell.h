@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 15:14:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:35:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ typedef struct s_shell
 
 void	cleanup(t_shell *shell);
 bool	parse_input(t_shell *shell, char *input);
-int		init_shell(t_shell *shell, char **envp);
+bool	init_shell(t_shell *shell, char **envp);
+void	empty_shell(t_shell *shell);
 
-// prints "error: str" to stderr and exits
+// crash.c 
+
 void	crash(char *str);
+void	crash_main(char *str, t_shell *shell);
+
 void	print_args(int argc, char **argv);
 void	print_ast(t_ast *ast);
 

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/08 20:15:07 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:40:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static char	*get_input(bool prompt)
 			return (free(trimmed), NULL);
 		if (ft_strlen(line) > 0)
 			add_history(line);
+		free(trimmed);
 		trimmed = ft_strtrim(line, " \f\t\v\r\n");
 		free(line);
 		if (!trimmed)
@@ -62,28 +63,20 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	init_shell(&shell, envp);
+	if (!init_shell(&shell, envp))
+		crash_main("minishell: malloc error", NULL);
 	while (true)
 	{
 		input = get_input(true);
 		if (!input)
-		{
-			if (isatty(STDIN_FILENO))
-				ft_putstr("exit", 2, -1, true);
-			break; // TODO: should it print error msg and continue instead?
-		}
+			crash_main(NULL, &shell);
 		shell.tokens = tokenize(input, NULL);
 		free(input);
 		while (fetch_token(shell.tokens, -1)->type == TK_PIPE)
 		{
 			input = get_input(false);
 			if (!input)
-			{
-				ft_putstr("minishell: syntax error: unexpected end of file", 2, -1, true);
-				if (isatty(STDIN_FILENO))
-					ft_putstr("exit", 2, -1, true);
-				break; // TODO: should it print error msg and continue instead?
-			}
+				crash_main("minishell: syntax error: unexpected end of file", &shell);
 			shell.tokens = tokenize(input, shell.tokens);
 		}
 		shell.ast = parse_tokens(shell.tokens);
@@ -94,8 +87,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		cleanup(&shell);
 	}
-	free_env(shell.env);
-	rl_clear_history();
+	empty_shell(&shell);
 	return (0);
 }
 
