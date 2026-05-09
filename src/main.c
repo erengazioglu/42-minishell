@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/09 12:27:33 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:31:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 /**
  * @brief Prompts user for an input, and keeps going until the trimmed input
  * is not an empty string.
+ * @param minishell	Option to print "minishell" or not (`false` when waiting
+ * for additional input.)
+ * @return	Non-empty string, or `NULL` on failure.
  */
 static char	*prompt(bool minishell)
 {
@@ -42,6 +45,9 @@ static char	*prompt(bool minishell)
 	return (trimmed);
 }
 
+/**
+ * @brief	Function to have shell prompt for user input, and tokenize.
+ */
 void	get_input(t_shell *shell)
 {
 	char	*input;
@@ -96,11 +102,3 @@ int	main(int argc, char **argv, char **envp)
 	empty_shell(&shell);
 	return (0);
 }
-
-		// shell.tokens = tokenize(input, NULL);
-		// while (fetch_token(shell.tokens, -1)->type == TK_PIPE)
-		// {
-		// 	free(input);
-		// 	input = get_input(false);
-		// 	shell.tokens = tokenize(input, shell.tokens);
-		// }
