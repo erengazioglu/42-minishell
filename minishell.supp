@@ -4,3 +4,9 @@
     ...
     obj:*/libreadline.so*
 }
+{
+    ls_leaks
+    Memcheck:Leak
+    ...
+    obj:*/usr/bin/ls
+}

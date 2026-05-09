@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:26:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:43:47 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_token	*check_unexpected_token(t_token *tkn)
  * Decremented by this function for each token parsed.
  * @returns		Next token to parse (or `NULL` if finished/error).
  * @note	On error, fills in the AST leaf with error information.
+ * @note	Error handling may leak memory!
  */
 t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 {

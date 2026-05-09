@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:47:48 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/09 13:01:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,32 @@ void	append_redir(t_redir **root, t_redir *new)
 	temp->next = new;
 }
 
+void	free_astleaf(t_ast *ast)
+{
+	t_token *arg;
+	t_token	*a_temp;
+	t_redir	*redir;
+	t_redir *r_temp;
+
+	arg = ast->leaf.argv;
+	while (arg)
+	{
+		a_temp = arg;
+		arg = arg->next;
+		free(a_temp->content);
+		free(a_temp);
+	}
+	redir = ast->leaf.redirs;
+	while (redir)
+	{
+		r_temp = redir;
+		redir = redir->next;
+		free(r_temp->target->content);
+		free(r_temp->target);
+		free(r_temp);
+	}
+}
+
 /**
  * @brief Given a root node, frees the whole AST tree recursively.
  * @param ast	Root of the AST to free.
@@ -47,8 +73,9 @@ void	free_ast(t_ast *ast)
 		free_ast(ast->node.left);
 		free_ast(ast->node.right);
 	}
-	else
-		free(ast);
+	else if (ast->node.type == NODE_CMD)
+		free_astleaf(ast);
+	free(ast);
 }
 
 /**
