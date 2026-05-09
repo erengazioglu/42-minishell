@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_leaf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:47:18 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/09 13:18:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_token	*check_unexpected_token(t_token *tkn)
  * Decremented by this function for each token parsed.
  * @returns		Next token to parse (or `NULL` if finished/error).
  * @note	On error, fills in the AST leaf with error information.
+ * @note	Error handling may leak memory!
  */
 t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 {
@@ -72,7 +73,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 				clone_token(tkn->next, false)));
 		retval = tkn->next->next;
 		*n -= 2;
-		return (free(tkn->next), free(tkn), retval);
+		return (free(tkn->next), free(tkn->content), free(tkn), retval);
 	}
 	else
 	{
@@ -87,9 +88,10 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 /**
  * @brief Parses a given list of tokens (up to n tokens),
  * 		returning a complete AST leaf.
- * @param root	First element of token list.
+ * @param root	Pointer to first element of token list.
  * @param n		Number of tokens to parse. If `n < 0` or bigger than the number
  * of elements in the list, parses all tokens forward from `root`.
+ * @note	Advances the `root` parameter.
  * @returns		Fully populated AST leaf, or `NULL` if error.
  */
 t_ast	*parse_leaf(t_token **root, int n)

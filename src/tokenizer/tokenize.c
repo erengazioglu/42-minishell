@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:47:52 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/08 15:31:05 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,8 @@ void	print_tokens(t_token *root)
 	ft_printf("%s", RST);
 }
 
-t_token	*tokenize(char *line)
+t_token	*tokenize(char *line, t_token *root)
 {
-	t_token	*root;
-
-	root = NULL;
 	while (*line && *line != '\n')
 	{
 		while (ft_isspace(*line))

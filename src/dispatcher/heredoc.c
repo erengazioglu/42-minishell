@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/06 18:17:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/07 19:19:24 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,19 @@ t_intlist	*create_heredoc(t_redir *redir)
 	return (new_int(fd[0]));
 }
 
-t_intlist	*create_heredocs(t_ast *ast)
+t_intlist	*create_heredocs(t_shell *shell)
 {
-	t_intlist	*hdoc;
 	t_redir		*redir;
+	t_ast		*ast;
 
-	hdoc = NULL;
+	ast = shell->ast;
 	while (ast->node.type == NODE_PIPE)
 	{
 		redir = ast->node.left->leaf.redirs;
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
-				append_int(&hdoc, create_heredoc(redir));
+				append_int(&(shell->hdoc), create_heredoc(redir));
 			redir = redir->next;
 		}
 		ast = ast->node.right;
@@ -104,8 +104,8 @@ t_intlist	*create_heredocs(t_ast *ast)
 	while (redir)
 	{
 		if (redir->type == REDIR_HEREDOC)
-			append_int(&hdoc, create_heredoc(redir));
+			append_int(&(shell->hdoc), create_heredoc(redir));
 		redir = redir->next;
 	}
-	return (hdoc);
+	return (shell->hdoc);
 }

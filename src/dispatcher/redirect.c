@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 15:30:02 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/08 00:06:36 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,24 +104,21 @@ bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
  * @param shell Shell context used for redirection expansion.
  * @return true on success, false on failure.
  */
-bool	redirect(t_ast *ast, int *fd, t_shell *shell, t_intlist **hdoc)
+bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 {
 	t_redir	*redir;
 
-	if (fd)
+	if (shell->fd[2] != STDIN_FILENO)
 	{
-		if (fd[2] != STDIN_FILENO)
-		{
-			if (dup2(fd[2], 0) == -1)
-				return (false);
-			close(fd[2]);
-		}
-		if (fd[1] != STDOUT_FILENO)
-		{
-			if (dup2(fd[1], 1) == -1)
-				return (false);
-			close(fd[1]);
-		}
+		if (dup2(shell->fd[2], 0) == -1)
+			return (false);
+		close(shell->fd[2]);
+	}
+	if (shell->fd[1] != STDOUT_FILENO)
+	{
+		if (dup2(shell->fd[1], 1) == -1)
+			return (false);
+		close(shell->fd[1]);
 	}
 	redir = ast->leaf.redirs;
 	expand_redirs(redir, shell);

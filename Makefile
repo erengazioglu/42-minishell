@@ -21,6 +21,7 @@ SRCS = \
 	src/globals.c \
 	src/crash.c \
 	src/print.c \
+	src/shell.c \
 	$(wildcard src/signals/*.c) \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \

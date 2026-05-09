@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 15:49:57 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:34:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,62 @@
 #include <sys/wait.h>
 
 /**
- * @brief Entry point for minishell.
- *
- * Initializes the shell environment from @p envp, then enters a readline()
- * loop. For each non-empty input line it tokenizes, parses into an AST, and
- * dispatches execution, tracking the last exit status.
- *
+ * @brief Prompts user for an input, and keeps going until the trimmed input
+ * is not an empty string.
+ * @param minishell	Option to print "minishell" or not (`false` when waiting
+ * for additional input.)
+ * @return	Non-empty string, or `NULL` on failure.
+ */
+static char	*prompt(bool minishell)
+{
+	char	*line;
+	char	*trimmed;
+
+	trimmed = ft_strdup("");
+	while (!*trimmed)
+	{
+		if (minishell)
+			line = readline("\e[0;36mminishell>\e[0m ");
+		else
+			line = readline("\e[0;36m>\e[0m ");
+		if (line == NULL)
+			return (free(trimmed), NULL);
+		if (ft_strlen(line) > 0)
+			add_history(line);
+		free(trimmed);
+		trimmed = ft_strtrim(line, " \f\t\v\r\n");
+		free(line);
+		if (!trimmed)
+			return (NULL);
+	}
+	return (trimmed);
+}
+
+/**
+ * @brief	Function to have shell prompt for user input, and tokenize.
+ */
+void	get_input(t_shell *shell)
+{
+	char	*input;
+
+	set_interactive_signals();
+	input = prompt(true);
+	if (!input)
+		crash_main(NULL, shell);
+	shell->tokens = tokenize(input, NULL);
+	free(input);
+	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
+	{
+		input = prompt(false);
+		if (!input)
+			crash_main("minishell: syntax error: unexpected end of file", shell);
+		shell->tokens = tokenize(input, shell->tokens);
+	}
+}
+
+/**
+ * @brief Entry point for minishell. Gets input, parses it into an AST,
+ * and calls `dispatch` when all conditions are met.
  * @param argc Unused.
  * @param argv Unused.
  * @param envp Environment array used to build the internal env list.
@@ -27,46 +77,23 @@
  */
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_token	*tokens;
-	t_ast	*ast;
-	char	*temp;
 	t_shell	shell;
 
 	(void) argc;
 	(void) argv;
-	shell.env = env_from_envp(envp);
-	shell.last_exit_status = 0;
-	while (1)
+	if (!init_shell(&shell, envp))
+		crash_main("minishell: malloc error", NULL);
+	while (true)
 	{
-		set_interactive_signals();
-		line = readline("\e[0;36mminishell>\e[0m ");
-		if (line == NULL)
+		get_input(&shell);
+		shell.ast = parse_tokens(shell.tokens);
+		if (shell.ast)
 		{
-			if (isatty(STDIN_FILENO))
-				ft_putstr("exit\n", 2, -1, true);
-			break ;
+			shell.last_exit_status = dispatch(&shell);
+			free_ast(shell.ast);
 		}
-		if (ft_strlen(line) > 0)
-			add_history(line);
-		temp = line;
-		while (ft_isspace(*temp))
-			temp++;
-		if (*temp)
-		{
-			tokens = tokenize(line);
-			// print_tokens(tokens);
-			ast = parse_tokens(tokens);
-			if (ast)
-			{
-				// print_ast(ast);
-				shell.last_exit_status = dispatch(ast, &shell);
-				free_ast(ast);
-			}
-		}
-		free(line);
+		cleanup(&shell);
 	}
-	free_env(shell.env);
-	rl_clear_history();
+	empty_shell(&shell);
 	return (0);
 }
