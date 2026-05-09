@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:07:32 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 13:18:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 				clone_token(tkn->next, false)));
 		retval = tkn->next->next;
 		*n -= 2;
-		return (free(tkn->next), free(tkn), retval);
+		return (free(tkn->next), free(tkn->content), free(tkn), retval);
 	}
 	else
 	{
