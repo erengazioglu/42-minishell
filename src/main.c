@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/09 12:31:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:34:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,12 @@ void	get_input(t_shell *shell)
 }
 
 /**
- * @brief Entry point for minishell.
- *
- * Initializes the shell environment from @p envp, then enters a readline()
- * loop. For each non-empty input line it tokenizes, parses into an AST, and
- * dispatches execution, tracking the last exit status.
- *
+ * @brief Entry point for minishell. Gets input, parses it into an AST,
+ * and calls `dispatch` when all conditions are met.
  * @param argc Unused.
  * @param argv Unused.
  * @param envp Environment array used to build the internal env list.
  * @return Always 0 (normal termination via EOF).
- * @note `parse_input` frees input string.
  */
 int	main(int argc, char **argv, char **envp)
 {
