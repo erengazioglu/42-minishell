@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 17:20:09 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/09 11:43:28 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_ast	*parse_node(t_token *root, int i)
  * @brief Recursively creates an Abstract Syntax Tree (AST)
  * from a given list of tokens.
  * @param root	First element of token list.
- * @returns		Root of AST (`union u_ast`).
+ * @returns		Root of AST (`union u_ast`), or `NULL` on failure.
  */
 t_ast	*parse_tokens(t_token *root)
 {

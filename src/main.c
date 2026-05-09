@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/09 11:40:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/09 12:27:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@
  * @brief Prompts user for an input, and keeps going until the trimmed input
  * is not an empty string.
  */
-static char	*get_input(bool prompt)
+static char	*prompt(bool minishell)
 {
 	char	*line;
 	char	*trimmed;
 
-	set_interactive_signals();
 	trimmed = ft_strdup("");
 	while (!*trimmed)
 	{
-		if (prompt)
+		if (minishell)
 			line = readline("\e[0;36mminishell>\e[0m ");
 		else
 			line = readline("\e[0;36m>\e[0m ");
@@ -41,6 +40,25 @@ static char	*get_input(bool prompt)
 			return (NULL);
 	}
 	return (trimmed);
+}
+
+void	get_input(t_shell *shell)
+{
+	char	*input;
+
+	set_interactive_signals();
+	input = prompt(true);
+	if (!input)
+		crash_main(NULL, shell);
+	shell->tokens = tokenize(input, NULL);
+	free(input);
+	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
+	{
+		input = prompt(false);
+		if (!input)
+			crash_main("minishell: syntax error: unexpected end of file", shell);
+		shell->tokens = tokenize(input, shell->tokens);
+	}
 }
 
 /**
@@ -58,7 +76,6 @@ static char	*get_input(bool prompt)
  */
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
 	t_shell	shell;
 
 	(void) argc;
@@ -67,18 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		crash_main("minishell: malloc error", NULL);
 	while (true)
 	{
-		input = get_input(true);
-		if (!input)
-			crash_main(NULL, &shell);
-		shell.tokens = tokenize(input, NULL);
-		free(input);
-		while (fetch_token(shell.tokens, -1)->type == TK_PIPE)
-		{
-			input = get_input(false);
-			if (!input)
-				crash_main("minishell: syntax error: unexpected end of file", &shell);
-			shell.tokens = tokenize(input, shell.tokens);
-		}
+		get_input(&shell);
 		shell.ast = parse_tokens(shell.tokens);
 		if (shell.ast)
 		{
