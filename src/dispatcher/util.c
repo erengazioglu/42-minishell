@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 03:04:08 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/10 20:45:16 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ char	**extract_paths(char *cmd, t_env *env)
 	return (paths);
 }
 
+static int	count_args(t_token *root)
+{
+	int	count;
+
+	count = 0;
+	while (root)
+	{
+		if (root->type != TK_WORD || root->content[0] != '\0')
+			count++;
+		root = root->next;
+	}
+	return (count);
+}
+
 /**
  * @brief Given a linked list of tokens, creates an array of strings
  * representing the arguments passed to the program.
@@ -59,28 +73,21 @@ char	**extract_paths(char *cmd, t_env *env)
 char	**build_argv(t_token *root, int *argc)
 {
 	int		i;
-	int		count;
 	char	**argv;
-	t_token	*curr;
 
-	count = 0;
-	curr = root;
-	while (curr)
-	{
-		count++;
-		curr = curr->next;
-	}
-	argv = malloc(sizeof(char *) * (count + 1));
+	*argc = count_args(root);
+	argv = malloc(sizeof(char *) * (*argc + 1));
 	if (!argv)
 		return (NULL);
 	i = 0;
-	while (i < count)
+	while (root)
 	{
-		argv[i++] = root->content;
+		if (root->type != TK_WORD || root->content[0] != '\0')
+			argv[i++] = root->content;
 		root = root->next;
 	}
-	*argc = count;
-	return (argv[i] = NULL, argv);
+	argv[i] = NULL;
+	return (argv);
 }
 
 int	get_exit_code(int exit_value)
