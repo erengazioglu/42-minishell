@@ -31,7 +31,7 @@ SRCS = \
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME)
+all: $(NAME) clean
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
@@ -43,6 +43,7 @@ tests: libft/libft.a $(OBJS)
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_parse.c $(INCLUDE) $(LIBS) -o tests/test_parse
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_expand.c $(INCLUDE) $(LIBS) -o tests/test_expand
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_execve.c $(INCLUDE) $(LIBS) -o tests/test_execve
+	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_split_quotes.c $(INCLUDE) $(LIBS) -o tests/test_split_quotes
 
 libft/libft.a:
 	@make -C libft
@@ -51,7 +52,10 @@ clean:
 	rm -f $(OBJS) src/main.o
 	@make -C libft clean
 
-fclean: clean
+clean_tests:
+	rm -f tests/test_parse tests/test_expand tests/test_execve tests/test_split_quotes
+
+fclean: clean clean_tests
 	rm -f $(NAME)
 	@make -C libft fclean
 

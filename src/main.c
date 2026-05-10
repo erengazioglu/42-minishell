@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/09 12:34:29 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:20:38 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,69 @@ static char	*prompt(bool minishell)
 	return (trimmed);
 }
 
+static bool	unclosed_quotes(const char *str)
+{
+	int	in_sq;
+	int	in_dq;
+
+	in_sq = 0;
+	in_dq = 0;
+	while (*str)
+	{
+		if (*str == '\'' && !in_dq)
+			in_sq = !in_sq;
+		else if (*str == '"' && !in_sq)
+			in_dq = !in_dq;
+		str++;
+	}
+	return (in_sq || in_dq);
+}
+
+static char	*prompt_close_quotes(t_shell *shell, char *input)
+{
+	char	*more;
+	char	*joined;
+	char	*err;
+
+	err = "minishell: syntax error: unexpected EOF while looking for matching "
+		"quote";
+
+	while (unclosed_quotes(input))
+	{
+		more = prompt(false);
+		if (!more)
+		{
+			free(input);
+			crash_main(err, shell);
+		}
+		joined = ft_strsjoin(input, more, '\n', true);
+		free(more);
+		if (!joined)
+			crash_main("minishell: malloc error", shell);
+		input = joined;
+	}
+	return (input);
+}
+
+static char	*prompt_valid(t_shell *shell, bool minishell)
+{
+	char	*input;
+	char	**check;
+
+	while (true)
+	{
+		input = prompt(minishell);
+		if (!input)
+			crash_main(NULL, shell);
+		input = prompt_close_quotes(shell, input);
+		check = ft_split_quotes(input);
+		if (!check)
+			crash_main("minishell: malloc error", shell);
+		free_strarr(check);
+		return (input);
+	}
+}
+
 /**
  * @brief	Function to have shell prompt for user input, and tokenize.
  */
@@ -53,17 +116,14 @@ void	get_input(t_shell *shell)
 	char	*input;
 
 	set_interactive_signals();
-	input = prompt(true);
-	if (!input)
-		crash_main(NULL, shell);
+	input = prompt_valid(shell, true);
 	shell->tokens = tokenize(input, NULL);
 	free(input);
 	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
 	{
-		input = prompt(false);
-		if (!input)
-			crash_main("minishell: syntax error: unexpected end of file", shell);
+		input = prompt_valid(shell, false);
 		shell->tokens = tokenize(input, shell->tokens);
+		free(input);
 	}
 }
 
@@ -74,6 +134,8 @@ void	get_input(t_shell *shell)
  * @param argv Unused.
  * @param envp Environment array used to build the internal env list.
  * @return Always 0 (normal termination via EOF).
+ * @note	`shell.tokens` is set to NULL to avoid calling free_tokens
+ * on a stale reference.
  */
 int	main(int argc, char **argv, char **envp)
 {
@@ -89,6 +151,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.ast = parse_tokens(shell.tokens);
 		if (shell.ast)
 		{
+			shell.tokens = NULL;
 			shell.last_exit_status = dispatch(&shell);
 			free_ast(shell.ast);
 		}

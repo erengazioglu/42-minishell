@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 19:01:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:22:47 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 		while (paths[i])
 			execve(paths[i++], argv, envp);
 	}
+	free_strarr(paths);
+	ft_putstr("minishell: ", 2, -1, false);
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
 }
@@ -101,6 +103,12 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	char	**envp;
 
 	set_child_signals();
+	if (shell->fd[0] >= 0 && shell->fd[0] != shell->fd[1]
+		&& shell->fd[0] != shell->fd[2])
+	{
+		close(shell->fd[0]);
+		shell->fd[0] = -1;
+	}
 	if (!redirect(ast, shell, hdoc))
 		exit(1);
 	if (ast->leaf.argv)
@@ -113,14 +121,19 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 		execute_absolute(argv, envp);
-	execute_relative(argv, envp, shell);
+	else
+		execute_relative(argv, envp, shell);
+	free(argv);
+	free_strarr(envp);
+	empty_shell(shell);
+	free_ast(shell->ast);
 	exit(127);
 }
 
 int	spawn_child(t_shell *shell, t_ast *ast)
 {
 	int	pid;
-	
+
 	pid = fork();
 	if (pid == -1)
 		return (-1);

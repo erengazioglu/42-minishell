@@ -15,7 +15,7 @@
 
 char	*ft_pathjoin(char *s1, char *s2)
 {
-	return (ft_strsjoin(s1, s2, '/', false));
+	return (ft_strsjoin(s1, s2, '/', true));
 }
 
 char	**extract_paths(char *cmd, t_env *env)
@@ -36,7 +36,6 @@ char	**extract_paths(char *cmd, t_env *env)
 	}
 	if (!paths)
 		return (NULL);
-	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_pathjoin(paths[i], cmd);

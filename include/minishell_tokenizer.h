@@ -48,6 +48,10 @@ void	free_tokens(t_token *root);
 void	print_token(t_token *token, bool display_count);
 void	print_tokens(t_token *root);
 
+// tokenizer/ft_split_quotes.c
+
+char	**ft_split_quotes(const char *str);
+
 // tokenizer/tokenize_parts.c
 
 int		tokenize_quote(t_token **root, char *line);

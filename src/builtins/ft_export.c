@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 13:36:58 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:48:06 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ static bool	ft_is_valid_export_arg(char *arg)
 		return (false);
 	if (!ft_isalpha(arg[0]) && arg[0] != '_')
 		return (false);
-	i = 0;
-	while (arg[i])
+	i = 1;
+	while (arg[i] && arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]) && arg[i] != '_' && arg[i] != '=')
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (false);
-		if (arg[i] == '=')
-			return (true);
 		i++;
 	}
 	return (true);
