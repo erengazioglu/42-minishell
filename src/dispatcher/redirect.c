@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 00:06:36 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 19:34:57 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ int	open_read_file(char *fn, t_redirtype mode, t_intlist **hdoc)
 		return (fd);
 	}
 	fd = open(fn, O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr("minishell: ", 2, -1, false);
+		perror(fn);
+		return (-1);
+	}
 	close(STDIN_FILENO);
 	return (fd);
 }
@@ -57,6 +63,12 @@ int	open_write_file(char *fn, t_redirtype mode)
 	else
 		open_flags |= O_TRUNC;
 	fd = open(fn, open_flags, mode_flags);
+	if (fd == -1)
+	{
+		ft_putstr("minishell: ", 2, -1, false);
+		perror(fn);
+		return (-1);
+	}
 	close(STDOUT_FILENO);
 	return (fd);
 }
