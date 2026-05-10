@@ -126,7 +126,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	free(argv);
 	free_strarr(envp);
 	empty_shell(shell);
-	free_ast(ast);
+	free_ast(shell->ast);
 	exit(127);
 }
 
