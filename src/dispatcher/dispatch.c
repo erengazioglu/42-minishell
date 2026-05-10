@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 13:22:47 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/10 23:28:29 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ int	dispatch(t_shell *shell)
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 	}
-	if (shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
+	if (ast->leaf.argv && shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell));
 	shell->fd[1] = STDOUT_FILENO;
 	pid = spawn_child(shell, ast);
