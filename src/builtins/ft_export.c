@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/09 19:52:39 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:48:06 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	ft_export(char **args, t_env **env)
 	i = 1;
 	while (args[i])
 	{
-		ft_printf("DEBUG: args[%d] is -> [%s]\n", i, args[i]);
 		if (ft_is_valid_export_arg(args[i]))
 			ft_export_process_arg(args[i], env);
 		else
