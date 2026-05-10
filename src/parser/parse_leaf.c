@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:18:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 23:18:28 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 
 	retval = check_unexpected_token(tkn);
 	if (retval)
-		return (retval);
+		return (free_tokens(tkn), retval);
 	if (tkn->type == TK_REDIR)
 	{
 		append_redir(&ast->leaf.redirs, new_redir(tkn->content,
@@ -110,7 +110,7 @@ t_ast	*parse_leaf(t_token **root, int n)
 		if (temp && temp->type == TK_ERR)
 		{
 			free_tokens(temp);
-			free_tokens(*root);
+			// free_tokens(*root);
 			free_ast(ast);
 			return (NULL);
 		}

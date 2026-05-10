@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:08:45 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 23:14:27 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_ast	*parse_tokens(t_token *root);
  * @param root	First element of token list.
  * @param i		Index of splitting character (pipe/and/or).
  * @returns		Fully populated AST node, or `NULL` if error.
+ * @note	If a `NODE_ERR` is generated on the left, the right side 
+ * is not parsed.
  */
 t_ast	*parse_node(t_token *root, int i)
 {
@@ -33,6 +35,8 @@ t_ast	*parse_node(t_token *root, int i)
 	ast->node.left = parse_leaf(&root, i);
 	if (!ast->node.left)
 		return (free(ast), NULL);
+	if (ast->node.left->leaf.type == NODE_ERR)
+		return (ast->node.right = NULL, ast);
 	ast->node.right = parse_tokens(root->next);
 	free(root->content);
 	free(root);
