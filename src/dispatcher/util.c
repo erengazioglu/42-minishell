@@ -36,7 +36,6 @@ char	**extract_paths(char *cmd, t_env *env)
 	}
 	if (!paths)
 		return (NULL);
-	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_pathjoin(paths[i], cmd);
