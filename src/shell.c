@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 11:35:26 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 13:22:46 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ bool	init_shell(t_shell *shell, char **envp)
 		return (false);
 	shell->last_exit_status = 0;
 	shell->hdoc = NULL;
+	shell->fd[0] = -1;
 	shell->fd[1] = STDOUT_FILENO;
 	shell->fd[2] = STDIN_FILENO;
+	shell->fd[3] = -1;
 	shell->children = 1;
 	shell->tokens = NULL;
 	return (true);
@@ -53,8 +55,10 @@ bool	init_shell(t_shell *shell, char **envp)
 
 void	cleanup(t_shell *shell)
 {
+	shell->fd[0] = -1;
 	shell->fd[1] = STDOUT_FILENO;
 	shell->fd[2] = STDIN_FILENO;
+	shell->fd[3] = -1;
 	shell->children = 1;
 	shell->last_exit_status = 0;
 	shell->tokens = NULL;

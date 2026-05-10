@@ -20,7 +20,7 @@ void	test_parse(char *line, bool free_input)
 	t_token	*root;
 	t_ast	*ast;
 
-	root = tokenize(line);
+	root = tokenize(line, NULL);
 	printf("%sTokens:\n", YEL);
 	print_tokens(root);
 	ast = parse_tokens(root);
