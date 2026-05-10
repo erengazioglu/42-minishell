@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 20:45:16 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/10 23:37:08 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ char	**build_argv(t_token *root, int *argc)
 	char	**argv;
 
 	*argc = count_args(root);
+	if (*argc == 0)
+		return (NULL);
 	argv = malloc(sizeof(char *) * (*argc + 1));
 	if (!argv)
 		return (NULL);

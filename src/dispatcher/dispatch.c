@@ -6,11 +6,18 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 23:28:29 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/10 23:42:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	empty_command(t_ast *ast, t_shell *shell)
+{
+	free_ast(ast);
+	free_env(shell->env);
+	exit(0);
+}
 
 /**
  * @brief Map a command name to a builtin identifier.
@@ -111,11 +118,10 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	}
 	if (!redirect(ast, shell, hdoc))
 		exit(1);
-	if (ast->leaf.argv)
-		expand_tokens(ast->leaf.argv, shell);
+	expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
-		exit(0);
+		exit(empty_command(ast, shell));
 	if (is_builtin(argv[0]) != -1)
 		exit(exec_builtin(ast, shell));
 	envp = env_to_envp(shell->env);
