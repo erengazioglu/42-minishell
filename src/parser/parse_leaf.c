@@ -97,16 +97,23 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
 t_ast	*parse_leaf(t_token **root, int n)
 {
 	t_ast	*ast;
+	t_token	*temp;
 
+	temp = *root;
 	ast = ft_calloc(1, sizeof(t_ast));
 	if (!ast)
 		return (NULL);
 	ast->leaf.type = NODE_CMD;
-	while (*root && n)
+	while (temp && n)
 	{
-		*root = parse_leaf_step(ast, *root, &n);
-		if (*root && (*root)->type == TK_ERR)
-			return (NULL); // cleanup here...
+		temp = parse_leaf_step(ast, temp, &n);
+		if (temp && temp->type == TK_ERR)
+		{
+			free_tokens(temp);
+			free_tokens(*root);
+			free_ast(ast);
+			return (NULL);
+		}
 	}
 	return (ast);
 }
