@@ -90,6 +90,7 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 		while (paths[i])
 			execve(paths[i++], argv, envp);
 	}
+	free_strarr(paths);
 	ft_putstr("minishell: ", 2, -1, false);
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
@@ -120,7 +121,12 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 		execute_absolute(argv, envp);
-	execute_relative(argv, envp, shell);
+	else
+		execute_relative(argv, envp, shell);
+	free(argv);
+	free_strarr(envp);
+	empty_shell(shell);
+	free_ast(ast);
 	exit(127);
 }
 

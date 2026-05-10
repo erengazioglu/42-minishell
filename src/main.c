@@ -134,6 +134,8 @@ void	get_input(t_shell *shell)
  * @param argv Unused.
  * @param envp Environment array used to build the internal env list.
  * @return Always 0 (normal termination via EOF).
+ * @note	`shell.tokens` is set to NULL to avoid calling free_tokens
+ * on a stale reference.
  */
 int	main(int argc, char **argv, char **envp)
 {
@@ -149,6 +151,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.ast = parse_tokens(shell.tokens);
 		if (shell.ast)
 		{
+			shell.tokens = NULL;
 			shell.last_exit_status = dispatch(&shell);
 			free_ast(shell.ast);
 		}

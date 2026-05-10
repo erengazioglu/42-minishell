@@ -20,9 +20,9 @@ void	free_strarr(char **arr)
 {
 	int	i;
 
-	i = 0;
 	if (!arr)
 		return ;
+	i = 0;
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
