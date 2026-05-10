@@ -28,13 +28,15 @@ static char	*prompt(bool minishell)
 	trimmed = ft_strdup("");
 	while (!*trimmed)
 	{
-		if (minishell)
+		if (!isatty(fileno(stdin)))
+			line = get_next_line(fileno(stdin));
+		else if (minishell)
 			line = readline("\e[0;36mminishell>\e[0m ");
 		else
 			line = readline("\e[0;36m>\e[0m ");
-		if (line == NULL)
+		if (!line)
 			return (free(trimmed), NULL);
-		if (ft_strlen(line) > 0)
+		if (isatty(fileno(stdin)) && ft_strlen(line) > 0)
 			add_history(line);
 		free(trimmed);
 		trimmed = ft_strtrim(line, " \f\t\v\r\n");
