@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 18:25:19 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 21:49:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ bool	init_shell(t_shell *shell, char **envp)
 	if (!shell->env)
 		return (false);
 	shell->last_exit_status = 0;
-	shell->hdoc = NULL;
 	shell->fd[0] = -1;
 	shell->fd[1] = STDOUT_FILENO;
 	shell->fd[2] = STDIN_FILENO;
@@ -62,22 +61,6 @@ void	cleanup(t_shell *shell)
 	shell->children = 1;
 	// shell->last_exit_status = 0;
 	shell->tokens = NULL;
-	free_intlist(shell->hdoc, true);
-	shell->hdoc = NULL;
-}
-
-void	free_intlist(t_intlist *root, bool close_fds)
-{
-	t_intlist	*temp;
-
-	while (root)
-	{
-		temp = root;
-		root = root->next;
-		if (close_fds)
-			close(temp->val);
-		free(temp);
-	}
 }
 
 void	empty_shell(t_shell *shell)
@@ -85,7 +68,5 @@ void	empty_shell(t_shell *shell)
 	free_env(shell->env);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
-	if (shell->hdoc)
-		free_intlist(shell->hdoc, true);
 	rl_clear_history();
 }

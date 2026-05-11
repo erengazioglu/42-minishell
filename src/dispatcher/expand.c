@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 11:04:55 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/11 23:23:48 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,24 @@ static char	*expand_string_word(char *str, t_shell *shell)
 {
 	char	*result;
 	char	*temp;
-	char	q;
-	char	buf[2];
+	char	quote;
 
 	temp = str;
 	result = ft_strdup("");
-	q = 0;
-	buf[1] = '\0';
+	quote = 0;
 	while (*temp)
 	{
-		if (!q && (*temp == '\'' || *temp == '\"'))
-			q = *temp++;
-		else if (q && *temp == q)
+		if (!quote && (*temp == '\'' || *temp == '\"')) // if not in a quote, start quote
+			quote = *temp++;
+		else if (quote && *temp == quote) // if in a quote and found closing quote, end quote
 		{
-			q = 0;
+			quote = 0;
 			temp++;
 		}
-		else if ((!q || q == '\"') && *temp == '$')
+		else if ((!quote || quote == '\"') && *temp == '$') // if not in a quote or in double quotes, expand variable
 			result = expand_var(result, &temp, shell);
 		else
-		{
-			buf[0] = *temp++;
-			result = ft_strjoin(result, buf, -1, true);
-		}
+			result = ft_strjoin(result, temp++, 1, true);
 	}
 	free(str);
 	return (result);

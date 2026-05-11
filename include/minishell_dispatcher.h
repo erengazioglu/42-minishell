@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 14:31:38 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 22:24:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,16 @@
 // Forward declaration (from `minishell.h`)
 typedef struct s_shell t_shell;
 
-typedef struct s_intlist t_intlist;
-struct s_intlist
-{
-	int	val;
-	t_intlist	*next;
-};
-
 // dispatch.c
 
 int		dispatch(t_shell *shell);
-void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc);
+void	child_process(t_ast *ast, t_shell *shell);
 int		is_builtin(char *str);
 
 // redirects.c
 
-bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc);
-bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc);
+bool	open_file(t_redir *redir);
+bool	redirect(t_ast *ast, t_shell *shell);
 
 // expand.c
 
@@ -66,6 +59,6 @@ int		get_exit_code(int exit_value);
 
 // heredoc.c
 
-t_intlist	*create_heredocs(t_shell *shell);
+void	create_heredocs(t_shell *shell);
 
 #endif

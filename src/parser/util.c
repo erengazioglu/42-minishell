@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 17:59:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 21:13:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ t_redir	*new_redir(char *type, t_token *target)
 			redir->type = REDIR_TRUNC;
 	}
 	redir->target = target;
+	redir->fd = -1;
 	return (redir);
 }

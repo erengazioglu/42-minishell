@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 18:54:18 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 21:52:06 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	empty_command(t_ast *ast, t_shell *shell)
 {
 	free_ast(ast);
 	free_env(shell->env);
-	free_intlist(shell->hdoc, true);
 	exit(0);
 }
 
@@ -25,7 +24,6 @@ int	redirect_error(t_ast *ast, t_shell *shell)
 	(void) ast;
 	free_ast(shell->ast);
 	free_env(shell->env);
-	free_intlist(shell->hdoc, true);
 	exit(1);
 }
 
@@ -113,7 +111,7 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr(": command not found\n", 2, -1, false);
 }
 
-void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
+void	child_process(t_ast *ast, t_shell *shell)
 {
 	int		argc;
 	char	**argv;
@@ -126,7 +124,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 		close(shell->fd[0]);
 		shell->fd[0] = -1;
 	}
-	if (!redirect(ast, shell, hdoc))
+	if (!redirect(ast, shell))
 		exit(redirect_error(ast, shell));
 	expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
@@ -157,10 +155,9 @@ int	spawn_child(t_shell *shell, t_ast *ast)
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, shell, &(shell->hdoc));
+		child_process(ast, shell);
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
-	// free_intlist(shell->hdoc, true);
 	shell->children++;
 	return (pid);
 }

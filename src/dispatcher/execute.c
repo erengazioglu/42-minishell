@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 15:12:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 23:29:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	exec_builtin(t_ast *ast, t_shell *shell, bool is_child)
 	shell->fd[2] = STDIN_FILENO;
 	shell->fd[0] = dup(STDIN_FILENO);
 	shell->fd[3] = dup(STDOUT_FILENO);
-	if (!redirect(ast, shell, &(shell->hdoc)))
+	if (!redirect(ast, shell))
 		return (exit_builtin(shell, is_child, 1));
 	if (ast->leaf.argv)
 		expand_tokens(ast->leaf.argv, shell);
