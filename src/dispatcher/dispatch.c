@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 23:42:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 11:42:20 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ int	empty_command(t_ast *ast, t_shell *shell)
 	free_ast(ast);
 	free_env(shell->env);
 	exit(0);
+}
+
+int	redirect_error(t_ast *ast, t_shell *shell)
+{
+	free_ast(ast);
+	free_env(shell->env);
+	exit(1);
 }
 
 /**
@@ -117,7 +124,7 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 		shell->fd[0] = -1;
 	}
 	if (!redirect(ast, shell, hdoc))
-		exit(1);
+		exit(redirect_error(ast, shell));
 	expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
