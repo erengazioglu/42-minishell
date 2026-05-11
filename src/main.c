@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/11 13:17:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:22:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,15 @@ static char	*prompt(bool minishell)
 	trimmed = ft_strdup("");
 	while (!*trimmed)
 	{
-		if (minishell)
+		if (!isatty(fileno(stdin)))
+			line = get_next_line(fileno(stdin));
+		else if (minishell)
 			line = readline("\e[0;36mminishell>\e[0m ");
 		else
 			line = readline("\e[0;36m>\e[0m ");
-		if (line == NULL)
+		if (!line)
 			return (free(trimmed), NULL);
-		if (ft_strlen(line) > 0)
+		if (isatty(fileno(stdin)) && ft_strlen(line) > 0)
 			add_history(line);
 		free(trimmed);
 		trimmed = ft_strtrim(line, " \f\t\v\r\n");
@@ -156,9 +158,10 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_putstr("minishell: syntax error near unexpected token '|'",
 				STDERR_FILENO, -1, true);
+				shell.last_exit_status = 2;
 			continue;
 		}
-		shell.ast = parse_tokens(shell.tokens);
+		shell.ast = parse_tokens(shell.tokens, &shell);
 		if (shell.ast)
 		{
 			shell.tokens = NULL;
