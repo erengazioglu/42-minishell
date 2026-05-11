@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 15:11:11 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 15:45:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	empty_command(t_ast *ast, t_shell *shell)
 
 int	redirect_error(t_ast *ast, t_shell *shell)
 {
-	free_ast(ast);
+	(void) ast;
+	free_ast(shell->ast);
 	free_env(shell->env);
 	exit(1);
 }
