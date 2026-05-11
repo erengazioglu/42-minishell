@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 15:45:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 17:40:18 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	empty_command(t_ast *ast, t_shell *shell)
 {
 	free_ast(ast);
 	free_env(shell->env);
+	for (t_intlist *hdoc = shell->hdoc; hdoc; hdoc = hdoc->next)
+		close(hdoc->val);
 	exit(0);
 }
 
@@ -158,6 +160,8 @@ int	spawn_child(t_shell *shell, t_ast *ast)
 		child_process(ast, shell, &(shell->hdoc));
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
+	for (t_intlist *hdoc = shell->hdoc; hdoc; hdoc = hdoc->next)
+		close(hdoc->val);
 	shell->children++;
 	return (pid);
 }

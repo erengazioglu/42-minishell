@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 13:45:39 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/11 17:14:56 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,24 @@ void	cleanup(t_shell *shell)
 	shell->tokens = NULL;
 }
 
+void	free_intlist(t_intlist *root)
+{
+	t_intlist	*temp;
+
+	while (root)
+	{
+		temp = root;
+		root = root->next;
+		free(temp);
+	}
+}
+
 void	empty_shell(t_shell *shell)
 {
 	free_env(shell->env);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
+	if (shell->hdoc)
+		free_intlist(shell->hdoc);
 	rl_clear_history();
 }

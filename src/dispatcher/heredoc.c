@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 19:19:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 16:05:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	append_int(t_intlist **root, t_intlist *new)
  * the pipe, closes the write end, and returns the read end as a linked list.
  * @param redir	Redir object.
  */
-t_intlist	*create_heredoc(t_redir *redir)
+t_intlist	*create_heredoc(t_shell *shell, t_redir *redir)
 {
 	char	*input;
 	int		fd[2];
@@ -75,6 +75,8 @@ t_intlist	*create_heredoc(t_redir *redir)
 		}
 		free(input);
 		close(fd[1]);
+		free_ast(shell->ast);
+		free_env(shell->env);
 		exit(0);
 	}
 	close(fd[1]);
@@ -95,7 +97,7 @@ t_intlist	*create_heredocs(t_shell *shell)
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
-				append_int(&(shell->hdoc), create_heredoc(redir));
+				append_int(&(shell->hdoc), create_heredoc(shell, redir));
 			redir = redir->next;
 		}
 		ast = ast->node.right;
@@ -104,7 +106,7 @@ t_intlist	*create_heredocs(t_shell *shell)
 	while (redir)
 	{
 		if (redir->type == REDIR_HEREDOC)
-			append_int(&(shell->hdoc), create_heredoc(redir));
+			append_int(&(shell->hdoc), create_heredoc(shell,redir));
 		redir = redir->next;
 	}
 	return (shell->hdoc);
