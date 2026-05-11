@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 21:49:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:59:30 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	parse_input(t_shell *shell, char *input)
 	free(input);
 	if (!tokens)
 		return (false);
-	shell->ast = parse_tokens(tokens);
+	shell->ast = parse_tokens(tokens, shell);
 	if (!shell->ast)
 	{
 		free_tokens(tokens);
