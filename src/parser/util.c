@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:01:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 14:23:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	free_astleaf(t_ast *ast)
  */
 void	free_ast(t_ast *ast)
 {
+	if (!ast)
+		return ;
 	if (ast->node.type == NODE_PIPE)
 	{
 		free_ast(ast->node.left);
