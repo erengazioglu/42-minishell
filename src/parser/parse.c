@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 01:07:28 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:19:47 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_ast	*parse_tokens(t_token *root, t_shell *shell);
  * @note	If a `NODE_ERR` is generated on the left, the right side
  * is not parsed.
  */
-t_ast	*parse_node(t_token *root, int i)
+t_ast	*parse_node(t_token *root, int i, t_shell *shell)
 {
 	t_ast	*ast;
 
@@ -65,7 +65,7 @@ t_ast	*parse_tokens(t_token *root, t_shell *shell)
 		return (NULL);
 	}
 	if (i != -1)
-		ast = parse_node(root, i);
+		ast = parse_node(root, i, shell);
 	else
 		ast = parse_leaf(&root, -1);
 	if (!ast)

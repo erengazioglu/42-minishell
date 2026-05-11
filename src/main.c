@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/12 01:11:34 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:22:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int	main(int argc, char **argv, char **envp)
 				shell.last_exit_status = 2;
 			continue;
 		}
-		shell.ast = parse_tokens(shell.tokens);
+		shell.ast = parse_tokens(shell.tokens, &shell);
 		if (shell.ast)
 		{
 			shell.tokens = NULL;

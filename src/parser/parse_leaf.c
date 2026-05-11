@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_leaf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 01:09:35 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:21:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n, t_shell *shell)
  * @note	Advances the `root` parameter.
  * @returns		Fully populated AST leaf, or `NULL` if error.
  */
-t_ast	*parse_leaf(t_token **root, int n)
+t_ast	*parse_leaf(t_token **root, int n, t_shell *shell)
 {
 	t_ast	*ast;
 	t_token	*temp;
@@ -108,7 +108,7 @@ t_ast	*parse_leaf(t_token **root, int n)
 	ast->leaf.type = NODE_CMD;
 	while (temp && n)
 	{
-		temp = parse_leaf_step(ast, temp, &n);
+		temp = parse_leaf_step(ast, temp, &n, shell);
 		if (temp && temp->type == TK_ERR)
 		{
 			free_tokens(temp);
