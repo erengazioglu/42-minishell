@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 11:35:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 18:02:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	cleanup(t_shell *shell);
 bool	parse_input(t_shell *shell, char *input);
 bool	init_shell(t_shell *shell, char **envp);
 void	empty_shell(t_shell *shell);
+void	free_intlist(t_intlist *root, bool close_fds);
 
 // crash.c 
 
