@@ -31,7 +31,7 @@ SRCS = \
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME) clean
+all: $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@

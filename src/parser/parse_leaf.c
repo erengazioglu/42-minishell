@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:18:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 11:20:27 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,6 @@ t_ast	*parse_leaf(t_token **root, int n)
 			return (NULL);
 		}
 	}
+	*root = temp;
 	return (ast);
 }
