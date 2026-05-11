@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 21:13:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:20:58 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	free_astleaf(t_ast *ast)
 	{
 		r_temp = redir;
 		redir = redir->next;
+		if (r_temp->fd != -1)
+			close(r_temp->fd);
 		free(r_temp->target->content);
 		free(r_temp->target);
 		free(r_temp);

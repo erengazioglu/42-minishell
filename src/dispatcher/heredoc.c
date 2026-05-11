@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 23:29:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 23:53:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,15 @@ void	write_heredoc_input(int *fd, char *stop)
  * @param redir	Redir object.
  * @return Read end file descriptor.
  */
-int	create_heredoc(t_shell *shell, t_redir *redir)
+int	create_heredoc(t_shell *shell, t_redir *redir, int *fd)
 {
-	int		fd[2];
 	int		pid;
 
+	if (fd[0] >= 0)
+	{
+		close(fd[0]);
+		fd[0] = -1;
+	}
 	pipe(fd);
 	pid = fork();
 	if (!pid)
@@ -78,7 +82,10 @@ void	create_heredocs(t_shell *shell)
 {
 	t_redir		*redir;
 	t_ast		*ast;
+	int			fd[2];
 
+	fd[0] = -1;
+	fd[1] = -1;
 	ast = shell->ast;
 	while (ast->node.type == NODE_PIPE)
 	{
@@ -86,7 +93,7 @@ void	create_heredocs(t_shell *shell)
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
-				redir->fd = create_heredoc(shell, redir);
+				redir->fd = create_heredoc(shell, redir, fd);
 			redir = redir->next;
 		}
 		ast = ast->node.right;
@@ -95,7 +102,7 @@ void	create_heredocs(t_shell *shell)
 	while (redir)
 	{
 		if (redir->type == REDIR_HEREDOC)
-			redir->fd = create_heredoc(shell, redir);
+			redir->fd = create_heredoc(shell, redir, fd);
 		redir = redir->next;
 	}
 }

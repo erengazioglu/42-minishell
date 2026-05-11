@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 23:31:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:19:16 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@
  * Opens file for IN and HEREDOC redirect modes.
  * @return New file descriptor, or -1 upon error.
  */
-static int	open_read_file(t_redir *redir)
+static int	open_read_file(t_shell *shell, t_redir *redir)
 {
 	int	fd;
 
+	if (shell->fd[2] != STDIN_FILENO)
+	{
+		close(shell->fd[2]);
+	}
 	if (redir->type == REDIR_HEREDOC)
 	{
 		fd = redir->fd;
@@ -73,23 +77,17 @@ static int	open_write_file(t_redir *redir)
  * @return		`true` on success, `false` on failure.
  * @note	Called by the child process. Call `exit()` freely on failure.
  */
-bool	open_file(t_redir *redir)
+bool	open_file(t_shell *shell, t_redir *redir)
 {
 	int	fd_new;
 	int	fd_keep;
 
 	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
-	{
-		fd_new = open_read_file(redir);
-		if (fd_new == -1)
-			return (false);
-	}
+		fd_new = open_read_file(shell, redir);
 	else
-	{
 		fd_new = open_write_file(redir);
-		if (fd_new == -1)
-			return (false); // TODO: handle OPENW error
-	}
+	if (fd_new == -1)
+		return (false);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
 	if (fd_keep == -1)
 		return (false); // TODO: handle DUP2 error
@@ -129,7 +127,7 @@ bool	redirect(t_ast *ast, t_shell *shell)
 	expand_redirs(redir, shell);
 	while (redir)
 	{
-		if (!open_file(redir))
+		if (!open_file(shell, redir))
 			return (false);
 		redir = redir->next;
 	}

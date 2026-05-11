@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 22:24:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:21:41 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		is_builtin(char *str);
 
 // redirects.c
 
-bool	open_file(t_redir *redir);
+bool	open_file(t_shell *shell, t_redir *redir);
 bool	redirect(t_ast *ast, t_shell *shell);
 
 // expand.c
