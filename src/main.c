@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/10 13:20:38 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/11 13:17:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ static char	*prompt_valid(t_shell *shell, bool minishell)
 
 /**
  * @brief	Function to have shell prompt for user input, and tokenize.
+ * @return	`true` on success, `false` on failure (e.g. double pipe).
  */
-void	get_input(t_shell *shell)
+bool	get_input(t_shell *shell)
 {
 	char	*input;
 
@@ -121,10 +122,14 @@ void	get_input(t_shell *shell)
 	free(input);
 	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
 	{
+		if (!fetch_token(shell->tokens, -2)
+				|| fetch_token(shell->tokens, -2)->type == TK_PIPE)
+			return (free_tokens(shell->tokens), shell->tokens = NULL, false);
 		input = prompt_valid(shell, false);
 		shell->tokens = tokenize(input, shell->tokens);
 		free(input);
 	}
+	return (true);
 }
 
 /**
@@ -147,7 +152,12 @@ int	main(int argc, char **argv, char **envp)
 		crash_main("minishell: malloc error", NULL);
 	while (true)
 	{
-		get_input(&shell);
+		if (!get_input(&shell))
+		{
+			ft_putstr("minishell: syntax error near unexpected token '|'",
+				STDERR_FILENO, -1, true);
+			continue;
+		}
 		shell.ast = parse_tokens(shell.tokens);
 		if (shell.ast)
 		{

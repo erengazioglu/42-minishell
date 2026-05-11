@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 11:22:13 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 13:08:07 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,17 @@ t_ast	*parse_tokens(t_token *root)
 	i = find_token(root, TK_PIPE);
 	if (i == 0)
 	{
-		ft_printf("minishell: syntax error near unexpected token '|'\n");
+		ft_putstr("minishell: syntax error near unexpected token '|'", 2, -1, true);
 		return (NULL);
 	}
 	if (i != -1)
 		ast = parse_node(root, i);
 	else
 		ast = parse_leaf(&root, -1);
+	if (ast && ast->leaf.type == NODE_ERR)
+	{
+		free_tokens(root);
+		return (ast);
+	}
 	return (ast);
 }

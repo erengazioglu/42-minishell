@@ -1,7 +1,7 @@
 NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
-DFLAGS	= -g
+DFLAGS	= -g -finstrument-functions
 
 UNAME_S := $(shell uname -s)
 
