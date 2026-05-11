@@ -6,12 +6,13 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:31:52 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:07:28 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell_parser.h"
 #include "../../include/minishell_tokenizer.h"
+#include "minishell.h"
 
 t_ast	*parse_tokens(t_token *root, t_shell *shell);
 
@@ -60,7 +61,7 @@ t_ast	*parse_tokens(t_token *root, t_shell *shell)
 	if (i == 0)
 	{
 		ft_putstr("minishell: syntax error near unexpected token '|'", 2, -1, true);
-		shell->last_status = 258;
+		shell->last_exit_status = 2;
 		return (NULL);
 	}
 	if (i != -1)

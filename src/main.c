@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/11 13:17:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:11:34 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_putstr("minishell: syntax error near unexpected token '|'",
 				STDERR_FILENO, -1, true);
+				shell.last_exit_status = 2;
 			continue;
 		}
 		shell.ast = parse_tokens(shell.tokens);

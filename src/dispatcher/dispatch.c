@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:27:02 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:12:38 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ int	wait_children(t_shell *shell, int pid)
 	int	status;
 	int	exit_code;
 
+	exit_code = 0;
 	set_execution_signals();
 	while (shell->children--)
 	{

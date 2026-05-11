@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_leaf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 11:22:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:09:35 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "../../include/minishell_parser.h"
 #include "../../include/minishell_tokenizer.h"
 
@@ -21,7 +22,7 @@
  * @note	The error token is completely empty, with a `TK_ERR` type,
  * 	but still a valid token that can be used to add contextual info.
  */
-t_token	*check_unexpected_token(t_token *tkn)
+t_token	*check_unexpected_token(t_token *tkn, t_shell *shell)
 {
 	t_token	*err;
 
@@ -32,6 +33,7 @@ t_token	*check_unexpected_token(t_token *tkn)
 		if (!tkn->next)
 		{
 			ft_printf("minishell: syntax error near unexpected token 'newline'\n");
+			shell->last_exit_status = 2;
 			return (err);
 		}
 		if (tkn->next->type == TK_PIPE || tkn->next->type == TK_REDIR)
@@ -60,11 +62,11 @@ t_token	*check_unexpected_token(t_token *tkn)
  * @note	On error, fills in the AST leaf with error information.
  * @note	Error handling may leak memory!
  */
-t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
+t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n, t_shell *shell)
 {
 	t_token	*retval;
 
-	retval = check_unexpected_token(tkn);
+	retval = check_unexpected_token(tkn, shell);
 	if (retval)
 		return (free_tokens(tkn), retval);
 	if (tkn->type == TK_REDIR)
