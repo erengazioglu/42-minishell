@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 11:42:20 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 15:09:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	if (!argv || !argv[0])
 		exit(empty_command(ast, shell));
 	if (is_builtin(argv[0]) != -1)
-		exit(exec_builtin(ast, shell));
+	{
+		free(argv);
+		exit(exec_builtin(ast, shell, true));
+	}
 	envp = env_to_envp(shell->env);
 	if (ft_strchr(argv[0], '/', 0, 0))
 		execute_absolute(argv, envp);
@@ -201,7 +204,7 @@ int	dispatch(t_shell *shell)
 		ast = ast->node.right;
 	}
 	if (ast->leaf.argv && shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
-		return (exec_builtin(ast, shell));
+		return (exec_builtin(ast, shell, false));
 	shell->fd[1] = STDOUT_FILENO;
 	pid = spawn_child(shell, ast);
 	return (wait_children(shell, pid));
