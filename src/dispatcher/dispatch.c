@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 11:42:20 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 00:27:02 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr("minishell: ", 2, -1, false);
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
+	exit(127);
 }
 
 void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
