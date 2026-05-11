@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 19:01:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:49:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_intlist	*create_heredoc(t_shell *shell, t_redir *redir)
 	int		fd[2];
 	int		pid;
 	int		status;
+	int		i;
 
 	pipe(fd);
 	pid = fork();
@@ -65,14 +66,25 @@ t_intlist	*create_heredoc(t_shell *shell, t_redir *redir)
 	{
 		close(fd[0]);
 		free_intlist(shell->hdoc, true);
+		i = 1;
 		while (true)
 		{
 			input = readline("> ");
+			if (!input)
+			{
+				ft_putstr("minishell: warning: here-document at line ", 2, -1, false);
+				ft_putnbr(i, 2, false);
+				ft_putstr(" delimited by end of file (wanted '", 2, -1, false);
+				ft_putstr(redir->target->content, 2, -1, false);
+				ft_putstr("')", 2, -1, true);
+				break;
+			}
 			if (ft_str_equals(input, redir->target->content))
 				break;
 			write(fd[1], input, ft_strlen(input));
 			write(fd[1], "\n", 1);
 			free(input);
+			i++;
 		}
 		free(input);
 		close(fd[1]);
