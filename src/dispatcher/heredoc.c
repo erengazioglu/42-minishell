@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 16:05:44 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 19:01:34 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_intlist	*create_heredoc(t_shell *shell, t_redir *redir)
 	if (!pid)
 	{
 		close(fd[0]);
+		free_intlist(shell->hdoc, true);
 		while (true)
 		{
 			input = readline("> ");
