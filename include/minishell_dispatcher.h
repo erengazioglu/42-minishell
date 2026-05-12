@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:21:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:31:14 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ bool	redirect(t_ast *ast, t_shell *shell);
 
 void	expand_tokens(t_token *root, t_shell *shell);
 void	expand_redirs(t_redir *root, t_shell *shell);
+
+// expand_utils.c
+
+char	*pick_var_name(char **str);
+char	*ft_getenv(t_shell *shell, char *key);
 
 // execute.c
 
