@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 17:09:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:08:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,34 @@ void	expand_redirs(t_redir *root, t_shell *shell)
 }
 
 /**
+ * @brief Split word tokens into multiple tokens based on whitespace after expansion.
+ * @note	Used for variable expansion (e.g. export b="ls -la").
+ */
+t_token	*explode_tokens(t_token *root)
+{
+	t_token *new_root;
+	t_token	*temp;
+
+	if (!root)
+		return (NULL);
+	new_root = NULL;
+	while (root)
+	{
+		if (root->type == TK_WORD)
+		{
+			temp = root;
+			append_token(&new_root, tokenize(temp->content, NULL));
+			free(temp->content);
+			free(temp);
+		}
+		else
+			append_token(&new_root, root);
+		root = root->next;
+	}
+	return (new_root);
+}
+
+/**
  * @brief Expand variables inside command tokens.
  *
  * Updates token content in-place for word and double-quoted tokens.
@@ -111,17 +139,21 @@ void	expand_redirs(t_redir *root, t_shell *shell)
  * @param root First token node.
  * @param shell Shell context used for environment lookup.
  */
-bool	expand_tokens(t_token *root, t_shell *shell)
+bool	expand_tokens(t_token **root, t_shell *shell)
 {
-	if (!root)
+	t_token	*temp;
+
+	if (!*root)
 		return (false);
-	while (root)
+	temp = *root;
+	while (temp)
 	{
-		if (root->type == TK_WORD)
-			root->content = expand_string_word(root->content, shell);
-		else if (root->type == TK_DQUOTE)
-			root->content = expand_string_dquote(root->content, shell);
-		root = root->next;
+		if (temp->type == TK_WORD)
+			temp->content = expand_string_word(temp->content, shell);
+		else if (temp->type == TK_DQUOTE)
+			temp->content = expand_string_dquote(temp->content, shell);
+		temp = temp->next;
 	}
+	*root = explode_tokens(*root);
 	return (true);
 }

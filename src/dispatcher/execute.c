@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:25:02 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:14:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ int	exec_builtin(t_ast *ast, t_shell *shell, bool is_child)
 	shell->fd[3] = dup(STDOUT_FILENO);
 	if (!redirect(ast, shell))
 		return (exit_builtin(shell, is_child, 1));
-	if (ast->leaf.argv)
-		expand_tokens(ast->leaf.argv, shell);
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
 		return (free(argv), exit_builtin(shell, is_child, 0));

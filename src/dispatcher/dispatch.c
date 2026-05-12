@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 17:11:28 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:07:48 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ int	dispatch(t_shell *shell)
 	{
 		if (!create_pipe(shell->fd))
 			return (-1);
-		expand_tokens(ast->node.left->leaf.argv, shell);
+		expand_tokens((&ast->node.left->leaf.argv), shell);
 		pid = spawn_child(shell, ast->node.left);
 		close(shell->fd[1]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 	}
-	expand_tokens(ast->leaf.argv, shell);
+	expand_tokens(&(ast->leaf.argv), shell);
 	if (ast->leaf.argv && shell->children == 1
 		&& is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell, false));
