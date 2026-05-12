@@ -6,13 +6,20 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:25:59 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:54:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "../../include/minishell_parser.h"
-#include "../../include/minishell_tokenizer.h"
+
+t_token	*print_unexpected_error(t_token *err, char *tkn)
+{
+	ft_putstr("minishell: syntax error near unexpected token '",
+		STDERR_FILENO, -1, false);
+	ft_putstr(tkn, STDERR_FILENO, -1, false);
+	ft_putchar('\'', STDERR_FILENO, true);
+	return (err);
+}
 
 /**
  * @brief Checks if the current token will raise an unexpected token error,
@@ -32,22 +39,14 @@ t_token	*check_unexpected_token(t_token *tkn, t_shell *shell)
 	{
 		if (!tkn->next)
 		{
-			ft_printf("minishell: syntax error near unexpected token 'newline'\n");
 			shell->last_exit_status = 2;
-			return (err);
+			return (print_unexpected_error(err, "newline"));
 		}
 		if (tkn->next->type == TK_PIPE || tkn->next->type == TK_REDIR)
-		{
-			ft_printf("minishell: syntax error near unexpected token '%s'\n",
-				tkn->next->content);
-			return (err);
-		}
+			return (print_unexpected_error(err, tkn->next->content));
 	}
 	else if (tkn->type == TK_PIPE && !tkn->next)
-	{
-		ft_printf("minishell: syntax error near unexpected token '|'\n");
-		return (err);
-	}
+		return (print_unexpected_error(err, "|"));
 	return (free(err), NULL);
 }
 
