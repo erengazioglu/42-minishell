@@ -6,20 +6,17 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:36:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:46:10 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	child_process(t_ast *ast, t_shell *shell)
+char	**child_setup(t_ast *ast, t_shell *shell, int *argc)
 {
-	int		argc;
-	char	**argv;
-	char	**envp;
-
 	set_child_signals();
-	if (shell->fd[0] >= 0 && shell->fd[0] != shell->fd[1]
+	if (shell->fd[0] >= 0
+		&& shell->fd[0] != shell->fd[1]
 		&& shell->fd[0] != shell->fd[2])
 	{
 		close(shell->fd[0]);
@@ -28,7 +25,16 @@ void	child_process(t_ast *ast, t_shell *shell)
 	if (!redirect(ast, shell))
 		exit(redirect_error(ast, shell));
 	expand_tokens(ast->leaf.argv, shell);
-	argv = build_argv(ast->leaf.argv, &argc);
+	return (build_argv(ast->leaf.argv, argc));
+}
+
+void	child_process(t_ast *ast, t_shell *shell)
+{
+	int		argc;
+	char	**argv;
+	char	**envp;
+
+	argv = child_setup(ast, shell, &argc);
 	if (!argv || !argv[0])
 		exit(empty_command(ast, shell));
 	if (is_builtin(argv[0]) != -1)
@@ -91,4 +97,3 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
 }
-
