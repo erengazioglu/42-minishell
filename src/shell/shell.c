@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:13:45 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:27:11 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ bool	get_input(t_shell *shell)
 	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
 	{
 		if (!fetch_token(shell->tokens, -2)
-				|| fetch_token(shell->tokens, -2)->type == TK_PIPE)
+			|| fetch_token(shell->tokens, -2)->type == TK_PIPE)
 			return (free_tokens(shell->tokens), shell->tokens = NULL, false);
 		input = prompt_valid(shell, false);
 		shell->tokens = tokenize(input, shell->tokens);

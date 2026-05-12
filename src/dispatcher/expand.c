@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 23:23:48 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:20:28 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ static char	*expand_string_word(char *str, t_shell *shell)
 	quote = 0;
 	while (*temp)
 	{
-		if (!quote && (*temp == '\'' || *temp == '\"')) // if not in a quote, start quote
+		if (!quote && (*temp == '\'' || *temp == '\"'))
 			quote = *temp++;
-		else if (quote && *temp == quote) // if in a quote and found closing quote, end quote
+		else if (quote && *temp == quote)
 		{
 			quote = 0;
 			temp++;
 		}
-		else if ((!quote || quote == '\"') && *temp == '$') // if not in a quote or in double quotes, expand variable
+		else if ((!quote || quote == '\"') && *temp == '$')
 			result = expand_var(result, &temp, shell);
 		else
 			result = ft_strjoin(result, temp++, 1, true);

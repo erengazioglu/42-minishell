@@ -6,15 +6,25 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:26:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:26:27 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	print_heredoc_eof(int i, char *stop)
+{
+	ft_putstr("minishell: warning: here-document at line ", 2, -1, false);
+	ft_putnbr(i, 2, false);
+	ft_putstr(" delimited by end of file (wanted '", 2, -1, false);
+	ft_putstr(stop, 2, -1, false);
+	ft_putstr("')", 2, -1, true);
+}
+
 /**
- * @brief Displays the heredoc prompt, writes input into the given file descriptor
- * until the stop word is encountered, and closes the file descriptor.
+ * @brief Displays the heredoc prompt, writes input into the given 
+ * file descriptor until the stop word is encountered, 
+ * and closes the file descriptor.
  * @param fd		File descriptor to write input into.
  * @param stop		Word that signals the end of input when encountered.
  * @note	Writes an error message on CTRL-D input.
@@ -32,15 +42,11 @@ void	write_heredoc_input(int *fd, char *stop)
 		input = readline("> ");
 		if (!input)
 		{
-			ft_putstr("minishell: warning: here-document at line ", 2, -1, false);
-			ft_putnbr(i, 2, false);
-			ft_putstr(" delimited by end of file (wanted '", 2, -1, false);
-			ft_putstr(stop, 2, -1, false);
-			ft_putstr("')", 2, -1, true);
-			break;
+			print_heredoc_eof(i, stop);
+			break ;
 		}
 		if (ft_str_equals(input, stop))
-			break;
+			break ;
 		ft_putstr(input, fd[1], -1, true);
 		free(input);
 		i++;

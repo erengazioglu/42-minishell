@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:20:58 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:27:36 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	append_redir(t_redir **root, t_redir *new)
 
 void	free_astleaf(t_ast *ast)
 {
-	t_token *arg;
+	t_token	*arg;
 	t_token	*a_temp;
 	t_redir	*redir;
-	t_redir *r_temp;
+	t_redir	*r_temp;
 
 	arg = ast->leaf.argv;
 	while (arg)

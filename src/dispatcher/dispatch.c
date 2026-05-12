@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 01:49:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:24:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	create_pipe(int *fd)
 
 void	execute_absolute(char **argv, char **envp)
 {
-	int		err;
+	int			err;
 	struct stat	path_stat;
 
 	if (stat(argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
@@ -205,7 +205,8 @@ int	dispatch(t_shell *shell)
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 	}
-	if (ast->leaf.argv && shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
+	if (ast->leaf.argv && shell->children == 1
+		&& is_builtin(ast->leaf.argv->content) != -1)
 		return (exec_builtin(ast, shell, false));
 	shell->fd[1] = STDOUT_FILENO;
 	pid = spawn_child(shell, ast);
