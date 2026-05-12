@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:30:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 17:09:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ void	expand_redirs(t_redir *root, t_shell *shell)
  * @param root First token node.
  * @param shell Shell context used for environment lookup.
  */
-void	expand_tokens(t_token *root, t_shell *shell)
+bool	expand_tokens(t_token *root, t_shell *shell)
 {
+	if (!root)
+		return (false);
 	while (root)
 	{
 		if (root->type == TK_WORD)
@@ -121,4 +123,5 @@ void	expand_tokens(t_token *root, t_shell *shell)
 			root->content = expand_string_dquote(root->content, shell);
 		root = root->next;
 	}
+	return (true);
 }
