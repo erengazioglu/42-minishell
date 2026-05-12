@@ -6,11 +6,17 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/12 01:56:58 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:18:41 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	cast_void(int argc, char **argv)
+{
+	(void) argc;
+	(void) argv;
+}
 
 /**
  * @brief Entry point for minishell. Gets input, parses it into an AST,
@@ -26,8 +32,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
 
-	(void) argc;
-	(void) argv;
+	cast_void(argc, argv);
 	if (!init_shell(&shell, envp))
 		crash_main("minishell: malloc error", NULL);
 	while (true)
@@ -36,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_putstr("minishell: syntax error near unexpected token '|'",
 				STDERR_FILENO, -1, true);
-				shell.last_exit_status = 2;
-			continue;
+			shell.last_exit_status = 2;
+			continue ;
 		}
 		shell.ast = parse_tokens(shell.tokens, &shell);
 		if (shell.ast)
@@ -48,6 +53,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		cleanup(&shell);
 	}
-	empty_shell(&shell);
-	return (0);
+	return (empty_shell(&shell), 0);
 }
