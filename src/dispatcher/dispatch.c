@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:37:16 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 20:09:08 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,13 @@ int	wait_children(t_shell *shell, int pid)
 	while (shell->children--)
 	{
 		if (wait(&status) == pid)
+		{
 			exit_code = get_exit_code(status);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit (core dumped)\n", 19);
+			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+		}
 	}
 	return (exit_code);
 }
