@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:31:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:38:34 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 
 // Forward declaration (from `minishell.h`)
 typedef struct s_shell t_shell;
+
+// child.c
+
+void	child_process(t_ast *ast, t_shell *shell);
+void	execute_absolute(char **argv, char **envp);
+void	execute_relative(char **argv, char **envp, t_shell *shell);
 
 // dispatch.c
 
@@ -61,6 +67,8 @@ int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 char	**build_argv(t_token *root, int *argc);
 char	**extract_paths(char *cmd, t_env *env);
 int		get_exit_code(int exit_value);
+int		empty_command(t_ast *ast, t_shell *shell);
+int		redirect_error(t_ast *ast, t_shell *shell);
 
 // heredoc.c
 
