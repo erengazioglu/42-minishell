@@ -21,12 +21,12 @@ SRCS = \
 	src/globals.c \
 	src/crash.c \
 	src/print.c \
-	src/shell.c \
 	$(wildcard src/signals/*.c) \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \
 	$(wildcard src/dispatcher/*.c) \
-	$(wildcard src/builtins/*.c)
+	$(wildcard src/builtins/*.c) \
+	$(wildcard src/shell/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)

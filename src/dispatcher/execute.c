@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 23:29:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:25:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	check_paths(char **paths)
  * @param shell Shell context (env + last status).
  * @return Builtin exit status.
  */
-int builtin_sorter(int builtin_id, char **argv, t_shell *shell)
+int	builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 {
 	if (builtin_id == CD)
 		return (ft_cd(argv, &shell->env));
@@ -77,7 +77,6 @@ void	restore_fds(t_shell *shell)
 	close(shell->fd[0]);
 	close(shell->fd[3]);
 }
-
 
 int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
 {

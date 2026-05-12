@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 00:19:16 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:26:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ bool	open_file(t_shell *shell, t_redir *redir)
 		return (false);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
 	if (fd_keep == -1)
-		return (false); // TODO: handle DUP2 error
+		return (false);
 	close(fd_new);
 	return (true);
 }
