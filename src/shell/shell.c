@@ -6,27 +6,32 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 21:49:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:13:45 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	parse_input(t_shell *shell, char *input)
+/**
+ * @brief	Function to have shell prompt for user input, and tokenize.
+ * @return	`true` on success, `false` on failure (e.g. double pipe).
+ */
+bool	get_input(t_shell *shell)
 {
-	t_token	*tokens;
+	char	*input;
 
-	if (!input || !*input)
-		return (false);
-	tokens = tokenize(input, NULL);
+	set_interactive_signals();
+	input = prompt_valid(shell, true);
+	shell->tokens = tokenize(input, NULL);
 	free(input);
-	if (!tokens)
-		return (false);
-	shell->ast = parse_tokens(tokens);
-	if (!shell->ast)
+	while (fetch_token(shell->tokens, -1)->type == TK_PIPE)
 	{
-		free_tokens(tokens);
-		return (false);
+		if (!fetch_token(shell->tokens, -2)
+				|| fetch_token(shell->tokens, -2)->type == TK_PIPE)
+			return (free_tokens(shell->tokens), shell->tokens = NULL, false);
+		input = prompt_valid(shell, false);
+		shell->tokens = tokenize(input, shell->tokens);
+		free(input);
 	}
 	return (true);
 }
@@ -59,7 +64,6 @@ void	cleanup(t_shell *shell)
 	shell->fd[2] = STDIN_FILENO;
 	shell->fd[3] = -1;
 	shell->children = 1;
-	// shell->last_exit_status = 0;
 	shell->tokens = NULL;
 }
 
