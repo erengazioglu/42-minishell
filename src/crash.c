@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crash.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:53:58 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:14:18 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:10:13 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	crash_main(char *msg, t_shell *shell)
 		exit_code = shell->last_exit_status;
 	if (msg)
 		ft_putstr(msg, 2, -1, true);
-	if (isatty(STDIN_FILENO))
-		ft_putstr("exit", 2, -1, true);
+	ft_putstr("exit", 2, -1, true);
 	if (shell)
 		empty_shell(shell);
 	rl_clear_history();
