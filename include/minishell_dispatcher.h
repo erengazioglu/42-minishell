@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_dispatcher.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 18:21:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:14:18 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 // Forward declaration (from `minishell.h`)
 typedef struct s_shell t_shell;
+typedef struct s_env t_env;
 
 // child.c
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:40:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:12:37 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 	if (builtin_id == ENV)
 		return (ft_env(argv, shell->env));
 	if (builtin_id == EXIT)
-		return (ft_exit(argv, shell->last_exit_status));
+		return (ft_exit(argv, shell->last_exit_status, shell));
 	if (builtin_id == EXPORT)
 		return (ft_export(argv, &shell->env));
 	if (builtin_id == PWD)
