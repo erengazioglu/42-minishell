@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/14 00:36:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:41:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static char	*harvest_var(char *str, int *i, t_shell *shell)
 	if (!var_name)
 		return (ft_strdup("$"));
 	var_value = ft_getenv(shell, var_name);
+	if (!var_value)
+		var_value = ft_strdup("");
 	*i += ft_strlen(var_name);
 	free(var_name);
 	return (var_value);
