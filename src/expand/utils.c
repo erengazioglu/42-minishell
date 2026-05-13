@@ -1,17 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_utils.c                                     :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:30:07 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:32:44 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 03:48:11 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * @brief Skips the initial dollar sign, reads until it's no longer a valid
+ * variable name, and returns the name of the variable.
+ * @param str	Pointer to the string starting with the dollar sign.
+ * @note Advances the string pointer.
+ */
 char	*pick_var_name(char **str)
 {
 	int		i;

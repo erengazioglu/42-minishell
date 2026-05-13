@@ -26,7 +26,8 @@ SRCS = \
 	$(wildcard src/parser/*.c) \
 	$(wildcard src/dispatcher/*.c) \
 	$(wildcard src/builtins/*.c) \
-	$(wildcard src/shell/*.c)
+	$(wildcard src/shell/*.c) \
+	$(wildcard src/expand/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)

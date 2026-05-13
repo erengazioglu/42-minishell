@@ -6,11 +6,12 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 21:46:31 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 04:24:07 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 static char	*expand_var(char *result, char **str, t_shell *shell)
 {
@@ -80,6 +81,47 @@ static char	*expand_string_dquote(char *str, t_shell *shell)
 	return (result);
 }
 
+char	*harvest_var(char *str, int *i, t_shell *shell)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = pick_var_name(&str);
+	*i += 1;
+	if (!var_name)
+		return (ft_strdup("$"));
+	var_value = ft_getenv(shell, var_name);
+	*i += ft_strlen(var_name);
+	free(var_name);
+	return (var_value);
+}
+
+void	expand_vars(t_token *tkn, t_shell *shell)
+{
+	char	*new;
+	int		start;
+	int		end;
+
+	if (tkn->type != TK_WORD && tkn->type != TK_DQUOTE)
+		return;
+	new = ft_strdup("");
+	start = 0;
+	end = 0;
+	while (tkn->content[end])
+	{
+		while (tkn->content[end] && tkn->content[end] != '$')
+			end++;
+		new = ft_strjoin(new, ft_substr(tkn->content, start, end - start), -1, true);
+		if (tkn->content[end] == '$')
+		{
+			new = ft_strjoin(new, harvest_var(tkn->content + end, &end, shell), -1, true);
+			start = end;
+		}
+	}
+	free(tkn->content);
+	tkn->content = new;
+}
+
 /**
  * @brief Expand variables inside redirection targets.
  *
@@ -104,38 +146,6 @@ void	expand_redirs(t_redir *root, t_shell *shell)
 }
 
 /**
- * @brief Split word tokens into multiple tokens based on whitespace after expansion.
- * @note	Used for variable expansion (e.g. export b="ls -la").
- */
-t_token	*explode_tokens(t_token *root)
-{
-	t_token *new_root;
-	t_token	*temp;
-
-	if (!root)
-		return (NULL);
-	new_root = NULL;
-	while (root)
-	{
-		if (root->type == TK_WORD)
-		{
-			temp = root;
-			root = root->next;
-			append_token(&new_root, tokenize(temp->content, NULL));
-			free(temp->content);
-			free(temp);
-		}
-		else
-		{
-			append_token(&new_root, root);
-			root = root->next;
-		}
-		// root = root->next;
-	}
-	return (new_root);
-}
-
-/**
  * @brief Expand variables inside command tokens.
  *
  * Updates token content in-place for word and double-quoted tokens.
@@ -146,9 +156,17 @@ t_token	*explode_tokens(t_token *root)
 bool	expand_tokens(t_token **root, t_shell *shell)
 {
 	t_token	*temp;
+	// (void) shell;
 
 	if (!*root)
 		return (false);
+	temp = *root;
+	while (temp)
+	{
+		expand_vars(temp, shell);
+		temp = temp->next;
+	}
+	*root = explode_tokens(*root);
 	temp = *root;
 	while (temp)
 	{
@@ -158,6 +176,5 @@ bool	expand_tokens(t_token **root, t_shell *shell)
 			temp->content = expand_string_dquote(temp->content, shell);
 		temp = temp->next;
 	}
-	*root = explode_tokens(*root);
 	return (true);
 }

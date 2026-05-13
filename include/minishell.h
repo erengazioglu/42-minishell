@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:14:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 00:50:13 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "minishell_builtins.h"
 # include "minishell_dispatcher.h"
 # include "minishell_shell.h"
+# include "minishell_expand.h"
 
 # include <stdio.h>
 # include <sys/wait.h>
