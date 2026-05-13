@@ -25,9 +25,7 @@ SRCS = \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \
 	$(wildcard src/dispatcher/*.c) \
-	$(wildcard src/builtins/*.c) \
-	$(wildcard src/shell/*.c) \
-	$(wildcard src/expand/*.c)
+	$(wildcard src/builtins/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
@@ -50,6 +48,8 @@ libft/libft.a:
 	@make -C libft
 
 clean:
+	rm -f $(OBJS) src/main.o
+	@make -C libft clean
 	rm -f $(OBJS) src/main.o
 	@make -C libft clean
 
