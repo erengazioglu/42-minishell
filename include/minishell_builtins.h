@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 23:52:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:18:23 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_env(t_env *env);
 int		ft_exit(char **args, int last_exit_status, t_shell *shell);
 
 /* ft_export.c */
-int		ft_export(char **args, t_env **env);
+int		ft_export(char **args, t_env **env, t_shell *shell);
 
 /* ft_export_utils.c */
 int		ft_export_process_arg(char *arg, t_env **env);

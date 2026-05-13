@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/14 00:12:19 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:18:40 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 	if (builtin_id == EXIT)
 		return (ft_exit(argv, shell->last_exit_status, shell));
 	if (builtin_id == EXPORT)
-		return (ft_export(argv, &shell->env));
+		return (ft_export(argv, &shell->env, shell));
 	if (builtin_id == PWD)
 		return (ft_pwd(argv));
 	if (builtin_id == UNSET)

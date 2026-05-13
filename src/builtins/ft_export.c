@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/10 13:48:06 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:18:10 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool	ft_is_valid_export_arg(char *arg)
  * @param env Pointer to the environment variables list
  * @return Exit status of the command
  */
-int	ft_export(char **args, t_env **env)
+int	ft_export(char **args, t_env **env, t_shell *shell)
 {
 	int	i;
 	int	status;
@@ -44,10 +44,11 @@ int	ft_export(char **args, t_env **env)
 	status = 0;
 	if (!args || !args[0])
 		return (1);
-	if (!ft_str_equals(args[0], "export"))
-		return (1);
-	if (!args[1])
-		return (0);
+	if (ft_str_equals(args[0], "export") && !args[1])
+	{
+		args[0] = "env";
+		return (ft_env(args, shell->env), 0);
+	}
 	i = 1;
 	while (args[i])
 	{
