@@ -1,10 +1,9 @@
 NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
-DFLAGS	= -g -finstrument-functions
+DFLAGS	= -g
 
 UNAME_S := $(shell uname -s)
-
 INCLUDE = -I./include -I./libft/include
 LIBS    = -L./libft -lft
 
@@ -16,18 +15,43 @@ else ifeq ($(UNAME_S),Linux)
 	LIBS    += -L/usr/lib -lreadline
 endif
 
-# ========== minishell sources ==========
 SRCS = \
 	src/globals.c \
 	src/crash.c \
 	src/print.c \
-	$(wildcard src/signals/*.c) \
-	$(wildcard src/tokenizer/*.c) \
-	$(wildcard src/parser/*.c) \
-	$(wildcard src/dispatcher/*.c) \
-	$(wildcard src/builtins/*.c) \
-	$(wildcard src/shell/*.c) \
-	$(wildcard src/expand/*.c)
+	src/builtins/ft_cd.c \
+	src/builtins/ft_cd_update.c \
+	src/builtins/ft_cd_utils.c \
+	src/builtins/ft_echo.c \
+	src/builtins/ft_env.c \
+	src/builtins/ft_exit.c \
+	src/builtins/ft_export.c \
+	src/builtins/ft_export_utils.c \
+	src/builtins/ft_pwd.c \
+	src/builtins/ft_unset.c \
+	src/builtins/is_builtin.c \
+	src/dispatcher/child.c \
+	src/dispatcher/dispatch.c \
+	src/dispatcher/execute.c \
+	src/dispatcher/heredoc.c \
+	src/dispatcher/path.c \
+	src/dispatcher/redirect.c \
+	src/dispatcher/util.c \
+	src/expand/expand.c \
+	src/expand/expand_string.c \
+	src/expand/util.c \
+	src/expand/wordsplit.c \
+	src/parser/parse.c \
+	src/parser/parse_leaf.c \
+	src/parser/util.c \
+	src/shell/prompt.c \
+	src/shell/shell.c \
+	src/signals/signals.c \
+	src/tokenizer/find.c \
+	src/tokenizer/ft_split_quotes.c \
+	src/tokenizer/tokenize.c \
+	src/tokenizer/tokenize_parts.c \
+	src/tokenizer/util.c
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
@@ -40,12 +64,6 @@ all: $(NAME)
 $(NAME): libft/libft.a $(OBJS) src/main.o
 	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) src/main.o $(INCLUDE) $(LIBS) -o $@
 
-tests: libft/libft.a $(OBJS)
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_parse.c $(INCLUDE) $(LIBS) -o tests/test_parse
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_expand.c $(INCLUDE) $(LIBS) -o tests/test_expand
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_execve.c $(INCLUDE) $(LIBS) -o tests/test_execve
-	$(CC) $(CFLAGS) $(DFLAGS) $(OBJS) tests/test_split_quotes.c $(INCLUDE) $(LIBS) -o tests/test_split_quotes
-
 libft/libft.a:
 	@make -C libft
 
@@ -53,13 +71,9 @@ clean:
 	rm -f $(OBJS) src/main.o
 	@make -C libft clean
 
-clean_tests:
-	rm -f tests/test_parse tests/test_expand tests/test_execve tests/test_split_quotes
-
-fclean: clean clean_tests
+fclean: clean
 	rm -f $(NAME)
-	@make -C libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re tests
+.PHONY: all clean fclean re

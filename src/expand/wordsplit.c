@@ -6,32 +6,11 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 00:22:38 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 22:27:53 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:05:30 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	skip_quotes(char *str, int *i)
-{
-	char	quote;
-
-	quote = str[*i];
-	while (str[*i] && str[*i] != quote)
-		*i += 1;
-	if (str[*i])
-		*i += 1;
-}
-
-static void	skip_letters(char *str, int *i)
-{
-	while (
-		str[*i]
-		&& !ft_isspace(str[*i])
-		&& str[*i] != '\"'
-		&& str[*i] != '\'')
-		*i += 1;
-}
 
 static t_token	*slice_token(t_token *token, int *i)
 {
