@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 18:27:08 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 18:28:10 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	execute_absolute(char **argv, char **envp, t_shell *shell)
 	errno = err;
 	perror(argv[0]);
 	free_strarr(envp);
+	free(argv);
+	free_ast(shell->ast);
 	if (err == ENOENT)
 		crash_child(127, shell);
 	else
