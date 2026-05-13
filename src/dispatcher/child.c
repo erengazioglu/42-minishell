@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:47:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:25:50 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ static char	**child_setup(t_ast *ast, t_shell *shell, int *argc)
 	}
 	if (!redirect(ast, shell))
 		exit(redirect_error(ast, shell));
-	// expand_tokens(ast->leaf.argv, shell);
 	return (build_argv(ast->leaf.argv, argc));
 }
 
