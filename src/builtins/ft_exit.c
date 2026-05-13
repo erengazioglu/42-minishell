@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 13:26:00 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:08:00 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_exit(char **args, int last_status)
 		if (args[2])
 		{
 			ft_putstr("minishell: exit: too many arguments\n", 2, -1, false);
-			return (2);
+			return (1);
 		}
 	}
 	else
