@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 20:20:24 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:25:19 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
 		empty_shell(shell);
 		free_ast(shell->ast);
 	}
-	else
-		restore_fds(shell);
+	// else
+	// 	restore_fds(shell);
 	return (exit_code);
 }
 
@@ -114,10 +114,8 @@ int	exec_builtin(t_ast *ast, t_shell *shell, bool is_child)
 	status = 0;
 	if (!is_child)
 	{
-		shell->fd[1] = STDOUT_FILENO;
-		shell->fd[2] = STDIN_FILENO;
-		shell->fd[0] = dup(STDIN_FILENO);
-		shell->fd[3] = dup(STDOUT_FILENO);
+		// shell->fd[0] = dup(STDIN_FILENO);
+		// shell->fd[3] = dup(STDOUT_FILENO);
 		if (!redirect(ast, shell))
 			return (exit_builtin(shell, is_child, 1));
 	}
