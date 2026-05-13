@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   crash.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:53:58 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 22:10:13 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:11:28 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	crash_main(char *msg, t_shell *shell)
 		ft_putstr(msg, 2, -1, true);
 	ft_putstr("exit", 2, -1, true);
 	if (shell)
-		empty_shell(shell);
+		empty_shell(shell, true);
 	rl_clear_history();
 	exit(exit_code);
 }
@@ -40,6 +40,6 @@ void	crash_main(char *msg, t_shell *shell)
 void	crash_child(int code, t_shell *shell)
 {
 	free_ast(shell->ast);
-	empty_shell(shell);
+	empty_shell(shell, false);
 	exit(code);
 }

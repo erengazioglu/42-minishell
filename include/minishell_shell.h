@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:08:15 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:14:39 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:11:05 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	get_input(t_shell *shell);
 
 void	cleanup(t_shell *shell);
 bool	init_shell(t_shell *shell, char **envp);
-void	empty_shell(t_shell *shell);
+void	empty_shell(t_shell *shell, bool close_fds);
 
 
 #endif

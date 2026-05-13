@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 22:25:50 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:12:09 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	child_process(t_ast *ast, t_shell *shell)
 		execute_relative(argv, envp, shell);
 	free(argv);
 	free_strarr(envp);
-	empty_shell(shell);
+	empty_shell(shell, false);
 	free_ast(shell->ast);
 	exit(127);
 }

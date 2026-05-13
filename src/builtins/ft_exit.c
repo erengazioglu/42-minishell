@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 23:52:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:12:03 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	free_exit(char **args, t_shell *shell)
 {
 	free(args);
 	free_ast(shell->ast);
-	empty_shell(shell);
+	empty_shell(shell, true);
 	cleanup(shell);
 }
 

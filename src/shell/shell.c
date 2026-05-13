@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 23:39:00 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:10:49 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,16 @@ void	cleanup(t_shell *shell)
 	shell->tokens = NULL;
 }
 
-void	empty_shell(t_shell *shell)
+void	empty_shell(t_shell *shell, bool close_fds)
 {
 	free_env(shell->env);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
-	close(0);
-	close(1);
-	close(2);
+	if (close_fds)
+	{
+		close(0);
+		close(1);
+		close(2);
+	}
 	rl_clear_history();
 }

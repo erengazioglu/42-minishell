@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:54:35 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/12 02:18:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:11:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ int	main(int argc, char **argv, char **envp)
 		}
 		cleanup(&shell);
 	}
-	return (empty_shell(&shell), 0);
+	return (empty_shell(&shell, true), 0);
 }
