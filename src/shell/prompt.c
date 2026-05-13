@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:07:31 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:08:03 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 20:25:43 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,14 @@ char	*prompt_valid(t_shell *shell, bool minishell)
 	{
 		input = prompt(minishell);
 		if (!input)
+		{
+			if (!minishell)
+				ft_putstr("minishell: syntax error: unexpected end of file",
+					2, -1, true);
 			crash_main(NULL, shell);
+		}
 		input = prompt_close_quotes(shell, input);
+
 		check = ft_split_quotes(input);
 		if (!check)
 			crash_main("minishell: malloc error", shell);
