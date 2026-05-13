@@ -6,81 +6,13 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 22:28:05 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:36:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*expand_var(char *result, char **str, t_shell *shell)
-{
-	char	*var_name;
-	char	*var_value;
-
-	var_name = pick_var_name(str);
-	if (!var_name)
-		return (ft_strjoin(result, "$", -1, true));
-	var_value = ft_getenv(shell, var_name);
-	free(var_name);
-	if (var_value)
-	{
-		result = ft_strjoin(result, var_value, -1, true);
-		free(var_value);
-	}
-	return (result);
-}
-
-static char	*expand_string_word(char *str, t_shell *shell)
-{
-	char	*result;
-	char	*temp;
-	char	quote;
-
-	temp = str;
-	result = ft_strdup("");
-	quote = 0;
-	while (*temp)
-	{
-		if (!quote && (*temp == '\'' || *temp == '\"'))
-			quote = *temp++;
-		else if (quote && *temp == quote)
-		{
-			quote = 0;
-			temp++;
-		}
-		else if ((!quote || quote == '\"') && *temp == '$')
-			result = expand_var(result, &temp, shell);
-		else
-			result = ft_strjoin(result, temp++, 1, true);
-	}
-	free(str);
-	return (result);
-}
-
-static char	*expand_string_dquote(char *str, t_shell *shell)
-{
-	char	*result;
-	char	*temp;
-	char	buf[2];
-
-	temp = str;
-	result = ft_strdup("");
-	buf[1] = '\0';
-	while (*temp)
-	{
-		if (*temp == '$')
-			result = expand_var(result, &temp, shell);
-		else
-		{
-			buf[0] = *temp++;
-			result = ft_strjoin(result, buf, -1, true);
-		}
-	}
-	free(str);
-	return (result);
-}
-
-char	*harvest_var(char *str, int *i, t_shell *shell)
+static char	*harvest_var(char *str, int *i, t_shell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -95,31 +27,35 @@ char	*harvest_var(char *str, int *i, t_shell *shell)
 	return (var_value);
 }
 
+static char	*expand_vars_init(int *start, int *end)
+{
+	*start = 0;
+	*end = 0;
+	return (ft_strdup(""));
+}
+
 void	expand_vars(t_token *tkn, t_shell *shell)
 {
 	char	*new;
-	char	*sub;
+	char	*temp;
 	int		start;
 	int		end;
-	char	*var_value;
 
 	if (tkn->type != TK_WORD && tkn->type != TK_DQUOTE)
-		return;
-	new = ft_strdup("");
-	start = 0;
-	end = 0;
+		return ;
+	new = expand_vars_init(&start, &end);
 	while (tkn->content[end])
 	{
 		while (tkn->content[end] && tkn->content[end] != '$')
 			end++;
-		sub = ft_substr(tkn->content, start, end - start);
-		new = ft_strjoin(new, sub, -1, true);
-		free(sub);
+		temp = ft_substr(tkn->content, start, end - start);
+		new = ft_strjoin(new, temp, -1, true);
+		free(temp);
 		if (tkn->content[end] == '$')
 		{
-			var_value = harvest_var(tkn->content + end, &end, shell);
-			new = ft_strjoin(new, var_value, -1, true);
-			free(var_value);
+			temp = harvest_var(tkn->content + end, &end, shell);
+			new = ft_strjoin(new, temp, -1, true);
+			free(temp);
 			start = end;
 		}
 	}
@@ -161,7 +97,6 @@ void	expand_redirs(t_redir *root, t_shell *shell)
 bool	expand_tokens(t_token **root, t_shell *shell)
 {
 	t_token	*temp;
-	// (void) shell;
 
 	if (!*root)
 		return (false);
