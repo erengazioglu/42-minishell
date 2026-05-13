@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 16:18:39 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 18:27:08 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,33 +28,7 @@ char	**child_setup(t_ast *ast, t_shell *shell, int *argc)
 	return (build_argv(ast->leaf.argv, argc));
 }
 
-void	child_process(t_ast *ast, t_shell *shell)
-{
-	int		argc;
-	char	**argv;
-	char	**envp;
-
-	argv = child_setup(ast, shell, &argc);
-	if (!argv || !argv[0])
-		exit(empty_command(ast, shell));
-	if (is_builtin(argv[0]) != -1)
-	{
-		free(argv);
-		exit(exec_builtin(ast, shell, true));
-	}
-	envp = env_to_envp(shell->env);
-	if (ft_strchr(argv[0], '/', 0, 0))
-		execute_absolute(argv, envp);
-	else
-		execute_relative(argv, envp, shell);
-	free(argv);
-	free_strarr(envp);
-	empty_shell(shell);
-	free_ast(shell->ast);
-	exit(127);
-}
-
-void	execute_absolute(char **argv, char **envp)
+static void	execute_absolute(char **argv, char **envp, t_shell *shell)
 {
 	int			err;
 	struct stat	path_stat;
@@ -64,20 +38,21 @@ void	execute_absolute(char **argv, char **envp)
 		ft_putstr("minishell: ", 2, -1, false);
 		ft_putstr(argv[0], 2, -1, false);
 		ft_putstr(": Is a directory\n", 2, -1, false);
-		exit(126);
+		crash_child(126, shell);
 	}
 	execve(argv[0], argv, envp);
 	err = errno;
 	ft_putstr("minishell: ", 2, -1, false);
 	errno = err;
 	perror(argv[0]);
+	free_strarr(envp);
 	if (err == ENOENT)
-		exit(127);
+		crash_child(127, shell);
 	else
-		exit(126);
+		crash_child(126, shell);
 }
 
-void	execute_relative(char **argv, char **envp, t_shell *shell)
+static void	execute_relative(char **argv, char **envp, t_shell *shell)
 {
 	char	**paths;
 	int		i;
@@ -96,4 +71,31 @@ void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr("minishell: ", 2, -1, false);
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
+}
+
+
+void	child_process(t_ast *ast, t_shell *shell)
+{
+	int		argc;
+	char	**argv;
+	char	**envp;
+
+	argv = child_setup(ast, shell, &argc);
+	if (!argv || !argv[0])
+		exit(empty_command(ast, shell));
+	if (is_builtin(argv[0]) != -1)
+	{
+		free(argv);
+		exit(exec_builtin(ast, shell, true));
+	}
+	envp = env_to_envp(shell->env);
+	if (ft_strchr(argv[0], '/', 0, 0))
+		execute_absolute(argv, envp, shell);
+	else
+		execute_relative(argv, envp, shell);
+	free(argv);
+	free_strarr(envp);
+	empty_shell(shell);
+	free_ast(shell->ast);
+	exit(127);
 }

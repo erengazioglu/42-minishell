@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:53:58 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:19:34 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 18:27:06 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,10 @@ void	crash_main(char *msg, t_shell *shell)
 		empty_shell(shell);
 	rl_clear_history();
 	exit(1);
+}
+
+void	crash_child(int code, t_shell *shell)
+{
+	empty_shell(shell);
+	exit(code);
 }

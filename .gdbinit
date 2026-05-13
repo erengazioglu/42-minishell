@@ -1,5 +1,5 @@
 set follow-fork-mode child
 set detach-on-fork off
-b expand_tokens
+b dispatch
 run
 layout src

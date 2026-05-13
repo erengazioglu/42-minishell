@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 21:07:26 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 18:21:54 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,10 @@ typedef struct s_shell t_shell;
 // child.c
 
 void	child_process(t_ast *ast, t_shell *shell);
-void	execute_absolute(char **argv, char **envp);
-void	execute_relative(char **argv, char **envp, t_shell *shell);
 
 // dispatch.c
 
 int		dispatch(t_shell *shell);
-void	child_process(t_ast *ast, t_shell *shell);
 int		is_builtin(char *str);
 
 // redirects.c
