@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:39:48 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/05 17:43:56 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:19:44 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	handle_sigint_interactive(int signum)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
 
 /**
  * @brief	Sets signals for interactive loop.

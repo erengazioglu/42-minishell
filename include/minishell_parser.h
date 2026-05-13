@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_parser.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 13:05:01 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 01:25:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include "minishell_tokenizer.h"
+
+typedef struct s_shell t_shell;
 
 typedef enum e_redirtype
 {
@@ -48,6 +50,7 @@ struct					s_redir
 {
 	t_redirtype			type;
 	t_token				*target;
+	int					fd;
 	t_redir				*next;
 };
 
@@ -82,17 +85,17 @@ typedef union u_ast
 
 // parser/parse.c
 
-t_ast					*parse_tokens(t_token *root);
+t_ast		*parse_tokens(t_token *root, t_shell *shell);
 
 // parser/parse_leaf.c
 
-t_ast					*parse_leaf(t_token **root, int n);
+t_ast		*parse_leaf(t_token **root, int n, t_shell *shell);
 
 // parser/util.c
 
-void					append_redir(t_redir **root, t_redir *new);
-void					free_ast(t_ast *ast);
-t_redir					*fetch_redir(t_redir *redir, int i);
-t_redir					*new_redir(char *type, t_token *target);
+void		append_redir(t_redir **root, t_redir *new);
+void		free_ast(t_ast *ast);
+t_redir		*fetch_redir(t_redir *redir, int i);
+t_redir		*new_redir(char *type, t_token *target);
 
 #endif

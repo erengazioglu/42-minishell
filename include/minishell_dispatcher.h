@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 00:08:05 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:07:26 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,37 @@
 // Forward declaration (from `minishell.h`)
 typedef struct s_shell t_shell;
 
-typedef struct s_intlist t_intlist;
-struct s_intlist
-{
-	int	val;
-	t_intlist	*next;
-};
+// child.c
+
+void	child_process(t_ast *ast, t_shell *shell);
+void	execute_absolute(char **argv, char **envp);
+void	execute_relative(char **argv, char **envp, t_shell *shell);
 
 // dispatch.c
 
 int		dispatch(t_shell *shell);
-void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc);
+void	child_process(t_ast *ast, t_shell *shell);
 int		is_builtin(char *str);
 
 // redirects.c
 
-bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc);
-bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc);
+bool	open_file(t_shell *shell, t_redir *redir);
+bool	redirect(t_ast *ast, t_shell *shell);
 
 // expand.c
 
-void	expand_tokens(t_token *root, t_shell *shell);
+bool	expand_tokens(t_token **root, t_shell *shell);
 void	expand_redirs(t_redir *root, t_shell *shell);
+
+// expand_utils.c
+
+char	*pick_var_name(char **str);
+char	*ft_getenv(t_shell *shell, char *key);
 
 // execute.c
 
 bool	check_paths(char **paths);
-int		exec_builtin(t_ast *ast, t_shell *shell);
+int		exec_builtin(t_ast *ast, t_shell *shell, bool is_child);
 int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 
 // util.c
@@ -63,9 +67,11 @@ int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 char	**build_argv(t_token *root, int *argc);
 char	**extract_paths(char *cmd, t_env *env);
 int		get_exit_code(int exit_value);
+int		empty_command(t_ast *ast, t_shell *shell);
+int		redirect_error(t_ast *ast, t_shell *shell);
 
 // heredoc.c
 
-t_intlist	*create_heredocs(t_shell *shell);
+void	create_heredocs(t_shell *shell);
 
 #endif

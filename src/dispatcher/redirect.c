@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 19:34:57 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:26:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,26 @@
  * @brief Helper function for `open_file`.
  * Opens file for IN and HEREDOC redirect modes.
  * @return New file descriptor, or -1 upon error.
- * @todo HEREDOC isn't implemented yet. Call its function from here.
- * @note You could have this function handle errors too?
  */
-int	open_read_file(char *fn, t_redirtype mode, t_intlist **hdoc)
+static int	open_read_file(t_shell *shell, t_redir *redir)
 {
 	int	fd;
-	t_intlist	*temp;
 
-	if (mode == REDIR_HEREDOC)
+	if (shell->fd[2] != STDIN_FILENO)
 	{
-		fd = (*hdoc)->val;
+		close(shell->fd[2]);
+	}
+	if (redir->type == REDIR_HEREDOC)
+	{
+		fd = redir->fd;
 		close(STDIN_FILENO);
-		temp = *hdoc;
-		*hdoc = (*hdoc)->next;
-		free(temp);
 		return (fd);
 	}
-	fd = open(fn, O_RDONLY);
+	fd = open(redir->target->content, O_RDONLY);
 	if (fd == -1)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
-		perror(fn);
+		perror(redir->target->content);
 		return (-1);
 	}
 	close(STDIN_FILENO);
@@ -48,9 +46,8 @@ int	open_read_file(char *fn, t_redirtype mode, t_intlist **hdoc)
  * @brief Helper function for `open_file`.
  * Opens file for APPEND and TRUNCATE redirect modes.
  * @return New file descriptor, or -1 upon error.
- * @note You could have this function handle errors too?
  */
-int	open_write_file(char *fn, t_redirtype mode)
+static int	open_write_file(t_redir *redir)
 {
 	int	mode_flags;
 	int	open_flags;
@@ -58,15 +55,15 @@ int	open_write_file(char *fn, t_redirtype mode)
 
 	mode_flags = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 	open_flags = O_WRONLY | O_CREAT;
-	if (mode == REDIR_APPEND)
+	if (redir->type == REDIR_APPEND)
 		open_flags |= O_APPEND;
 	else
 		open_flags |= O_TRUNC;
-	fd = open(fn, open_flags, mode_flags);
+	fd = open(redir->target->content, open_flags, mode_flags);
 	if (fd == -1)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
-		perror(fn);
+		perror(redir->target->content);
 		return (-1);
 	}
 	close(STDOUT_FILENO);
@@ -80,26 +77,20 @@ int	open_write_file(char *fn, t_redirtype mode)
  * @return		`true` on success, `false` on failure.
  * @note	Called by the child process. Call `exit()` freely on failure.
  */
-bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
+bool	open_file(t_shell *shell, t_redir *redir)
 {
 	int	fd_new;
 	int	fd_keep;
 
-	if (mode == REDIR_IN || mode == REDIR_HEREDOC)
-	{
-		fd_new = open_read_file(fn, mode, hdoc);
-		if (fd_new == -1)
-			return (false); // TODO: handle OPENR error
-	}
+	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
+		fd_new = open_read_file(shell, redir);
 	else
-	{
-		fd_new = open_write_file(fn, mode);
-		if (fd_new == -1)
-			return (false); // TODO: handle OPENW error
-	}
-	fd_keep = dup2(fd_new, mode >= REDIR_APPEND);
+		fd_new = open_write_file(redir);
+	if (fd_new == -1)
+		return (false);
+	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
 	if (fd_keep == -1)
-		return (false); // TODO: handle DUP2 error
+		return (false);
 	close(fd_new);
 	return (true);
 }
@@ -116,7 +107,7 @@ bool	open_file(char *fn, t_redirtype mode, t_intlist **hdoc)
  * @param shell Shell context used for redirection expansion.
  * @return true on success, false on failure.
  */
-bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc)
+bool	redirect(t_ast *ast, t_shell *shell)
 {
 	t_redir	*redir;
 
@@ -136,7 +127,7 @@ bool	redirect(t_ast *ast, t_shell *shell, t_intlist **hdoc)
 	expand_redirs(redir, shell);
 	while (redir)
 	{
-		if (!open_file(redir->target->content, redir->type, hdoc))
+		if (!open_file(shell, redir))
 			return (false);
 		redir = redir->next;
 	}

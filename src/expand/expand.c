@@ -3,57 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/07 11:04:55 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:57:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*pick_var_name(char **str)
-{
-	int		i;
-	char	*result;
-
-	(*str)++;
-	if (!(**str) || ft_isspace(**str))
-		return (NULL);
-	if (**str == '?')
-	{
-		(*str)++;
-		return (ft_strdup("?"));
-	}
-	i = 0;
-	while ((*str)[i] && (ft_isalnum((*str)[i]) || (*str)[i] == '_'))
-		i++;
-	if (i == 0)
-		return (NULL);
-	result = ft_substr(*str, 0, i);
-	*str += i;
-	return (result);
-}
-
-static char	*ft_getenv(t_shell *shell, char *key)
-{
-	t_env	*env;
-
-	if (ft_str_equals(key, "?"))
-		return (ft_itoa(shell->last_exit_status));
-	env = shell->env;
-	while (env)
-	{
-		if (env->key && ft_str_equals(env->key, key))
-		{
-			if (env->value)
-				return (ft_strdup(env->value));
-			return (NULL);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}
 
 static char	*expand_var(char *result, char **str, t_shell *shell)
 {
@@ -77,29 +35,24 @@ static char	*expand_string_word(char *str, t_shell *shell)
 {
 	char	*result;
 	char	*temp;
-	char	q;
-	char	buf[2];
+	char	quote;
 
 	temp = str;
 	result = ft_strdup("");
-	q = 0;
-	buf[1] = '\0';
+	quote = 0;
 	while (*temp)
 	{
-		if (!q && (*temp == '\'' || *temp == '\"'))
-			q = *temp++;
-		else if (q && *temp == q)
+		if (!quote && (*temp == '\'' || *temp == '\"'))
+			quote = *temp++;
+		else if (quote && *temp == quote)
 		{
-			q = 0;
+			quote = 0;
 			temp++;
 		}
-		else if ((!q || q == '\"') && *temp == '$')
+		else if ((!quote || quote == '\"') && *temp == '$')
 			result = expand_var(result, &temp, shell);
 		else
-		{
-			buf[0] = *temp++;
-			result = ft_strjoin(result, buf, -1, true);
-		}
+			result = ft_strjoin(result, temp++, 1, true);
 	}
 	free(str);
 	return (result);
@@ -126,6 +79,50 @@ static char	*expand_string_dquote(char *str, t_shell *shell)
 	}
 	free(str);
 	return (result);
+}
+
+char	*harvest_var(char *str, int *i, t_shell *shell)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = pick_var_name(&str);
+	*i += 1;
+	if (!var_name)
+		return (ft_strdup("$"));
+	var_value = ft_getenv(shell, var_name);
+	*i += ft_strlen(var_name);
+	free(var_name);
+	return (var_value);
+}
+
+void	expand_vars(t_token *tkn, t_shell *shell)
+{
+	char	*new;
+	char	*sub;
+	int		start;
+	int		end;
+
+	if (tkn->type != TK_WORD && tkn->type != TK_DQUOTE)
+		return;
+	new = ft_strdup("");
+	start = 0;
+	end = 0;
+	while (tkn->content[end])
+	{
+		while (tkn->content[end] && tkn->content[end] != '$')
+			end++;
+		sub = ft_substr(tkn->content, start, end - start);
+		new = ft_strjoin(new, sub, -1, true);
+		free(sub);
+		if (tkn->content[end] == '$')
+		{
+			new = ft_strjoin(new, harvest_var(tkn->content + end, &end, shell), -1, true);
+			start = end;
+		}
+	}
+	free(tkn->content);
+	tkn->content = new;
 }
 
 /**
@@ -159,14 +156,28 @@ void	expand_redirs(t_redir *root, t_shell *shell)
  * @param root First token node.
  * @param shell Shell context used for environment lookup.
  */
-void	expand_tokens(t_token *root, t_shell *shell)
+bool	expand_tokens(t_token **root, t_shell *shell)
 {
-	while (root)
+	t_token	*temp;
+	// (void) shell;
+
+	if (!*root)
+		return (false);
+	temp = *root;
+	while (temp)
 	{
-		if (root->type == TK_WORD)
-			root->content = expand_string_word(root->content, shell);
-		else if (root->type == TK_DQUOTE)
-			root->content = expand_string_dquote(root->content, shell);
-		root = root->next;
+		expand_vars(temp, shell);
+		temp = temp->next;
 	}
+	*root = explode_tokens(*root);
+	temp = *root;
+	while (temp)
+	{
+		if (temp->type == TK_WORD)
+			temp->content = expand_string_word(temp->content, shell);
+		else if (temp->type == TK_DQUOTE)
+			temp->content = expand_string_dquote(temp->content, shell);
+		temp = temp->next;
+	}
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 14:01:12 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/11 13:16:08 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,24 @@ void	append_token(t_token **root, t_token *new)
 	temp->next = new;
 }
 
+static int	count_tokens(t_token *start)
+{
+	int	i;
+
+	i = 0;
+	while (start)
+	{
+		start = start->next;
+		i++;
+	}
+	return (i);
+}
+
 /**
  * @brief Returns the token at index i, or NULL if it fails.
  * @param start	List element to start counting from.
  * @param i		Index to fetch. If bigger than total size, will return NULL.
+ * If negative, counts from the end of the list (-1 returns the last element).
  * @return		Token `i` elements away from `start`.
  */
 t_token	*fetch_token(t_token *start, int i)
@@ -86,11 +100,9 @@ t_token	*fetch_token(t_token *start, int i)
 	if (!start)
 		return (NULL);
 	if (i < 0)
-	{
-		while (start->next)
-			start = start->next;
-		return (start);
-	}
+		i += count_tokens(start);
+	if (i < 0)
+		return (NULL);
 	while (start && i--)
 		start = start->next;
 	return (start);

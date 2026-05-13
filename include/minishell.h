@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:56:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 11:35:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 00:50:13 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "minishell_parser.h"
 # include "minishell_builtins.h"
 # include "minishell_dispatcher.h"
+# include "minishell_shell.h"
+# include "minishell_expand.h"
 
 # include <stdio.h>
 # include <sys/wait.h>
@@ -27,29 +29,10 @@
 # include <string.h>
 # include <fcntl.h>
 
-typedef struct s_shell
-{
-	t_env		*env;
-	t_ast		*ast;
-	t_intlist	*hdoc;
-	t_token		*tokens;
-	int			fd[4];
-	int			children;
-	int			last_exit_status;
-}	t_shell;
-
-// shell.c
-
-void	cleanup(t_shell *shell);
-bool	parse_input(t_shell *shell, char *input);
-bool	init_shell(t_shell *shell, char **envp);
-void	empty_shell(t_shell *shell);
-
 // crash.c 
 
 void	crash(char *str);
 void	crash_main(char *str, t_shell *shell);
-
 void	print_args(int argc, char **argv);
 void	print_ast(t_ast *ast);
 

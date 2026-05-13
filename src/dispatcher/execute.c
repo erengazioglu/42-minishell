@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 19:24:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:14:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ bool	check_paths(char **paths)
  * @param shell Shell context (env + last status).
  * @return Builtin exit status.
  */
-int builtin_sorter(int builtin_id, char **argv, t_shell *shell)
+int	builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 {
 	if (builtin_id == CD)
 		return (ft_cd(argv, &shell->env));
@@ -78,6 +78,17 @@ void	restore_fds(t_shell *shell)
 	close(shell->fd[3]);
 }
 
+int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
+{
+	restore_fds(shell);
+	if (is_child)
+	{
+		empty_shell(shell);
+		free_ast(shell->ast);
+	}
+	return (exit_code);
+}
+
 /**
  * @brief Execute a builtin in the parent process.
  *
@@ -88,7 +99,7 @@ void	restore_fds(t_shell *shell)
  * @param shell Shell context (env + last status).
  * @return Builtin exit status.
  */
-int	exec_builtin(t_ast *ast, t_shell *shell)
+int	exec_builtin(t_ast *ast, t_shell *shell, bool is_child)
 {
 	int		argc;
 	char	**argv;
@@ -100,15 +111,12 @@ int	exec_builtin(t_ast *ast, t_shell *shell)
 	shell->fd[2] = STDIN_FILENO;
 	shell->fd[0] = dup(STDIN_FILENO);
 	shell->fd[3] = dup(STDOUT_FILENO);
-	if (!redirect(ast, shell, &(shell->hdoc)))
-		return (restore_fds(shell), 1);
-	if (ast->leaf.argv)
-		expand_tokens(ast->leaf.argv, shell);
+	if (!redirect(ast, shell))
+		return (exit_builtin(shell, is_child, 1));
 	argv = build_argv(ast->leaf.argv, &argc);
 	if (!argv || !argv[0])
-		return (restore_fds(shell), free(argv), 0);
+		return (free(argv), exit_builtin(shell, is_child, 0));
 	builtin_id = is_builtin(argv[0]);
 	status = builtin_sorter(builtin_id, argv, shell);
-	free(argv);
-	return (restore_fds(shell), status);
+	return (free(argv), exit_builtin(shell, is_child, status));
 }

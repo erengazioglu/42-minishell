@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 18:01:06 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:01:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:27:36 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	append_redir(t_redir **root, t_redir *new)
 
 void	free_astleaf(t_ast *ast)
 {
-	t_token *arg;
+	t_token	*arg;
 	t_token	*a_temp;
 	t_redir	*redir;
-	t_redir *r_temp;
+	t_redir	*r_temp;
 
 	arg = ast->leaf.argv;
 	while (arg)
@@ -56,6 +56,8 @@ void	free_astleaf(t_ast *ast)
 	{
 		r_temp = redir;
 		redir = redir->next;
+		if (r_temp->fd != -1)
+			close(r_temp->fd);
 		free(r_temp->target->content);
 		free(r_temp->target);
 		free(r_temp);
@@ -68,6 +70,8 @@ void	free_astleaf(t_ast *ast)
  */
 void	free_ast(t_ast *ast)
 {
+	if (!ast)
+		return ;
 	if (ast->node.type == NODE_PIPE)
 	{
 		free_ast(ast->node.left);
@@ -126,5 +130,6 @@ t_redir	*new_redir(char *type, t_token *target)
 			redir->type = REDIR_TRUNC;
 	}
 	redir->target = target;
+	redir->fd = -1;
 	return (redir);
 }

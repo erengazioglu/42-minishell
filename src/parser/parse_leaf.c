@@ -6,12 +6,20 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 20:21:56 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/09 13:18:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:54:42 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell_parser.h"
-#include "../../include/minishell_tokenizer.h"
+#include "minishell.h"
+
+t_token	*print_unexpected_error(t_token *err, char *tkn)
+{
+	ft_putstr("minishell: syntax error near unexpected token '",
+		STDERR_FILENO, -1, false);
+	ft_putstr(tkn, STDERR_FILENO, -1, false);
+	ft_putchar('\'', STDERR_FILENO, true);
+	return (err);
+}
 
 /**
  * @brief Checks if the current token will raise an unexpected token error,
@@ -21,7 +29,7 @@
  * @note	The error token is completely empty, with a `TK_ERR` type,
  * 	but still a valid token that can be used to add contextual info.
  */
-t_token	*check_unexpected_token(t_token *tkn)
+t_token	*check_unexpected_token(t_token *tkn, t_shell *shell)
 {
 	t_token	*err;
 
@@ -31,21 +39,14 @@ t_token	*check_unexpected_token(t_token *tkn)
 	{
 		if (!tkn->next)
 		{
-			ft_printf("minishell: syntax error near unexpected token 'newline'\n");
-			return (err);
+			shell->last_exit_status = 2;
+			return (print_unexpected_error(err, "newline"));
 		}
 		if (tkn->next->type == TK_PIPE || tkn->next->type == TK_REDIR)
-		{
-			ft_printf("minishell: syntax error near unexpected token '%s'\n",
-				tkn->next->content);
-			return (err);
-		}
+			return (print_unexpected_error(err, tkn->next->content));
 	}
 	else if (tkn->type == TK_PIPE && !tkn->next)
-	{
-		ft_printf("minishell: syntax error near unexpected token '|'\n");
-		return (err);
-	}
+		return (print_unexpected_error(err, "|"));
 	return (free(err), NULL);
 }
 
@@ -60,13 +61,13 @@ t_token	*check_unexpected_token(t_token *tkn)
  * @note	On error, fills in the AST leaf with error information.
  * @note	Error handling may leak memory!
  */
-t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
+t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n, t_shell *shell)
 {
 	t_token	*retval;
 
-	retval = check_unexpected_token(tkn);
+	retval = check_unexpected_token(tkn, shell);
 	if (retval)
-		return (retval);
+		return (free_tokens(tkn), retval);
 	if (tkn->type == TK_REDIR)
 	{
 		append_redir(&ast->leaf.redirs, new_redir(tkn->content,
@@ -94,19 +95,26 @@ t_token	*parse_leaf_step(t_ast *ast, t_token *tkn, int *n)
  * @note	Advances the `root` parameter.
  * @returns		Fully populated AST leaf, or `NULL` if error.
  */
-t_ast	*parse_leaf(t_token **root, int n)
+t_ast	*parse_leaf(t_token **root, int n, t_shell *shell)
 {
 	t_ast	*ast;
+	t_token	*temp;
 
+	temp = *root;
 	ast = ft_calloc(1, sizeof(t_ast));
 	if (!ast)
 		return (NULL);
 	ast->leaf.type = NODE_CMD;
-	while (*root && n)
+	while (temp && n)
 	{
-		*root = parse_leaf_step(ast, *root, &n);
-		if (*root && (*root)->type == TK_ERR)
-			return (NULL); // cleanup here...
+		temp = parse_leaf_step(ast, temp, &n, shell);
+		if (temp && temp->type == TK_ERR)
+		{
+			free_tokens(temp);
+			free_ast(ast);
+			return (NULL);
+		}
 	}
+	*root = temp;
 	return (ast);
 }

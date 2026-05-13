@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:29:28 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 15:31:05 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/12 21:43:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ t_token	*tokenize(char *line, t_token *root)
 	{
 		while (ft_isspace(*line))
 			line++;
-		if (ft_strchr("<>", *line, 0, 0))
+		if (ft_strchr("\"\'", *line, 0, 0))
+			line += tokenize_quote(&root, line);
+		else if (ft_strchr("<>", *line, 0, 0))
 			line += tokenize_redir(&root, line);
 		else if (*line == '|')
 			line += tokenize_pipe(&root);

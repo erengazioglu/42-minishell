@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/10 13:22:47 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 13:54:17 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,84 +52,6 @@ bool	create_pipe(int *fd)
 	return (true);
 }
 
-void	execute_absolute(char **argv, char **envp)
-{
-	int		err;
-	struct stat	path_stat;
-
-	if (stat(argv[0], &path_stat) == 0 && S_ISDIR(path_stat.st_mode))
-	{
-		ft_putstr("minishell: ", 2, -1, false);
-		ft_putstr(argv[0], 2, -1, false);
-		ft_putstr(": Is a directory\n", 2, -1, false);
-		exit(126);
-	}
-	execve(argv[0], argv, envp);
-	err = errno;
-	ft_putstr("minishell: ", 2, -1, false);
-	errno = err;
-	perror(argv[0]);
-	if (err == ENOENT)
-		exit(127);
-	else
-		exit(126);
-}
-
-void	execute_relative(char **argv, char **envp, t_shell *shell)
-{
-	char	**paths;
-	int		i;
-
-	paths = extract_paths(*argv, shell->env);
-	if (paths && !check_paths(paths))
-		paths = NULL;
-	execve(argv[0], argv, envp);
-	i = 0;
-	if (paths)
-	{
-		while (paths[i])
-			execve(paths[i++], argv, envp);
-	}
-	free_strarr(paths);
-	ft_putstr("minishell: ", 2, -1, false);
-	ft_putstr(argv[0], 2, -1, false);
-	ft_putstr(": command not found\n", 2, -1, false);
-}
-
-void	child_process(t_ast *ast, t_shell *shell, t_intlist **hdoc)
-{
-	int		argc;
-	char	**argv;
-	char	**envp;
-
-	set_child_signals();
-	if (shell->fd[0] >= 0 && shell->fd[0] != shell->fd[1]
-		&& shell->fd[0] != shell->fd[2])
-	{
-		close(shell->fd[0]);
-		shell->fd[0] = -1;
-	}
-	if (!redirect(ast, shell, hdoc))
-		exit(1);
-	if (ast->leaf.argv)
-		expand_tokens(ast->leaf.argv, shell);
-	argv = build_argv(ast->leaf.argv, &argc);
-	if (!argv || !argv[0])
-		exit(0);
-	if (is_builtin(argv[0]) != -1)
-		exit(exec_builtin(ast, shell));
-	envp = env_to_envp(shell->env);
-	if (ft_strchr(argv[0], '/', 0, 0))
-		execute_absolute(argv, envp);
-	else
-		execute_relative(argv, envp, shell);
-	free(argv);
-	free_strarr(envp);
-	empty_shell(shell);
-	free_ast(shell->ast);
-	exit(127);
-}
-
 int	spawn_child(t_shell *shell, t_ast *ast)
 {
 	int	pid;
@@ -138,7 +60,7 @@ int	spawn_child(t_shell *shell, t_ast *ast)
 	if (pid == -1)
 		return (-1);
 	if (!pid)
-		child_process(ast, shell, &(shell->hdoc));
+		child_process(ast, shell);
 	if (shell->fd[2] != STDIN_FILENO)
 		close(shell->fd[2]);
 	shell->children++;
@@ -150,11 +72,18 @@ int	wait_children(t_shell *shell, int pid)
 	int	status;
 	int	exit_code;
 
+	exit_code = 0;
 	set_execution_signals();
 	while (shell->children--)
 	{
 		if (wait(&status) == pid)
+		{
 			exit_code = get_exit_code(status);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit (core dumped)\n", 19);
+			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+		}
 	}
 	return (exit_code);
 }
@@ -182,13 +111,16 @@ int	dispatch(t_shell *shell)
 	{
 		if (!create_pipe(shell->fd))
 			return (-1);
+		expand_tokens((&ast->node.left->leaf.argv), shell);
 		pid = spawn_child(shell, ast->node.left);
 		close(shell->fd[1]);
 		shell->fd[2] = shell->fd[0];
 		ast = ast->node.right;
 	}
-	if (shell->children == 1 && is_builtin(ast->leaf.argv->content) != -1)
-		return (exec_builtin(ast, shell));
+	expand_tokens(&(ast->leaf.argv), shell);
+	if (ast->leaf.argv && shell->children == 1
+		&& is_builtin(ast->leaf.argv->content) != -1)
+		return (exec_builtin(ast, shell, false));
 	shell->fd[1] = STDOUT_FILENO;
 	pid = spawn_child(shell, ast);
 	return (wait_children(shell, pid));

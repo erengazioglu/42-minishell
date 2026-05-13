@@ -3,47 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/05 03:04:08 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/12 02:37:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "minishell_builtins.h"
 
-char	*ft_pathjoin(char *s1, char *s2)
+static int	count_args(t_token *root)
 {
-	return (ft_strsjoin(s1, s2, '/', true));
-}
+	int	count;
 
-char	**extract_paths(char *cmd, t_env *env)
-{
-	char	**paths;
-	int		i;
-
-	paths = NULL;
-	i = 0;
-	while (env)
+	count = 0;
+	while (root)
 	{
-		if (ft_str_startswith(env->key, "PATH", -1))
-		{
-			paths = ft_split(env->value, ':', false);
-			break ;
-		}
-		env = env->next;
+		if (root->type != TK_WORD || root->content[0] != '\0')
+			count++;
+		root = root->next;
 	}
-	if (!paths)
-		return (NULL);
-	while (paths[i])
-	{
-		paths[i] = ft_pathjoin(paths[i], cmd);
-		if (!paths[i])
-			return (NULL);
-		i++;
-	}
-	return (paths);
+	return (count);
 }
 
 /**
@@ -58,28 +39,23 @@ char	**extract_paths(char *cmd, t_env *env)
 char	**build_argv(t_token *root, int *argc)
 {
 	int		i;
-	int		count;
 	char	**argv;
-	t_token	*curr;
 
-	count = 0;
-	curr = root;
-	while (curr)
-	{
-		count++;
-		curr = curr->next;
-	}
-	argv = malloc(sizeof(char *) * (count + 1));
+	*argc = count_args(root);
+	if (*argc == 0)
+		return (NULL);
+	argv = malloc(sizeof(char *) * (*argc + 1));
 	if (!argv)
 		return (NULL);
 	i = 0;
-	while (i < count)
+	while (root)
 	{
-		argv[i++] = root->content;
+		if (root->type != TK_WORD || root->content[0] != '\0')
+			argv[i++] = root->content;
 		root = root->next;
 	}
-	*argc = count;
-	return (argv[i] = NULL, argv);
+	argv[i] = NULL;
+	return (argv);
 }
 
 int	get_exit_code(int exit_value)
@@ -89,4 +65,19 @@ int	get_exit_code(int exit_value)
 	if (WIFEXITED(exit_value))
 		return (WEXITSTATUS(exit_value));
 	return (1);
+}
+
+int	empty_command(t_ast *ast, t_shell *shell)
+{
+	free_ast(ast);
+	free_env(shell->env);
+	exit(0);
+}
+
+int	redirect_error(t_ast *ast, t_shell *shell)
+{
+	(void) ast;
+	free_ast(shell->ast);
+	free_env(shell->env);
+	exit(1);
 }

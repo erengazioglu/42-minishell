@@ -1,7 +1,7 @@
 NAME	= minishell
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra
-DFLAGS	= -g
+DFLAGS	= -g -finstrument-functions
 
 UNAME_S := $(shell uname -s)
 
@@ -21,17 +21,18 @@ SRCS = \
 	src/globals.c \
 	src/crash.c \
 	src/print.c \
-	src/shell.c \
 	$(wildcard src/signals/*.c) \
 	$(wildcard src/tokenizer/*.c) \
 	$(wildcard src/parser/*.c) \
 	$(wildcard src/dispatcher/*.c) \
-	$(wildcard src/builtins/*.c)
+	$(wildcard src/builtins/*.c) \
+	$(wildcard src/shell/*.c) \
+	$(wildcard src/expand/*.c)
 
 MAIN = src/main.c
 OBJS = $(SRCS:.c=.o)
 
-all: $(NAME) clean
+all: $(NAME)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(DFLAGS) $(INCLUDE) -c $< -o $@
