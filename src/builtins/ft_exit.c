@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 13:26:00 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:08:40 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_builtins.h"
+
+static void	handle_prefix(char *str, int *i, int *sign)
+{
+	*i = 0;
+	*sign = 1;
+	while (ft_isspace(str[*i]))
+		*i += 1;
+	if (str[*i] == '-' || str[*i] == '+')
+	{
+		if (str[*i] == '-')
+			*sign = -1;
+		*i += 1;
+	}
+}
 
 static bool	is_numeric(char *str, long long *val)
 {
@@ -18,16 +32,7 @@ static bool	is_numeric(char *str, long long *val)
 	int					sign;
 	unsigned long long	res;
 
-	i = 0;
-	sign = 1;
-	while (ft_isspace(str[i]))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
+	handle_prefix(str, &i, &sign);
 	if (!ft_isdigit(str[i]))
 		return (false);
 	res = 0;

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 21:06:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:13:18 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,20 @@ t_env	*env_from_envp(char **envp)
 	return (env);
 }
 
+char	**create_empty_envp(t_env *env)
+{
+	int		len;
+
+	len = 0;
+	while (env)
+	{
+		if (env->value)
+			len++;
+		env = env->next;
+	}
+	return (ft_calloc(len + 1, sizeof(char *)));
+}
+
 /**
  * @brief Convert an internal env list into an envp array.
  *
@@ -93,21 +107,11 @@ t_env	*env_from_envp(char **envp)
  */
 char	**env_to_envp(t_env *env)
 {
-	int		count;
-	t_env	*tmp;
-	char	**envp;
 	int		i;
-	char	*tmp_str;
+	char	*temp;
+	char	**envp;
 
-	count = 0;
-	tmp = env;
-	while (tmp)
-	{
-		if (tmp->value)
-			count++;
-		tmp = tmp->next;
-	}
-	envp = ft_calloc(count + 1, sizeof(char *));
+	envp = create_empty_envp(env);
 	if (!envp)
 		return (NULL);
 	i = 0;
@@ -115,8 +119,8 @@ char	**env_to_envp(t_env *env)
 	{
 		if (env->value)
 		{
-			tmp_str = ft_strjoin(env->key, "=", -1, false);
-			envp[i++] = ft_strjoin(tmp_str, env->value, -1, true);
+			temp = ft_strjoin(env->key, "=", -1, false);
+			envp[i++] = ft_strjoin(temp, env->value, -1, true);
 		}
 		env = env->next;
 	}

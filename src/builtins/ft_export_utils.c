@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 21:32:01 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:22:38 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	ft_export_process_arg(char *arg, t_env **env)
 	{
 		free(node->value);
 		node->value = value;
+		free(key);
 	}
 	else if (ft_create_env_node(env, key, value))
 		return (free(key), free(value), 1);
