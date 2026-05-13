@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 22:25:41 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:33:39 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
 			close(STDIN_FILENO);
 		empty_shell(shell);
 		free_ast(shell->ast);
+	}
+	else
+	{
+		if (shell->fd[0] != -1)
+		{
+			close(shell->fd[1]);
+			dup2(shell->fd[0], STDOUT_FILENO);
+		}
+		if (shell->fd[3] != -1)
+		{
+			close(shell->fd[2]);
+			dup2(shell->fd[3], STDIN_FILENO);
+		}
 	}
 	return (exit_code);
 }

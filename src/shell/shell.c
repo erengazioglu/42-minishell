@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 18:03:20 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:28:36 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:39:00 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,8 @@ void	empty_shell(t_shell *shell)
 	free_env(shell->env);
 	if (shell->tokens)
 		free_tokens(shell->tokens);
+	close(0);
+	close(1);
+	close(2);
 	rl_clear_history();
 }

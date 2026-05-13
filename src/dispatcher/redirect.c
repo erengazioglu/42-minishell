@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 20:03:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:29:02 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 {
 	int	fd;
 
-	if (shell->fd[2] != STDIN_FILENO)
-	{
+	if (shell->fd[3] == -1)
+		shell->fd[3] = dup(STDIN_FILENO);
+	else
 		close(shell->fd[2]);
-	}
 	if (redir->type == REDIR_HEREDOC)
 	{
 		fd = redir->fd;
@@ -47,12 +47,16 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
  * Opens file for APPEND and TRUNCATE redirect modes.
  * @return New file descriptor, or -1 upon error.
  */
-static int	open_write_file(t_redir *redir)
+static int	open_write_file(t_shell *shell, t_redir *redir)
 {
 	int	mode_flags;
 	int	open_flags;
 	int	fd;
 
+	if (shell->fd[0] == -1)
+		dup2(STDOUT_FILENO, shell->fd[0]);
+	else
+		close(shell->fd[1]);
 	mode_flags = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
 	open_flags = O_WRONLY | O_CREAT;
 	if (redir->type == REDIR_APPEND)
@@ -85,10 +89,11 @@ bool	open_file(t_shell *shell, t_redir *redir)
 	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
 		fd_new = open_read_file(shell, redir);
 	else
-		fd_new = open_write_file(redir);
+		fd_new = open_write_file(shell, redir);
 	if (fd_new == -1)
 		return (false);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
+	shell->fd[2 - (redir->type >= REDIR_APPEND)] = fd_keep;
 	if (fd_keep == -1)
 		return (false);
 	close(fd_new);
