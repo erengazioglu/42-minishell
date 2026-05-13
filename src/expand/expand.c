@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 04:24:07 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:57:35 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ char	*harvest_var(char *str, int *i, t_shell *shell)
 void	expand_vars(t_token *tkn, t_shell *shell)
 {
 	char	*new;
+	char	*sub;
 	int		start;
 	int		end;
 
@@ -111,7 +112,9 @@ void	expand_vars(t_token *tkn, t_shell *shell)
 	{
 		while (tkn->content[end] && tkn->content[end] != '$')
 			end++;
-		new = ft_strjoin(new, ft_substr(tkn->content, start, end - start), -1, true);
+		sub = ft_substr(tkn->content, start, end - start);
+		new = ft_strjoin(new, sub, -1, true);
+		free(sub);
 		if (tkn->content[end] == '$')
 		{
 			new = ft_strjoin(new, harvest_var(tkn->content + end, &end, shell), -1, true);
