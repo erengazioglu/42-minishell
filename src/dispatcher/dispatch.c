@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 20:11:38 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:16:26 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
  */
 int	is_builtin(char *str)
 {
+	if (!str)
+		return (-1);
 	if (ft_str_equals(str, "cd"))
 		return (CD);
 	if (ft_str_equals(str, "echo"))

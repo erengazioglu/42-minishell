@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 18:07:40 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 10:49:06 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:12:36 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	ft_remove_env_variable(char *arg, t_env **env)
 int	ft_unset(char **args, t_env **env)
 {
 	int	i;
+	int	status;
 
 	if (!args || !args[0])
 		return (1);
@@ -73,13 +74,19 @@ int	ft_unset(char **args, t_env **env)
 	if (!args[1])
 		return (0);
 	i = 1;
+	status = 0;
 	while (args[i])
 	{
 		if (ft_is_valid_unset_arg(args[i]))
 			ft_remove_env_variable(args[i], env);
-		else
-			ft_putstr("unset: invalid argument", 2, -1, true);
+		else if (args[i][0] == '-')
+		{
+			ft_putstr("minishell: unset: `", 2, -1, false);
+			ft_putstr(args[i], 2, -1, false);
+			ft_putstr("': not a valid identifier\n", 2, -1, false);
+			status = 2;
+		}
 		i++;
 	}
-	return (0);
+	return (status);
 }

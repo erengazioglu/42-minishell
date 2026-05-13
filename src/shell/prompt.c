@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:07:31 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 20:25:43 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:26:55 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ static char	*prompt(bool minishell)
 	trimmed = ft_strdup("");
 	while (!*trimmed)
 	{
-		if (!isatty(fileno(stdin)))
-			line = get_next_line(fileno(stdin));
-		else if (minishell)
+		if (minishell)
 			line = readline("\e[0;36mminishell>\e[0m ");
 		else
 			line = readline("\e[0;36m>\e[0m ");
 		if (!line)
 			return (free(trimmed), NULL);
-		if (isatty(fileno(stdin)) && ft_strlen(line) > 0)
+		if (ft_strlen(line) > 0)
 			add_history(line);
 		free(trimmed);
 		trimmed = ft_strtrim(line, " \f\t\v\r\n");

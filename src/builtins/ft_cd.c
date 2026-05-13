@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:35:16 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 10:47:26 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:05:39 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,10 @@ int	ft_cd(char **args, t_env **env)
 	if (chdir(args[1]) != 0)
 	{
 		free(old_pwd);
-		perror("cd");
+		perror(args[1]);
 		return (1);
 	}
 	new_pwd = getcwd(NULL, 0);
 	ft_update_cd_env(env, old_pwd, new_pwd);
-	free(old_pwd);
-	free(new_pwd);
-	return (0);
+	return (free(old_pwd), free(new_pwd), 0);
 }

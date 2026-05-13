@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:33:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:34:01 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:19:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	**extract_paths(char *cmd, t_env *env)
 	{
 		if (ft_str_startswith(env->key, "PATH", -1))
 		{
+			if (!env->value || env->value[0] == '\0')
+				return (NULL);
 			paths = ft_split(env->value, ':', false);
 			break ;
 		}
@@ -38,9 +40,8 @@ char	**extract_paths(char *cmd, t_env *env)
 	while (paths[i])
 	{
 		paths[i] = ft_pathjoin(paths[i], cmd);
-		if (!paths[i])
+		if (!paths[i++])
 			return (NULL);
-		i++;
 	}
 	return (paths);
 }

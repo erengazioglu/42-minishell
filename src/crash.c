@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:53:58 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 19:25:40 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:14:18 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	crash(char *str)
 
 void	crash_main(char *msg, t_shell *shell)
 {
+	int	exit_code;
+
+	exit_code = 1;
+	if (!msg && shell)
+		exit_code = shell->last_exit_status;
 	if (msg)
 		ft_putstr(msg, 2, -1, true);
 	if (isatty(STDIN_FILENO))
@@ -30,7 +35,7 @@ void	crash_main(char *msg, t_shell *shell)
 	if (shell)
 		empty_shell(shell);
 	rl_clear_history();
-	exit(1);
+	exit(exit_code);
 }
 
 void	crash_child(int code, t_shell *shell)

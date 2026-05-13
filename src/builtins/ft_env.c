@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:29:24 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 15:49:15 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:06:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	ft_env(char **args, t_env *env)
 		return (1);
 	if (args[1])
 	{
-		ft_putstr("env: too many arguments", 2, -1, true);
-		return (1);
+		ft_putstr("env: '", 2, -1, false);
+		ft_putstr(args[1], 2, -1, false);
+		ft_putstr("': No such file or directory", 2, -1, true);
+		return (127);
 	}
 	while (env)
 	{
