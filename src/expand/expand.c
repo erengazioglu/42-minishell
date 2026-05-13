@@ -6,12 +6,11 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 14:59:11 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:28:05 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static char	*expand_var(char *result, char **str, t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 00:22:38 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 11:33:49 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:27:53 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	skip_quotes(char *str, int *i)
 		*i += 1;
 }
 
-static void skip_letters(char *str, int *i)
+static void	skip_letters(char *str, int *i)
 {
 	while (
 		str[*i]
@@ -73,10 +73,7 @@ static t_token	*token_wordsplit(t_token *token)
 				i++;
 		}
 		else if (ft_isspace(str[i]))
-		{
-			append_token(&new, slice_token(token, &i)); // creates new token; skips whitespace; advances i;
-			str = token->content;
-		}
+			append_token(&new, slice_token(token, &i));
 		else
 			i++;
 	}
@@ -86,13 +83,14 @@ static t_token	*token_wordsplit(t_token *token)
 }
 
 /**
- * @brief Split word tokens into multiple tokens based on whitespace after expansion.
+ * @brief Split word tokens into multiple tokens based on whitespace
+ * after expansion.
  * @note	Used for variable expansion (e.g. export b="ls -la").
  */
 t_token	*explode_tokens(t_token *root)
 {
-	t_token *new_root;
-	t_token *cur;
+	t_token	*new_root;
+	t_token	*cur;
 
 	if (!root)
 		return (NULL);
