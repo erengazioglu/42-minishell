@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 12:12:50 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 11:57:35 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:59:11 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	expand_vars(t_token *tkn, t_shell *shell)
 	char	*sub;
 	int		start;
 	int		end;
+	char	*var_value;
 
 	if (tkn->type != TK_WORD && tkn->type != TK_DQUOTE)
 		return;
@@ -117,7 +118,9 @@ void	expand_vars(t_token *tkn, t_shell *shell)
 		free(sub);
 		if (tkn->content[end] == '$')
 		{
-			new = ft_strjoin(new, harvest_var(tkn->content + end, &end, shell), -1, true);
+			var_value = harvest_var(tkn->content + end, &end, shell);
+			new = ft_strjoin(new, var_value, -1, true);
+			free(var_value);
 			start = end;
 		}
 	}
