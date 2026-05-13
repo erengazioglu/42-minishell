@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:26:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:03:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,19 @@ bool	redirect(t_ast *ast, t_shell *shell)
 {
 	t_redir	*redir;
 
-	if (shell->fd[2] != STDIN_FILENO)
-	{
-		if (dup2(shell->fd[2], 0) == -1)
-			return (false);
-		close(shell->fd[2]);
-	}
 	if (shell->fd[1] != STDOUT_FILENO)
 	{
 		if (dup2(shell->fd[1], 1) == -1)
 			return (false);
 		close(shell->fd[1]);
+		shell->fd[1] = -1;
+	}
+	if (shell->fd[2] != STDIN_FILENO)
+	{
+		if (dup2(shell->fd[2], 0) == -1)
+			return (false);
+		close(shell->fd[2]);
+		shell->fd[2] = -1;
 	}
 	redir = ast->leaf.redirs;
 	expand_redirs(redir, shell);
