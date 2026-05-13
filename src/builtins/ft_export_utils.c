@@ -6,7 +6,7 @@
 /*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 00:00:00 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 22:01:07 by jalfaiat         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:23:08 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,26 +83,15 @@ int	ft_export_process_arg(char *arg, t_env **env)
 	t_env	*node;
 	char	*key;
 	char	*value;
-	char	*old;
 
 	if (!env || !arg || ft_split_export_arg(arg, &key, &value))
 		return (1);
 	node = ft_find_env_node(*env, key);
 	if (node)
 	{
-		if (node->value)
-		{
-			old = node->value;
-			node->value = ft_strjoin(old, value, -1, false);
-			free(old);
-			free(value);
-		}
-		else
-		{
 			free(node->value);
 			node->value = value;
-		}
-		free(key);
+			free(key);
 	}
 	else if (ft_create_env_node(env, key, value))
 		return (free(key), free(value), 1);
