@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:31:14 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/08 15:31:17 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:53:22 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,7 @@ int		tokenize_dollar(t_token **root, char *line);
 int		tokenize_word(t_token **root, char *line);
 int		tokenize_redir(t_token **root, char *line);
 int		tokenize_pipe(t_token **root);
+
+int		get_word_len(char *line);
 
 #endif

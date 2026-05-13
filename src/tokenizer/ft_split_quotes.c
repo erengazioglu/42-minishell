@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaolopes <joaolopes@student.42.fr>         +#+  +:+       +#+        */
+/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/09 00:00:00 by joaolopes         #+#    #+#             */
-/*   Updated: 2026/05/09 00:00:00 by joaolopes        ###   ########.fr       */
+/*   Created: 2026/05/14 00:37:38 by egaziogl          #+#    #+#             */
+/*   Updated: 2026/05/14 00:44:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell_tokenizer.h"
+#include "minishell_tokenizer.h"
 
+// quote[0] = single quote
+// quote[1] = double quote
 static int	count_tokens(const char *str)
 {
-	int	in_sq;
-	int	in_dq;
-	int	count;
+	bool	quote[2];
+	int		count;
 
-	in_sq = 0, in_dq = 0, count = 0;
+	quote[0] = false;
+	quote[1] = false;
+	count = 0;
 	while (*str)
 	{
 		while (*str && ft_isspace(*str))
@@ -26,16 +29,18 @@ static int	count_tokens(const char *str)
 		if (!*str)
 			break ;
 		count++;
-		while (*str && (!ft_isspace(*str) || in_sq || in_dq))
+		while (*str && (!ft_isspace(*str) || quote[0] || quote[1]))
 		{
-			if (*str == '\'' && !in_dq)
-				in_sq = !in_sq;
-			else if (*str == '"' && !in_sq)
-				in_dq = !in_dq;
+			if (*str == '\'' && !quote[1])
+				quote[0] = !quote[0];
+			else if (*str == '"' && !quote[0])
+				quote[1] = !quote[1];
 			str++;
 		}
 	}
-	return ((in_sq || in_dq) ? -1 : count);
+	if (quote[0] || quote[1])
+		return (-1);
+	return (count);
 }
 
 static int	get_token_len(const char *str)
@@ -44,7 +49,9 @@ static int	get_token_len(const char *str)
 	int	in_dq;
 	int	len;
 
-	in_sq = 0, in_dq = 0, len = 0;
+	in_sq = 0;
+	in_dq = 0;
+	len = 0;
 	while (str[len])
 	{
 		if (str[len] == '\'' && !in_dq)
@@ -87,9 +94,9 @@ static char	**init_split(const char *str, int *tokens)
 char	**ft_split_quotes(const char *str)
 {
 	char	**out;
-	int	tokens;
-	int	i;
-	int	len;
+	int		tokens;
+	int		i;
+	int		len;
 
 	out = init_split(str, &tokens);
 	if (!out)

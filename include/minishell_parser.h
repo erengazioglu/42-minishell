@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 23:00:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 01:25:42 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:53:11 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "minishell_tokenizer.h"
 
-typedef struct s_shell t_shell;
+typedef struct s_shell	t_shell;
 
 typedef enum e_redirtype
 {
@@ -25,7 +25,7 @@ typedef enum e_redirtype
 	REDIR_HEREDOC,
 	REDIR_APPEND,
 	REDIR_TRUNC
-}						t_redirtype;
+}	t_redirtype;
 
 typedef enum e_asttype
 {
@@ -35,15 +35,15 @@ typedef enum e_asttype
 	NODE_OR,
 	NODE_CMD,
 	NODE_ERR
-}						t_asttype;
+}	t_asttype;
 
 typedef enum e_err_parse
 {
 	ERR_PARSE_NONE,
-	ERR_PARSE_UNCLOSED_QUOTE, // TODO: syntax error: unclosed quote
-	ERR_PARSE_REDIR,          // TODO: syntax error near unexpected token ">"
-	ERR_PARSE_PIPE            // TODO: syntax error near pipe "|"
-}						t_err_parse;
+	ERR_PARSE_UNCLOSED_QUOTE,
+	ERR_PARSE_REDIR,
+	ERR_PARSE_PIPE
+}	t_err_parse;
 
 typedef struct s_redir	t_redir;
 struct					s_redir

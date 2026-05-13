@@ -6,32 +6,33 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 17:10:44 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/11 13:16:08 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:47:08 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell_tokenizer.h"
 
-/**
- * @brief Returns the index of a given token type, or -1 if it fails.
- * @param root	List element to start counting from.
- * @param type	Token type to search for.
- * @return		Index of the first occurrence of the token type, or
-			-1 if not found.
- */
-int	find_token(t_token *root, t_ttype type)
+int	get_word_len(char *line)
 {
-	int	i;
+	int	len;
+	int	in_sq;
+	int	in_dq;
 
-	i = 0;
-	while (root)
+	len = 0;
+	in_sq = 0;
+	in_dq = 0;
+	while (line[len])
 	{
-		if (root->type == type)
-			return (i);
-		root = root->next;
-		i++;
+		if (line[len] == '\'' && !in_dq)
+			in_sq = !in_sq;
+		else if (line[len] == '"' && !in_sq)
+			in_dq = !in_dq;
+		if (!in_sq && !in_dq && (ft_isspace(line[len])
+				|| ft_strchr("<>|", line[len], 0, 0)))
+			break ;
+		len++;
 	}
-	return (-1);
+	return (len);
 }
 
 /**
@@ -73,39 +74,6 @@ void	append_token(t_token **root, t_token *new)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
-}
-
-static int	count_tokens(t_token *start)
-{
-	int	i;
-
-	i = 0;
-	while (start)
-	{
-		start = start->next;
-		i++;
-	}
-	return (i);
-}
-
-/**
- * @brief Returns the token at index i, or NULL if it fails.
- * @param start	List element to start counting from.
- * @param i		Index to fetch. If bigger than total size, will return NULL.
- * If negative, counts from the end of the list (-1 returns the last element).
- * @return		Token `i` elements away from `start`.
- */
-t_token	*fetch_token(t_token *start, int i)
-{
-	if (!start)
-		return (NULL);
-	if (i < 0)
-		i += count_tokens(start);
-	if (i < 0)
-		return (NULL);
-	while (start && i--)
-		start = start->next;
-	return (start);
 }
 
 /**

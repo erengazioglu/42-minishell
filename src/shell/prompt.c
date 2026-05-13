@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:07:31 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:26:55 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 00:36:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ char	*prompt_valid(t_shell *shell, bool minishell)
 			crash_main(NULL, shell);
 		}
 		input = prompt_close_quotes(shell, input);
-
 		check = ft_split_quotes(input);
 		if (!check)
 			crash_main("minishell: malloc error", shell);
