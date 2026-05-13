@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:54:17 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:52:11 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 // Forward declaration (from `minishell.h`)
 typedef struct s_shell t_shell;
+typedef struct s_env t_env;
 
 // child.c
 

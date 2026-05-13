@@ -6,13 +6,14 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 21:54:21 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:52:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_BUILTINS_H
 # define MINISHELL_BUILTINS_H
 
+# include "minishell.h"
 # include "libft.h"
 
 typedef struct s_env
@@ -54,7 +55,7 @@ char	**env_to_envp(t_env *env);
 void	free_env(t_env *env);
 
 /* ft_exit.c */
-int		ft_exit(char **args, int last_exit_status);
+int		ft_exit(char **args, int last_exit_status, t_shell *shell);
 
 /* ft_export.c */
 int		ft_export(char **args, t_env **env);

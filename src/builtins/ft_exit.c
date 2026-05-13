@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 17:46:09 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/13 22:08:40 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 23:52:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,25 @@ static bool	is_numeric(char *str, long long *val)
 	return (true);
 }
 
+static void	free_exit(char **args, t_shell *shell)
+{
+	free(args);
+	free_ast(shell->ast);
+	empty_shell(shell);
+	cleanup(shell);
+}
+
 /**
  * @brief Implements the exit built-in command
  * @param args Array of strings representing the command arguments
  * @param last_exit_status Last exit status of the shell.
+ * @param t_shell Pointer to the shell structure.
  */
-int	ft_exit(char **args, int last_status)
+int	ft_exit(char **args, int last_status, t_shell *shell)
 {
 	long long	exit_code;
 
-	if (isatty(STDIN_FILENO))
-		ft_putstr("exit\n", 2, -1, false);
+	ft_putstr("exit\n", 2, -1, false);
 	if (args[1])
 	{
 		if (!is_numeric(args[1], &exit_code))
@@ -71,15 +79,17 @@ int	ft_exit(char **args, int last_status)
 			ft_putstr("minishell: exit: ", 2, -1, false);
 			ft_putstr(args[1], 2, -1, false);
 			ft_putstr(": numeric argument required\n", 2, -1, false);
+			free_exit(args, shell);
 			exit(2);
 		}
 		if (args[2])
 		{
 			ft_putstr("minishell: exit: too many arguments\n", 2, -1, false);
-			return (2);
+			return (1);
 		}
 	}
 	else
 		exit_code = last_status;
+	free_exit(args, shell);
 	exit(exit_code % 256);
 }
