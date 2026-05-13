@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 00:22:38 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 03:27:52 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:33:49 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_token	*explode_tokens(t_token *root)
 		{
 			cur = root->next;
 			root->next = NULL;
-			append_token(&new_root, cur);
+			append_token(&new_root, root);
 			root = cur;
 		}
 	}
