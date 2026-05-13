@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:05:21 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 18:21:54 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:54:17 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ void	child_process(t_ast *ast, t_shell *shell);
 // dispatch.c
 
 int		dispatch(t_shell *shell);
-int		is_builtin(char *str);
+
+// execute.c
+
+int		exec_builtin(t_ast *ast, t_shell *shell, bool is_child);
+int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 
 // redirects.c
 
@@ -53,11 +57,9 @@ void	expand_redirs(t_redir *root, t_shell *shell);
 char	*pick_var_name(char **str);
 char	*ft_getenv(t_shell *shell, char *key);
 
-// execute.c
+// path.c
 
 bool	check_paths(char **paths);
-int		exec_builtin(t_ast *ast, t_shell *shell, bool is_child);
-int		builtin_sorter(int builtin_id, char **argv, t_shell *shell);
 
 // util.c
 

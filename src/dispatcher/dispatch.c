@@ -6,44 +6,19 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:15:37 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:16:26 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:51:33 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/**
- * @brief Map a command name to a builtin identifier.
- * @param str Command name (e.g. "cd", "echo").
- * @return Builtin id (e.g. @c CD) or -1 if not a builtin.
- */
-int	is_builtin(char *str)
-{
-	if (!str)
-		return (-1);
-	if (ft_str_equals(str, "cd"))
-		return (CD);
-	if (ft_str_equals(str, "echo"))
-		return (ECHO);
-	if (ft_str_equals(str, "env"))
-		return (ENV);
-	if (ft_str_equals(str, "exit"))
-		return (EXIT);
-	if (ft_str_equals(str, "export"))
-		return (EXPORT);
-	if (ft_str_equals(str, "pwd"))
-		return (PWD);
-	if (ft_str_equals(str, "unset"))
-		return (UNSET);
-	return (-1);
-}
 
 /**
  * @brief Create a pipe and store its endpoints.
  * @param fd Output array where fd[0]=read end and fd[1]=write end.
  * @return true on success, false on failure.
  */
-bool	create_pipe(int *fd)
+static bool	create_pipe(int *fd)
 {
 	int	new_fd[2];
 
@@ -54,7 +29,7 @@ bool	create_pipe(int *fd)
 	return (true);
 }
 
-int	spawn_child(t_shell *shell, t_ast *ast)
+static int	spawn_child(t_shell *shell, t_ast *ast)
 {
 	int	pid;
 
@@ -69,7 +44,7 @@ int	spawn_child(t_shell *shell, t_ast *ast)
 	return (pid);
 }
 
-int	wait_children(t_shell *shell, int pid)
+static int	wait_children(t_shell *shell, int pid)
 {
 	int	status;
 	int	exit_code;

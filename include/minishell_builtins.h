@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:18:33 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/07 18:11:20 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:54:21 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 	struct s_env	*prev;
-}t_env;
+}	t_env;
 
 typedef enum e_builtin_type
 {
@@ -32,7 +32,7 @@ typedef enum e_builtin_type
 	EXPORT,
 	PWD,
 	UNSET
-}t_builtin_type;
+}	t_builtin_type;
 
 /* ft_cd.c */
 int		ft_cd(char **args, t_env **env);
@@ -67,5 +67,9 @@ int		ft_pwd(char **args);
 
 /* ft_unset.c */
 int		ft_unset(char **args, t_env **env);
+
+// is_builtin.c
+
+int		is_builtin(char *str);
 
 #endif

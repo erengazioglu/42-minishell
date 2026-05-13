@@ -6,13 +6,13 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:36:05 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 19:31:51 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:47:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**child_setup(t_ast *ast, t_shell *shell, int *argc)
+static char	**child_setup(t_ast *ast, t_shell *shell, int *argc)
 {
 	set_child_signals();
 	if (shell->fd[0] >= 0
@@ -73,7 +73,6 @@ static void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
 }
-
 
 void	child_process(t_ast *ast, t_shell *shell)
 {

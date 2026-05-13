@@ -6,11 +6,40 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 02:33:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:19:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:52:52 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Validate that all candidate paths exist and are executable.
+ *
+ * On failure, frees the @p paths array via free_strarr(). On success, the
+ * caller keeps ownership of @p paths.
+ *
+ * @param paths NULL-terminated array of candidate executable paths.
+ * @return true if all entries exist and are executable, false otherwise.
+ */
+bool	check_paths(char **paths)
+{
+	int	result;
+	int	i;
+
+	result = -1;
+	i = 0;
+	while (paths[i] && result)
+		result &= access(paths[i++], F_OK);
+	if (result == -1)
+		return (free_strarr(paths), false);
+	result = -1;
+	i = 0;
+	while (paths[i] && result)
+		result &= access(paths[i++], X_OK);
+	if (result == -1)
+		return (free_strarr(paths), false);
+	return (true);
+}
 
 char	*ft_pathjoin(char *s1, char *s2)
 {
