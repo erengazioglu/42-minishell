@@ -38,7 +38,6 @@ void	write_heredoc_input(int *fd, char *stop)
 	int		i;
 	int		stdin_backup;
 
-	// close(fd[0]);
 	stdin_backup = dup(STDIN_FILENO);
 	i = 1;
 	set_heredoc_signals();
@@ -70,26 +69,11 @@ void	write_heredoc_input(int *fd, char *stop)
  */
 int	create_heredoc(t_shell *shell, t_redir *redir, int *fd)
 {
-	// int		pid;
 	(void) shell;
 
 	pipe(fd);
 	write_heredoc_input(fd, redir->target->content);
 	close(fd[1]);
-	// pid = fork();
-	// if (!pid)
-	// {
-	// 	set_child_signals();
-	// 	write_heredoc_input(fd, redir->target->content);
-	// 	free_ast(shell->ast, true);
-	// 	free_env(shell->env);
-	// 	close(0);
-	// 	close(1);
-	// 	close(2);
-	// 	exit(0);
-	// }
-	// close(fd[1]);
-	// wait(NULL);
 	return (fd[0]);
 }
 
