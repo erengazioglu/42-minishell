@@ -14,6 +14,8 @@
 
 void	print_heredoc_eof(int i, char *stop)
 {
+	if (g_signal == SIGINT)
+		return;
 	ft_putstr("minishell: warning: here-document at line ", 2, -1, false);
 	ft_putnbr(i, 2, false);
 	ft_putstr(" delimited by end of file (wanted '", 2, -1, false);
@@ -34,9 +36,12 @@ void	write_heredoc_input(int *fd, char *stop)
 {
 	char	*input;
 	int		i;
+	int		stdin_backup;
 
-	close(fd[0]);
+	// close(fd[0]);
+	stdin_backup = dup(STDIN_FILENO);
 	i = 1;
+	set_heredoc_signals();
 	while (true)
 	{
 		input = readline("> ");
@@ -51,7 +56,9 @@ void	write_heredoc_input(int *fd, char *stop)
 		free(input);
 		i++;
 	}
-	close(fd[1]);
+	if (g_signal == SIGINT) // 2. RESTORE STDIN
+		dup2(stdin_backup, STDIN_FILENO);
+	close(stdin_backup);
 	free(input);
 }
 
@@ -63,22 +70,26 @@ void	write_heredoc_input(int *fd, char *stop)
  */
 int	create_heredoc(t_shell *shell, t_redir *redir, int *fd)
 {
-	int		pid;
+	// int		pid;
+	(void) shell;
 
 	pipe(fd);
-	pid = fork();
-	if (!pid)
-	{
-		write_heredoc_input(fd, redir->target->content);
-		free_ast(shell->ast, true);
-		free_env(shell->env);
-		close(0);
-		close(1);
-		close(2);
-		exit(0);
-	}
+	write_heredoc_input(fd, redir->target->content);
 	close(fd[1]);
-	wait(NULL);
+	// pid = fork();
+	// if (!pid)
+	// {
+	// 	set_child_signals();
+	// 	write_heredoc_input(fd, redir->target->content);
+	// 	free_ast(shell->ast, true);
+	// 	free_env(shell->env);
+	// 	close(0);
+	// 	close(1);
+	// 	close(2);
+	// 	exit(0);
+	// }
+	// close(fd[1]);
+	// wait(NULL);
 	return (fd[0]);
 }
 

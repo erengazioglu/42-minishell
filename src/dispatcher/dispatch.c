@@ -49,7 +49,6 @@ static int	wait_children(t_shell *shell, int pid)
 	int	exit_code;
 
 	exit_code = 0;
-	set_execution_signals();
 	while (shell->children--)
 	{
 		if (wait(&status) == pid)
@@ -83,6 +82,7 @@ int	dispatch(t_shell *shell)
 
 	ast = shell->ast;
 	create_heredocs(shell);
+	set_execution_signals();
 	while (ast->node.type == NODE_PIPE)
 	{
 		if (!create_pipe(shell->fd))

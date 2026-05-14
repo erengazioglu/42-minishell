@@ -18,6 +18,7 @@
 void	set_interactive_signals(void);
 void	set_execution_signals(void);
 void	set_child_signals(void);
+void	set_heredoc_signals(void);
 void	rl_replace_line(const char *text, int clear_undo);
 
 #endif

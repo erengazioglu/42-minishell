@@ -57,6 +57,7 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
 		perror(redir->target->content);
+		// close(1);
 		return (-1);
 	}
 	return (fd);
@@ -115,10 +116,6 @@ bool	open_file(t_shell *shell, t_redir *redir)
 		fd_new = open_write_file(shell, redir);
 	if (fd_new == -1)
 		return (false);
-	// redir->fd = fd_new;
-	// prev = get_prev_redir(redir);
-	// if (prev)
-		 
 	if (fd_new == (redir->type >= REDIR_APPEND))
 		return (true);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
