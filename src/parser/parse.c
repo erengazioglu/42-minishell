@@ -40,7 +40,7 @@ t_ast	*parse_node(t_token *root, int i, t_shell *shell)
 		return (ast->node.right = NULL, ast);
 	ast->node.right = parse_tokens(root->next, shell);
 	if (!ast->node.right)
-		return (free_tokens(root), free_ast(ast), NULL);
+		return (free_tokens(root), free_ast(ast, true), NULL);
 	free(root->content);
 	free(root);
 	return (ast);

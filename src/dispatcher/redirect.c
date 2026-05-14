@@ -47,8 +47,9 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 		close(shell->fd[2]);
 	if (redir->type == REDIR_HEREDOC)
 	{
-		fd = redir->fd;
-		// close(STDIN_FILENO);
+		fd = dup2(redir->fd, STDIN_FILENO);
+		close(redir->fd);
+		redir->fd = -1;
 		return (fd);
 	}
 	fd = open(redir->target->content, O_RDONLY);

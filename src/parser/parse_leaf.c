@@ -112,7 +112,7 @@ t_ast	*parse_leaf(t_token **root, int n, t_shell *shell)
 		if (temp && temp->type == TK_ERR)
 		{
 			free_tokens(temp);
-			free_ast(ast);
+			free_ast(ast, true);
 			return (NULL);
 		}
 	}
