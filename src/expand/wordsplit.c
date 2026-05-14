@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static t_token	*slice_token(t_token *token, int *i)
+static t_token	*slice_token(t_token *token, int *i, char **ptr)
 {
 	t_token	*new;
 	char	*temp;
@@ -30,6 +30,7 @@ static t_token	*slice_token(t_token *token, int *i)
 	token->content = ft_strdup(temp + *i);
 	free(temp);
 	*i = 0;
+	*ptr = token->content;
 	return (new);
 }
 
@@ -52,7 +53,7 @@ static t_token	*token_wordsplit(t_token *token)
 				i++;
 		}
 		else if (ft_isspace(str[i]))
-			append_token(&new, slice_token(token, &i));
+			append_token(&new, slice_token(token, &i, &str));
 		else
 			i++;
 	}
