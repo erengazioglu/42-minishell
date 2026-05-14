@@ -44,7 +44,18 @@ Bonus requirements:
 
 ### Running
 
-Run `make` to create the `minishell` executable.
+1. Run `make` to create the `minishell` executable.
+2. Run `./minishell` without arguments, and have fun with it!
+3. Hit `CTRL+D` or type `exit` to quit the program.
+
+### Testing
+
+Two config files are provided in the root directory:
+- `minishell.supp` (suppression file for `valgrind`)
+- `.gdbinit` (init file for `gdb` debugger).
+
+`minishell.supp` is particularly useful for suppressing the leaks originating in the `readline` library, which is out of the project scope.  
+To use it in `valgrind`, run it with the `--suppressions=minishell.supp -s` arguments (`-s` will report to you the leaks that have been suppressed this way).
 
 ## Resources
 
