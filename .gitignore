@@ -5,6 +5,7 @@ minishell
 *.out
 *.o
 *.obj
+*.log
 vgcore*
 tests/test_parse
 tests/test_execve
