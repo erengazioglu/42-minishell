@@ -1,152 +1,51 @@
+_This project has been created as part of the 42 curriculum by egaziogl, jalfaiat._
+
 # minishell
-
-[Français](README.fr.md)
-
-*minis-hell.*
-
----
 
 ## Description
 
-`minishell` is a
+_(no content yet. To be announced)_
 
-**What I learned:**
+### Requirements
 
-**The challenge:**
+Program execution:
+`./minishell` (will take control of the terminal, waiting for user input).
 
----
+External functions allowed:  
+- tty (`isatty, ttyname, ttyslot`),
+- error display (`perror, strerror`),
+- process management (`fork, wait, waitpid, wait3, wait4, signal, sigemptyset, sigaddset, kill, exit, pipe, execve`),
+- I/O (`write, access, open, read, close, dup, dup2, unlink`),
+- terminal input & history (`readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history`),
+- terminal control (`tcsetattr, tcgetattr, tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs, ioctl`),
+- memory (`malloc, free`)
+- file info (`stat, lstat, fstat`)
+- directories (`getcwd, chdir, opendir, readdir, closedir`),
+- printf.
 
-## How to use
+Mandatory requirements:  
+- Display a _prompt_ (`<username>@<hostname>:<pwd>`).
+- Implement _command history_.
+- Search and launch the right executable (PATH var, relative path, absolute path).
+- Use at most 1 _global variable_ (to indicate a received signal).
+- **Handle single quotes** (`'`) to prevent the shell from interpreting meta-characters.
+- **Handle double quotes** (`"`) to prevent the shell from interpreting meta-characters except for `$`.
+- Implement _redirections_ (`<<, >>, <, >`).
+- Implement _pipes_ (`|`).
 
-### Compile
+- **Do not** implement unclosed quotes (where `<newline>` keeps reading input).
+- **Do not** implement special characters not explicitly required by the points above.
 
-```bash
-make
-```
+Bonus requirements:  
+- implement `&&` and `||`, with parenthesis for priorities.
+- Wildcard `*` working for current directory.
 
-### Run
+## Instructions
 
-```bash
-./minishell
-```
+### Running
 
-### What it outputs
+Run `make` to create the `minishell` executable.
 
-```
+## Resources
 
-```
-
----
-
-## The Builtins
-
-| Operation | What it does |
-|-----------|-------------|
-| `cd` | Change directory |
-| `echo` | Print arguments |
-| `pwd` | Print current directory |
-| `env` | Print environment variables |
-| `export` | Export environment variables |
-| `unset` | Unset environment variables |
-| `exit` | Exit minishell |
-
----
-
-## My approach
-
-### 1. The Tokenizer (Lexer)
-
-
-
-### 2. The Parser
-
-
-
-### 3. The Executor
-
-
-
----
-
-## My data structure
-
-```c
-
-```
-
----
-
-## Features
-
-- [ ]
-- [ ]
-- [ ]
-
----
-
-## Error handling
-
-The program prints an error message and continues/exits if:
-
--
--
--
-
----
-
-## Project structure
-
-```
-.
-├── Makefile
-├── README.md
-├── include/
-│   └── minishell.h
-├── src/
-│   ├── main.c
-│   ├── builtins/
-│   ├── dispatcher/
-│   ├── parser/
-│   ├── signals/
-│   └── tokenizer/
-└── libft/
-```
-
----
-
-## Testing
-
-```bash
-# Basic tests
-
-# Error cases
-
-# Memory leaks
-valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./minishell
-```
-
----
-
-## Resources I used
-
-**Tutorials:**
-
-**Documentation:**
-
----
-
-## AI usage
-
-
-
----
-
-## What I actually learned
-
-1.
-2.
-3.
-
----
-
-**This project taught me**
+- **man pages** for all the external functions listed above, in the [requirements](#requirements) section.
