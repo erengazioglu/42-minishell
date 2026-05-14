@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:48:29 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/14 11:17:49 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 12:09:38 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,20 @@ int	builtin_sorter(int builtin_id, char **argv, t_shell *shell)
 
 void	restore_fds(t_shell *shell)
 {
-	dup2(shell->fd[0], STDIN_FILENO);
-	dup2(shell->fd[3], STDOUT_FILENO);
-	close(shell->fd[0]);
-	close(shell->fd[3]);
+	if (shell->fd[0] != -1)
+	{
+		close(shell->fd[1]);
+		dup2(shell->fd[0], STDOUT_FILENO);
+		close(shell->fd[0]);
+		shell->fd[0] = -1;
+	}
+	if (shell->fd[3] != -1)
+	{
+		close(shell->fd[2]);
+		dup2(shell->fd[3], STDIN_FILENO);
+		close(shell->fd[3]);
+		shell->fd[3] = -1;
+	}
 }
 
 int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
@@ -61,22 +71,7 @@ int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
 		free_ast(shell->ast);
 	}
 	else
-	{
-		if (shell->fd[0] != -1)
-		{
-			close(shell->fd[1]);
-			dup2(shell->fd[0], STDOUT_FILENO);
-			close(shell->fd[0]);
-			shell->fd[0] = -1;
-		}
-		if (shell->fd[3] != -1)
-		{
-			close(shell->fd[2]);
-			dup2(shell->fd[3], STDIN_FILENO);
-			close(shell->fd[3]);
-			shell->fd[3] = -1;
-		}
-	}
+		restore_fds(shell);
 	return (exit_code);
 }
 
