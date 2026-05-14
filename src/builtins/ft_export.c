@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 19:47:34 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/14 01:18:10 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 12:11:46 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ int	ft_export(char **args, t_env **env, t_shell *shell)
 	if (!args || !args[0])
 		return (1);
 	if (ft_str_equals(args[0], "export") && !args[1])
-	{
-		args[0] = "env";
-		return (ft_env(args, shell->env), 0);
-	}
+		return (args[0] = "env", ft_env(args, shell->env), 0);
 	i = 1;
 	while (args[i])
 	{
@@ -58,7 +55,7 @@ int	ft_export(char **args, t_env **env, t_shell *shell)
 		{
 			ft_putstr("minishell: export: `", 2, -1, false);
 			ft_putstr(args[i], 2, -1, false);
-			ft_putstr("': not a valid identifier\n", 2, -1, false);
+			ft_putstr("': not a valid identifier", 2, -1, true);
 			status = 1;
 		}
 		i++;

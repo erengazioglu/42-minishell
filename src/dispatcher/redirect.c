@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/14 10:41:43 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 12:12:04 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 		perror(redir->target->content);
 		return (-1);
 	}
-	// close(STDIN_FILENO);
 	return (fd);
 }
 
@@ -76,7 +75,6 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
 		perror(redir->target->content);
 		return (-1);
 	}
-	// close(STDOUT_FILENO);
 	return (fd);
 }
 
