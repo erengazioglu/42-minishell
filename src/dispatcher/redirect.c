@@ -57,8 +57,8 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
 		perror(redir->target->content);
-		// close(1);
-		return (-1);
+		if (shell->fd[1] != STDOUT_FILENO)
+			close(STDOUT_FILENO);
 	}
 	return (fd);
 }
@@ -92,7 +92,8 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
 		perror(redir->target->content);
-		return (-1);
+		// if (shell->fd[2] != STDIN_FILENO)
+		// 	close(STDIN_FILENO);
 	}
 	return (fd);
 }
@@ -147,14 +148,14 @@ bool	redirect(t_ast *ast, t_shell *shell)
 		if (dup2(shell->fd[1], 1) == -1)
 			return (false);
 		close(shell->fd[1]);
-		shell->fd[1] = -1;
+		// shell->fd[1] = -1;
 	}
 	if (shell->fd[2] != STDIN_FILENO)
 	{
 		if (dup2(shell->fd[2], 0) == -1)
 			return (false);
 		close(shell->fd[2]);
-		shell->fd[2] = -1;
+		// shell->fd[2] = -1;
 	}
 	redir = ast->leaf.redirs;
 	expand_redirs(redir, shell);

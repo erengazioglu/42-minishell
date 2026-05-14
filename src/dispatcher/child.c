@@ -93,7 +93,7 @@ void	child_process(t_ast *ast, t_shell *shell)
 		execute_absolute(argv, envp, shell);
 	else
 		execute_relative(argv, envp, shell);
-	free_strarr(argv);
+	free(argv);
 	free_strarr(envp);
 	free_ast(shell->ast, true);
 	empty_shell(shell, false);
