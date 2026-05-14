@@ -1,6 +1,6 @@
 # minishell
 
-[Français](Readme.fr.md)
+[Français](README.fr.md)
 
 *minis-hell.*
 
