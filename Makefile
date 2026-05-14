@@ -47,6 +47,7 @@ SRCS = \
 	src/shell/prompt.c \
 	src/shell/shell.c \
 	src/signals/signals.c \
+	src/signals/handlers.c \
 	src/tokenizer/find.c \
 	src/tokenizer/ft_split_quotes.c \
 	src/tokenizer/tokenize.c \
