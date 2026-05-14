@@ -45,8 +45,8 @@ static void	execute_absolute(char **argv, char **envp, t_shell *shell)
 	ft_putstr("minishell: ", 2, -1, false);
 	errno = err;
 	perror(argv[0]);
-	free_strarr(envp);
 	free(argv);
+	free_strarr(envp);
 	if (err == ENOENT)
 		crash_child(127, shell);
 	else
@@ -95,6 +95,7 @@ void	child_process(t_ast *ast, t_shell *shell)
 		execute_relative(argv, envp, shell);
 	free(argv);
 	free_strarr(envp);
+	free_ast(shell->ast, true);
 	empty_shell(shell, false);
 	// free_ast(shell->ast, true);
 	exit(127);
