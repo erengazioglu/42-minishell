@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/14 12:12:04 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 21:32:51 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
 	{
 		ft_putstr("minishell: ", 2, -1, false);
 		perror(redir->target->content);
-		// if (shell->fd[2] != STDIN_FILENO)
-		// 	close(STDIN_FILENO);
 	}
 	return (fd);
 }
@@ -109,7 +107,6 @@ bool	open_file(t_shell *shell, t_redir *redir)
 {
 	int		fd_new;
 	int		fd_keep;
-	// t_redir	*prev;
 
 	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
 		fd_new = open_read_file(shell, redir);
@@ -148,14 +145,12 @@ bool	redirect(t_ast *ast, t_shell *shell)
 		if (dup2(shell->fd[1], 1) == -1)
 			return (false);
 		close(shell->fd[1]);
-		// shell->fd[1] = -1;
 	}
 	if (shell->fd[2] != STDIN_FILENO)
 	{
 		if (dup2(shell->fd[2], 0) == -1)
 			return (false);
 		close(shell->fd[2]);
-		// shell->fd[2] = -1;
 	}
 	redir = ast->leaf.redirs;
 	expand_redirs(redir, shell);

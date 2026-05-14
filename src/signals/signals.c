@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 13:39:48 by jalfaiat          #+#    #+#             */
-/*   Updated: 2026/05/12 02:19:44 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 21:32:12 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,6 @@
 #include <readline/readline.h>
 #include <unistd.h>
 #include "minishell_globals.h"
-
-/*
-** Handler for SIGINT during interactive mode (when using readline).
-** This moves the cursor to a new line, clears the given input and redraws.
-*/
-static void	handle_sigint_interactive(int signum)
-{
-	g_signal = signum;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-static void	handle_sigint_heredoc(int signum)
-{
-	g_signal = signum;
-	write(1, "\n", 1);
-	close(STDIN_FILENO);
-}
 
 void	set_heredoc_signals(void)
 {

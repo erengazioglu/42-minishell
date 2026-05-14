@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 17:30:25 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 21:55:01 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 21:33:26 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	print_heredoc_eof(int i, char *stop)
 {
 	if (g_signal == SIGINT)
-		return;
+		return ;
 	ft_putstr("minishell: warning: here-document at line ", 2, -1, false);
 	ft_putnbr(i, 2, false);
 	ft_putstr(" delimited by end of file (wanted '", 2, -1, false);
@@ -55,7 +55,7 @@ void	write_heredoc_input(int *fd, char *stop)
 		free(input);
 		i++;
 	}
-	if (g_signal == SIGINT) // 2. RESTORE STDIN
+	if (g_signal == SIGINT)
 		dup2(stdin_backup, STDIN_FILENO);
 	close(stdin_backup);
 	free(input);
@@ -70,7 +70,6 @@ void	write_heredoc_input(int *fd, char *stop)
 int	create_heredoc(t_shell *shell, t_redir *redir, int *fd)
 {
 	(void) shell;
-
 	pipe(fd);
 	write_heredoc_input(fd, redir->target->content);
 	close(fd[1]);
