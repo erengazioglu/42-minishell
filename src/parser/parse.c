@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jalfaiat <jalfaiat@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 12:25:04 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:55:14 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 16:50:53 by jalfaiat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_ast	*parse_node(t_token *root, int i, t_shell *shell)
 		return (ast->node.right = NULL, ast);
 	ast->node.right = parse_tokens(root->next, shell);
 	if (!ast->node.right)
-		return (free_tokens(root), free_ast(ast), NULL);
+		return (free_tokens(root), free_ast(ast, true), NULL);
 	free(root->content);
 	free(root);
 	return (ast);
