@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:42:57 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/12 02:37:22 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 10:20:24 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,18 @@ int	empty_command(t_ast *ast, t_shell *shell)
 {
 	free_ast(ast);
 	free_env(shell->env);
+	if (shell->fd[0] != -1)
+	{
+		close(STDIN_FILENO);
+		dup2(shell->fd[0], STDIN_FILENO);
+		close(shell->fd[0]);
+	}
+	if (shell->fd[3] != -1)
+	{
+		close(STDOUT_FILENO);
+		dup2(shell->fd[3], STDOUT_FILENO);
+		close(shell->fd[3]);
+	}
 	exit(0);
 }
 

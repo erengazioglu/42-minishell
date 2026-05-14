@@ -6,7 +6,7 @@
 /*   By: egaziogl <egaziogl@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/03 11:25:51 by egaziogl          #+#    #+#             */
-/*   Updated: 2026/05/13 23:29:02 by egaziogl         ###   ########.fr       */
+/*   Updated: 2026/05/14 10:41:43 by egaziogl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 	int	fd;
 
 	if (shell->fd[3] == -1)
+	{
 		shell->fd[3] = dup(STDIN_FILENO);
+		close(STDIN_FILENO);
+	}
 	else
 		close(shell->fd[2]);
 	if (redir->type == REDIR_HEREDOC)
@@ -38,7 +41,7 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 		perror(redir->target->content);
 		return (-1);
 	}
-	close(STDIN_FILENO);
+	// close(STDIN_FILENO);
 	return (fd);
 }
 
@@ -54,7 +57,10 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
 	int	fd;
 
 	if (shell->fd[0] == -1)
-		dup2(STDOUT_FILENO, shell->fd[0]);
+	{
+		shell->fd[0] = dup(STDOUT_FILENO);
+		close(STDOUT_FILENO);
+	}
 	else
 		close(shell->fd[1]);
 	mode_flags = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH;
@@ -70,7 +76,7 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
 		perror(redir->target->content);
 		return (-1);
 	}
-	close(STDOUT_FILENO);
+	// close(STDOUT_FILENO);
 	return (fd);
 }
 
@@ -92,6 +98,8 @@ bool	open_file(t_shell *shell, t_redir *redir)
 		fd_new = open_write_file(shell, redir);
 	if (fd_new == -1)
 		return (false);
+	if (fd_new == (redir->type >= REDIR_APPEND))
+		return (true);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);
 	shell->fd[2 - (redir->type >= REDIR_APPEND)] = fd_keep;
 	if (fd_keep == -1)
