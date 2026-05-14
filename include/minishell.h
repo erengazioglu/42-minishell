@@ -20,6 +20,7 @@
 # include "minishell_dispatcher.h"
 # include "minishell_shell.h"
 # include "minishell_expand.h"
+# include "minishell_globals.h"
 
 # include <stdio.h>
 # include <sys/wait.h>

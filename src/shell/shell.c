@@ -59,6 +59,7 @@ bool	init_shell(t_shell *shell, char **envp)
 
 void	cleanup(t_shell *shell)
 {
+	g_signal = 0;
 	shell->fd[0] = -1;
 	shell->fd[1] = STDOUT_FILENO;
 	shell->fd[2] = STDIN_FILENO;
