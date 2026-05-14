@@ -24,7 +24,7 @@ External functions allowed:
 - printf.
 
 Mandatory requirements:  
-- Display a _prompt_ (`<username>@<hostname>:<pwd>`).
+- Display a _prompt_ (e.g. `minishell> `).
 - Implement _command history_.
 - Search and launch the right executable (PATH var, relative path, absolute path).
 - Use at most 1 _global variable_ (to indicate a received signal).
@@ -60,3 +60,10 @@ To use it in `valgrind`, run it with the `--suppressions=minishell.supp -s` argu
 ## Resources
 
 - **man pages** for all the external functions listed above, in the [requirements](#requirements) section.
+- `bash --posix` for all the tests.
+- These two Youtube videos explaining AST:
+    - [The Coding Gopher — 99% of Developers Don't Get ASTs](https://www.youtube.com/watch?v=lCrC-qojPpU) (just the first 2 mins),
+    - [newline — What Is An Abstract Syntax Tree, With WealthFront Engineer Spencer Miskoviak](https://www.youtube.com/watch?v=wINY109MG10)
+- [Robert Nystrom — Crafting Interpreters (ebook).](https://craftinginterpreters.com/a-map-of-the-territory.html) _The web version is free._
+- [Posix Shell Grammar](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html).
+- This [Minishell Checklist](https://docs.google.com/spreadsheets/d/14SmHNh-gcE0btNqDQE5kMvWpzhDwkvFkdvKzPD2dQDw/edit?usp=sharing) we've worked on.
