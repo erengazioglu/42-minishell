@@ -1,0 +1,31 @@
+==00:00:00:20.926 2392366== Memcheck, a memory error detector
+==00:00:00:20.926 2392366== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==00:00:00:20.926 2392366== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==00:00:00:20.926 2392366== Command: ./minishell
+==00:00:00:20.926 2392366== Parent PID: 2392305
+==00:00:00:20.926 2392366== 
+==00:00:00:20.959 2392366== 
+==00:00:00:20.959 2392366== FILE DESCRIPTORS: 3 open (2 inherited) at exit.
+==00:00:00:20.959 2392366== Open file descriptor 1:
+==00:00:00:20.959 2392366==    at 0x49AEC9B: dup2 (dup2.c:29)
+==00:00:00:20.959 2392366==    by 0x403223: redirect (redirect.c:148)
+==00:00:00:20.959 2392366==    by 0x40201C: child_setup (child.c:25)
+==00:00:00:20.959 2392366==    by 0x402311: child_process (child.c:83)
+==00:00:00:20.959 2392366==    by 0x4024AE: spawn_child (dispatch.c:39)
+==00:00:00:20.959 2392366==    by 0x402610: dispatch (dispatch.c:91)
+==00:00:00:20.959 2392366==    by 0x405C36: main (main.c:52)
+==00:00:00:20.959 2392366== 
+==00:00:00:20.959 2392366== 
+==00:00:00:20.959 2392366== HEAP SUMMARY:
+==00:00:00:20.959 2392366==     in use at exit: 228,248 bytes in 234 blocks
+==00:00:00:20.959 2392366==   total heap usage: 826 allocs, 592 frees, 256,669 bytes allocated
+==00:00:00:20.959 2392366== 
+==00:00:00:20.960 2392366== LEAK SUMMARY:
+==00:00:00:20.960 2392366==    definitely lost: 0 bytes in 0 blocks
+==00:00:00:20.960 2392366==    indirectly lost: 0 bytes in 0 blocks
+==00:00:00:20.960 2392366==      possibly lost: 0 bytes in 0 blocks
+==00:00:00:20.960 2392366==    still reachable: 0 bytes in 0 blocks
+==00:00:00:20.960 2392366==         suppressed: 228,248 bytes in 234 blocks
+==00:00:00:20.960 2392366== 
+==00:00:00:20.960 2392366== For lists of detected and suppressed errors, rerun with: -s
+==00:00:00:20.960 2392366== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

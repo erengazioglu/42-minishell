@@ -72,6 +72,10 @@ static void	execute_relative(char **argv, char **envp, t_shell *shell)
 	ft_putstr("minishell: ", 2, -1, false);
 	ft_putstr(argv[0], 2, -1, false);
 	ft_putstr(": command not found\n", 2, -1, false);
+	if (shell->fd[1] != STDOUT_FILENO)
+		close(STDOUT_FILENO);
+	if (shell->fd[2] != STDIN_FILENO)
+		close(STDIN_FILENO);
 }
 
 void	child_process(t_ast *ast, t_shell *shell)

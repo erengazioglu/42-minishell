@@ -1,0 +1,40 @@
+==00:00:00:30.282 2392385== Memcheck, a memory error detector
+==00:00:00:30.282 2392385== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==00:00:00:30.282 2392385== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==00:00:00:30.282 2392385== Command: ./minishell
+==00:00:00:30.282 2392385== Parent PID: 2392305
+==00:00:00:30.282 2392385== 
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== FILE DESCRIPTORS: 3 open (1 inherited) at exit.
+==00:00:00:30.305 2392385== Open file descriptor 1:
+==00:00:00:30.305 2392385==    at 0x49AEC9B: dup2 (dup2.c:29)
+==00:00:00:30.305 2392385==    by 0x403223: redirect (redirect.c:148)
+==00:00:00:30.305 2392385==    by 0x40201C: child_setup (child.c:25)
+==00:00:00:30.305 2392385==    by 0x402311: child_process (child.c:83)
+==00:00:00:30.305 2392385==    by 0x4024AE: spawn_child (dispatch.c:39)
+==00:00:00:30.305 2392385==    by 0x402610: dispatch (dispatch.c:91)
+==00:00:00:30.305 2392385==    by 0x405C36: main (main.c:52)
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== Open file descriptor 0:
+==00:00:00:30.305 2392385==    at 0x49AEC9B: dup2 (dup2.c:29)
+==00:00:00:30.305 2392385==    by 0x40325E: redirect (redirect.c:155)
+==00:00:00:30.305 2392385==    by 0x40201C: child_setup (child.c:25)
+==00:00:00:30.305 2392385==    by 0x402311: child_process (child.c:83)
+==00:00:00:30.305 2392385==    by 0x4024AE: spawn_child (dispatch.c:39)
+==00:00:00:30.305 2392385==    by 0x402610: dispatch (dispatch.c:91)
+==00:00:00:30.305 2392385==    by 0x405C36: main (main.c:52)
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== HEAP SUMMARY:
+==00:00:00:30.305 2392385==     in use at exit: 228,273 bytes in 236 blocks
+==00:00:00:30.305 2392385==   total heap usage: 904 allocs, 668 frees, 257,642 bytes allocated
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== LEAK SUMMARY:
+==00:00:00:30.305 2392385==    definitely lost: 0 bytes in 0 blocks
+==00:00:00:30.305 2392385==    indirectly lost: 0 bytes in 0 blocks
+==00:00:00:30.305 2392385==      possibly lost: 0 bytes in 0 blocks
+==00:00:00:30.305 2392385==    still reachable: 0 bytes in 0 blocks
+==00:00:00:30.305 2392385==         suppressed: 228,273 bytes in 236 blocks
+==00:00:00:30.305 2392385== 
+==00:00:00:30.305 2392385== For lists of detected and suppressed errors, rerun with: -s
+==00:00:00:30.305 2392385== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 0 from 0)
