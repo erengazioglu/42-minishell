@@ -52,6 +52,7 @@ struct					s_redir
 	t_token				*target;
 	int					fd;
 	t_redir				*next;
+	t_redir				*prev;
 };
 
 typedef union u_ast		t_ast;
@@ -94,7 +95,7 @@ t_ast		*parse_leaf(t_token **root, int n, t_shell *shell);
 // parser/util.c
 
 void		append_redir(t_redir **root, t_redir *new);
-void		free_ast(t_ast *ast);
+void		free_ast(t_ast *ast, bool close_fds);
 t_redir		*fetch_redir(t_redir *redir, int i);
 t_redir		*new_redir(char *type, t_token *target);
 

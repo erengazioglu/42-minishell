@@ -39,7 +39,7 @@ void	crash_main(char *msg, t_shell *shell)
 
 void	crash_child(int code, t_shell *shell)
 {
-	free_ast(shell->ast);
+	free_ast(shell->ast, true);
 	empty_shell(shell, false);
 	exit(code);
 }

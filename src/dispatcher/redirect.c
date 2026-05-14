@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+// gets previous redir if same open mode (write/read)
+t_redir	*get_prev_redir(t_redir *redir)
+{
+	int	type;
+
+	if (!redir)
+		return (NULL);
+	while (redir)
+	{
+		type = (redir->type >= REDIR_APPEND);
+		redir = redir->prev;
+		if (redir && (redir->type >= REDIR_APPEND) == type)
+			return (redir);
+	}
+	return (NULL);
+}
+
 /**
  * @brief Helper function for `open_file`.
  * Opens file for IN and HEREDOC redirect modes.
@@ -31,7 +48,7 @@ static int	open_read_file(t_shell *shell, t_redir *redir)
 	if (redir->type == REDIR_HEREDOC)
 	{
 		fd = redir->fd;
-		close(STDIN_FILENO);
+		// close(STDIN_FILENO);
 		return (fd);
 	}
 	fd = open(redir->target->content, O_RDONLY);
@@ -87,8 +104,9 @@ static int	open_write_file(t_shell *shell, t_redir *redir)
  */
 bool	open_file(t_shell *shell, t_redir *redir)
 {
-	int	fd_new;
-	int	fd_keep;
+	int		fd_new;
+	int		fd_keep;
+	// t_redir	*prev;
 
 	if (redir->type == REDIR_IN || redir->type == REDIR_HEREDOC)
 		fd_new = open_read_file(shell, redir);
@@ -96,6 +114,10 @@ bool	open_file(t_shell *shell, t_redir *redir)
 		fd_new = open_write_file(shell, redir);
 	if (fd_new == -1)
 		return (false);
+	// redir->fd = fd_new;
+	// prev = get_prev_redir(redir);
+	// if (prev)
+		 
 	if (fd_new == (redir->type >= REDIR_APPEND))
 		return (true);
 	fd_keep = dup2(fd_new, redir->type >= REDIR_APPEND);

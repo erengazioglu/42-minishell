@@ -68,7 +68,7 @@ int	exit_builtin(t_shell *shell, bool is_child, int exit_code)
 		if (shell->fd[2] != STDIN_FILENO)
 			close(STDIN_FILENO);
 		empty_shell(shell, false);
-		free_ast(shell->ast);
+		free_ast(shell->ast, true);
 	}
 	else
 		restore_fds(shell);

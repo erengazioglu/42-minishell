@@ -70,7 +70,7 @@ int	create_heredoc(t_shell *shell, t_redir *redir, int *fd)
 	if (!pid)
 	{
 		write_heredoc_input(fd, redir->target->content);
-		free_ast(shell->ast);
+		free_ast(shell->ast, true);
 		free_env(shell->env);
 		exit(0);
 	}

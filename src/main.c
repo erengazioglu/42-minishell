@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			shell.tokens = NULL;
 			shell.last_exit_status = dispatch(&shell);
-			free_ast(shell.ast);
+			free_ast(shell.ast, true);
 		}
 		cleanup(&shell);
 	}

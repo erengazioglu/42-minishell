@@ -39,6 +39,7 @@ static void	execute_absolute(char **argv, char **envp, t_shell *shell)
 		ft_putstr(": Is a directory\n", 2, -1, false);
 		crash_child(126, shell);
 	}
+	free_ast(shell->ast, true);
 	execve(argv[0], argv, envp);
 	err = errno;
 	ft_putstr("minishell: ", 2, -1, false);
@@ -95,6 +96,6 @@ void	child_process(t_ast *ast, t_shell *shell)
 	free(argv);
 	free_strarr(envp);
 	empty_shell(shell, false);
-	free_ast(shell->ast);
+	// free_ast(shell->ast, true);
 	exit(127);
 }

@@ -34,9 +34,10 @@ void	append_redir(t_redir **root, t_redir *new)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
+	new->prev = temp;
 }
 
-void	free_astleaf(t_ast *ast)
+void	free_astleaf(t_ast *ast, bool close_fds)
 {
 	t_token	*arg;
 	t_token	*a_temp;
@@ -56,7 +57,7 @@ void	free_astleaf(t_ast *ast)
 	{
 		r_temp = redir;
 		redir = redir->next;
-		if (r_temp->fd != -1)
+		if (close_fds && r_temp->fd != -1)
 			close(r_temp->fd);
 		free(r_temp->target->content);
 		free(r_temp->target);
@@ -68,17 +69,17 @@ void	free_astleaf(t_ast *ast)
  * @brief Given a root node, frees the whole AST tree recursively.
  * @param ast	Root of the AST to free.
  */
-void	free_ast(t_ast *ast)
+void	free_ast(t_ast *ast, bool close_fds)
 {
 	if (!ast)
 		return ;
 	if (ast->node.type == NODE_PIPE)
 	{
-		free_ast(ast->node.left);
-		free_ast(ast->node.right);
+		free_ast(ast->node.left, close_fds);
+		free_ast(ast->node.right, close_fds);
 	}
 	else if (ast->node.type == NODE_CMD)
-		free_astleaf(ast);
+		free_astleaf(ast, close_fds);
 	free(ast);
 }
 
@@ -115,6 +116,7 @@ t_redir	*new_redir(char *type, t_token *target)
 	if (!redir)
 		return (NULL);
 	redir->next = NULL;
+	redir->prev = NULL;
 	if (*type == '<')
 	{
 		if (*(type + 1) == '<')

@@ -56,7 +56,7 @@ static bool	is_numeric(char *str, long long *val)
 static void	free_exit(char **args, t_shell *shell)
 {
 	free(args);
-	free_ast(shell->ast);
+	free_ast(shell->ast, true);
 	empty_shell(shell, true);
 	cleanup(shell);
 }

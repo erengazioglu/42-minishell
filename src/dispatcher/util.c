@@ -69,18 +69,21 @@ int	get_exit_code(int exit_value)
 
 int	empty_command(t_ast *ast, t_shell *shell)
 {
-	free_ast(ast);
+	free_ast(ast, false);
 	free_env(shell->env);
+	close(0);
+	close(1);
+	close(2);
 	if (shell->fd[0] != -1)
 	{
-		close(STDIN_FILENO);
-		dup2(shell->fd[0], STDIN_FILENO);
+		// close(STDIN_FILENO);
+		// dup2(shell->fd[0], STDIN_FILENO);
 		close(shell->fd[0]);
 	}
 	if (shell->fd[3] != -1)
 	{
-		close(STDOUT_FILENO);
-		dup2(shell->fd[3], STDOUT_FILENO);
+		// close(STDOUT_FILENO);
+		// dup2(shell->fd[3], STDOUT_FILENO);
 		close(shell->fd[3]);
 	}
 	exit(0);
@@ -89,7 +92,22 @@ int	empty_command(t_ast *ast, t_shell *shell)
 int	redirect_error(t_ast *ast, t_shell *shell)
 {
 	(void) ast;
-	free_ast(shell->ast);
+	free_ast(shell->ast, true);
 	free_env(shell->env);
+	// close(0);
+	// close(1);
+	// close(2);
+	if (shell->fd[0] != -1)
+	{
+		// close(STDIN_FILENO);
+		// dup2(shell->fd[0], STDIN_FILENO);
+		close(shell->fd[0]);
+	}
+	if (shell->fd[3] != -1)
+	{
+		// close(STDOUT_FILENO);
+		// dup2(shell->fd[3], STDOUT_FILENO);
+		close(shell->fd[3]);
+	}
 	exit(1);
 }
