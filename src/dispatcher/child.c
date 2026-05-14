@@ -76,6 +76,10 @@ static void	execute_relative(char **argv, char **envp, t_shell *shell)
 		close(STDOUT_FILENO);
 	if (shell->fd[2] != STDIN_FILENO)
 		close(STDIN_FILENO);
+	if (shell->fd[0] != -1)
+		close(shell->fd[0]);
+	if (shell->fd[3] != -1)
+		close(shell->fd[3]);
 }
 
 void	child_process(t_ast *ast, t_shell *shell)
