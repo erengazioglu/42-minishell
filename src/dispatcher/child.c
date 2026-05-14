@@ -39,7 +39,7 @@ static void	execute_absolute(char **argv, char **envp, t_shell *shell)
 		ft_putstr(": Is a directory\n", 2, -1, false);
 		crash_child(126, shell);
 	}
-	free_ast(shell->ast, true);
+	// free_ast(shell->ast, true);
 	execve(argv[0], argv, envp);
 	err = errno;
 	ft_putstr("minishell: ", 2, -1, false);
